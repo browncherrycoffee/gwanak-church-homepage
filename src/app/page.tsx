@@ -1,27 +1,27 @@
 "use client";
 
 import Link from "next/link";
-import { Cross, ArrowRight, BookOpenText, Church, Cross as CrossIcon } from "@phosphor-icons/react";
+import { Cross, ArrowRight, BookOpenText, Church } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ContentCard } from "@/components/content/content-card";
 import { useContents } from "@/hooks/use-contents";
-import { CATEGORIES } from "@/lib/constants";
+import { CATEGORIES, SITE_CONFIG } from "@/lib/constants";
 import type { ContentCategory } from "@/types";
 
 const QUICK_LINKS = [
-  { label: "교회 소개", href: "/about", icon: Church, description: "관악교회의 역사와 신앙고백" },
+  { label: "교회 소개", href: "/about", icon: Church, description: "2009년 설립, 관악교회의 역사와 신앙고백" },
   {
     label: "새벽기도",
     href: "/dawn-prayer",
     icon: Cross,
-    description: "매일 새벽 말씀과 기도",
+    description: "매일 새벽 6시 말씀 영상 (유튜브)",
   },
   {
     label: "교리문답",
     href: "/catechism",
     icon: BookOpenText,
-    description: "하이델베르크 교리문답",
+    description: "웨스트민스터 대교리문답 / 하이델베르크 요리문답",
   },
 ] as const;
 
@@ -42,13 +42,13 @@ export default function HomePage() {
       {/* Hero */}
       <section className="relative bg-primary text-primary-foreground">
         <div className="mx-auto max-w-5xl px-4 py-16 sm:py-24 text-center">
-          <CrossIcon weight="light" className="mx-auto mb-4 h-10 w-10 opacity-80" />
-          <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">관악교회</h1>
+          <Cross weight="light" className="mx-auto mb-4 h-10 w-10 opacity-80" />
+          <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">{SITE_CONFIG.name}</h1>
           <p className="mt-3 text-lg text-primary-foreground/80">
-            대한예수교장로회(합신)
+            {SITE_CONFIG.denomination}
           </p>
           <p className="mt-2 text-sm text-primary-foreground/60">
-            개혁신앙에 뿌리를 둔 말씀 중심의 교회
+            2026 표어: &ldquo;모여서 함께 예배, 흩어져 삶의 예배&rdquo; (로마서 12:1)
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button asChild variant="secondary" size="lg">

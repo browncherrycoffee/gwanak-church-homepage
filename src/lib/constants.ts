@@ -2,9 +2,16 @@ import type { ContentCategory } from "@/types";
 
 export const SITE_CONFIG = {
   name: "관악교회",
-  description: "대한예수교장로회(합신) 관악교회 홈페이지",
-  address: "서울특별시 관악구 관악로 206, 2층",
-  phone: "02-883-2083",
+  denomination: "대한예수교장로회(합신)",
+  description: "대한예수교장로회(합신) 관악교회 - 개혁신앙에 뿌리를 둔 말씀 중심의 교회",
+  address: "08819 서울특별시 관악구 대학길 52(신림동), 3층",
+  phone: "070-8682-3991",
+  fax: "02-876-3991",
+  email: "gwanakchurch@gmail.com",
+  website: "http://www.GwanakChurch.org",
+  founded: "2009-05-17",
+  pastor: "유해신 목사",
+  cafeUrl: "https://cafe.daum.net/-goodchurch",
 } as const;
 
 export const CATEGORIES: Record<ContentCategory, { label: string; path: string }> = {
