@@ -2,8 +2,8 @@ import type { ContentCategory } from "@/types";
 
 export const SITE_CONFIG = {
   name: "관악교회",
-  denomination: "대한예수교장로회(합신)",
-  description: "대한예수교장로회(합신) 관악교회 - 개혁신앙에 뿌리를 둔 말씀 중심의 교회",
+  denomination: "대한예수교장로회(고신)",
+  description: "대한예수교장로회(고신) 관악교회 - 개혁신앙에 뿌리를 둔 말씀 중심의 교회",
   address: "08819 서울특별시 관악구 대학길 52(신림동), 3층",
   phone: "070-8682-3991",
   fax: "02-876-3991",

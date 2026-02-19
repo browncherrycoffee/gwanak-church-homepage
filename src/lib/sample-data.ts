@@ -57,7 +57,7 @@ export const sampleContents: ContentEntry[] = [
 나눔헌금은 대내외 구제에 사용됩니다.
 오후 1시 성탄 기념 찬양 콘서트
 콘서트 이후 성탄 기념 바자회 (수익금 전액 대내외 구제)`,
-    preacher: "김재윤 목사",
+    preacher: "유해신 목사",
     createdAt: "2025-12-25T10:00:00.000Z",
     updatedAt: "2025-12-25T10:00:00.000Z",
   },
