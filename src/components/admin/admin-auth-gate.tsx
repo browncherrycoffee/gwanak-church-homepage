@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
 import { ADMIN_PIN_KEY } from "@/lib/constants";
 
-const CORRECT_PIN = "1234";
+const CORRECT_PIN = "3217";
 
 interface AdminAuthGateProps {
   children: ReactNode;

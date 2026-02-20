@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { List, X, Cross } from "@phosphor-icons/react";
+import { List, X, Cross, GearSix } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SITE_CONFIG } from "@/lib/constants";
@@ -47,18 +47,44 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          <Link
+            href="/admin"
+            className={cn(
+              "ml-1 p-2 rounded-md transition-colors hover:bg-accent",
+              pathname.startsWith("/admin")
+                ? "text-primary bg-accent"
+                : "text-muted-foreground",
+            )}
+            aria-label="관리자"
+          >
+            <GearSix weight="light" className="h-4 w-4" />
+          </Link>
         </nav>
 
-        {/* Mobile toggle */}
-        <Button
-          variant="ghost"
-          size="icon"
-          className="md:hidden"
-          onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label={mobileOpen ? "메뉴 닫기" : "메뉴 열기"}
-        >
-          {mobileOpen ? <X weight="light" className="h-5 w-5" /> : <List weight="light" className="h-5 w-5" />}
-        </Button>
+        {/* Mobile toggle + admin */}
+        <div className="flex items-center gap-1 md:hidden">
+          <Link
+            href="/admin"
+            className={cn(
+              "p-2 rounded-md transition-colors hover:bg-accent",
+              pathname.startsWith("/admin")
+                ? "text-primary bg-accent"
+                : "text-muted-foreground",
+            )}
+            aria-label="관리자"
+            onClick={() => setMobileOpen(false)}
+          >
+            <GearSix weight="light" className="h-5 w-5" />
+          </Link>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setMobileOpen(!mobileOpen)}
+            aria-label={mobileOpen ? "메뉴 닫기" : "메뉴 열기"}
+          >
+            {mobileOpen ? <X weight="light" className="h-5 w-5" /> : <List weight="light" className="h-5 w-5" />}
+          </Button>
+        </div>
       </div>
 
       {/* Mobile nav */}
