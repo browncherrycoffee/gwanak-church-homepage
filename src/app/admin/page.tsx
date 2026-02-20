@@ -18,6 +18,7 @@ const categoryOptions: { value: "all" | ContentCategory; label: string }[] = [
   { value: "dawn-prayer", label: "새벽기도" },
   { value: "sunday-sermon", label: "주일설교" },
   { value: "catechism", label: "교리문답" },
+  { value: "bulletin", label: "주보" },
 ];
 
 export default function AdminDashboardPage() {

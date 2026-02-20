@@ -1,4 +1,4 @@
-export type ContentCategory = "dawn-prayer" | "sunday-sermon" | "catechism";
+export type ContentCategory = "dawn-prayer" | "sunday-sermon" | "catechism" | "bulletin";
 
 export interface ContentEntry {
   id: string;
