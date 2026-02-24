@@ -21,6 +21,5 @@ export const CATEGORIES: Record<ContentCategory, { label: string; path: string }
   bulletin: { label: "주보", path: "/bulletin" },
 } as const;
 
-export const ADMIN_PIN_KEY = "gwanak-admin-pin";
 
 export const ITEMS_PER_PAGE = 12;

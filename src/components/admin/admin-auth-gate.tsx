@@ -5,9 +5,6 @@ import { LockSimple } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent } from "@/components/ui/card";
-import { ADMIN_PIN_KEY } from "@/lib/constants";
-
-const CORRECT_PIN = "3217";
 
 interface AdminAuthGateProps {
   children: ReactNode;
@@ -20,22 +17,35 @@ export function AdminAuthGate({ children }: AdminAuthGateProps) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const stored = sessionStorage.getItem(ADMIN_PIN_KEY);
-    if (stored === "authenticated") {
-      setAuthenticated(true);
-    }
-    setLoading(false);
+    fetch("/api/auth")
+      .then((res) => {
+        if (res.ok) {
+          setAuthenticated(true);
+        }
+      })
+      .catch(() => {})
+      .finally(() => setLoading(false));
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (pin === CORRECT_PIN) {
-      sessionStorage.setItem(ADMIN_PIN_KEY, "authenticated");
-      setAuthenticated(true);
-      setError("");
-    } else {
-      setError("비밀번호가 올바르지 않습니다.");
-      setPin("");
+    setError("");
+
+    try {
+      const res = await fetch("/api/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password: pin }),
+      });
+
+      if (res.ok) {
+        setAuthenticated(true);
+      } else {
+        setError("비밀번호가 올바르지 않습니다.");
+        setPin("");
+      }
+    } catch {
+      setError("서버 오류가 발생했습니다.");
     }
   };
 
