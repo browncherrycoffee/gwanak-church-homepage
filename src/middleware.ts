@@ -1,5 +1,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { verifyAuthToken } from "@/lib/auth";
+
+const ADMIN_PUBLIC_PATHS = ["/admin/login"];
+const API_PATHS = ["/api/auth"];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -9,11 +13,19 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const authCookie = request.cookies.get("gwanak-admin-auth");
-  if (!authCookie?.value) {
-    // Let the client-side auth gate handle the login UI
-    // We add a header so the auth gate knows to check server-side
+  // Allow login page and auth API
+  if (
+    ADMIN_PUBLIC_PATHS.some((p) => pathname.startsWith(p)) ||
+    API_PATHS.some((p) => pathname.startsWith(p))
+  ) {
     return NextResponse.next();
+  }
+
+  const authCookie = request.cookies.get("gwanak-admin-auth");
+  if (!authCookie?.value || !verifyAuthToken(authCookie.value)) {
+    const loginUrl = new URL("/admin/login", request.url);
+    loginUrl.searchParams.set("from", pathname);
+    return NextResponse.redirect(loginUrl);
   }
 
   return NextResponse.next();
