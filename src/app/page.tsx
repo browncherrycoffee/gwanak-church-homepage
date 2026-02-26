@@ -1,13 +1,15 @@
 "use client";
 
+import { useMemo } from "react";
 import Link from "next/link";
-import { Cross, ArrowRight, BookOpenText, Church, Newspaper, CalendarBlank } from "@phosphor-icons/react";
+import { Cross, ArrowRight, BookOpenText, Church, Newspaper, CalendarBlank, MusicNotes } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ContentCard } from "@/components/content/content-card";
 import { useContents } from "@/hooks/use-contents";
+import { useStaticContents } from "@/hooks/use-static-contents";
 import { CATEGORIES, SITE_CONFIG } from "@/lib/constants";
-import type { ContentCategory } from "@/types";
+import type { ContentCategory, ContentEntry } from "@/types";
 
 const QUICK_LINKS = [
   { label: "교회 소개", href: "/about", icon: Church, description: "2009년 설립, 관악교회의 역사와 신앙고백" },
@@ -24,6 +26,12 @@ const QUICK_LINKS = [
     description: "웨스트민스터 대교리문답 / 하이델베르크 요리문답",
   },
   {
+    label: "시편찬송",
+    href: "/psalm-song",
+    icon: MusicNotes,
+    description: "시편에 기반한 찬송과 악보 자료",
+  },
+  {
     label: "주보",
     href: "/bulletin",
     icon: Newspaper,
@@ -31,18 +39,34 @@ const QUICK_LINKS = [
   },
 ] as const;
 
+function useMergedCategory(category: ContentCategory, count: number) {
+  const localContents = useContents();
+  const { data: staticContents } = useStaticContents(category);
+
+  return useMemo(() => {
+    const idSet = new Set<string>();
+    const all: ContentEntry[] = [];
+    for (const c of localContents) {
+      if (c.category === category) {
+        all.push(c);
+        idSet.add(c.id);
+      }
+    }
+    for (const c of staticContents) {
+      if (!idSet.has(c.id)) {
+        all.push(c);
+        idSet.add(c.id);
+      }
+    }
+    all.sort((a, b) => b.date.localeCompare(a.date));
+    return all.slice(0, count);
+  }, [localContents, staticContents, category, count]);
+}
+
 export default function HomePage() {
-  const allContents = useContents();
-
-  const getLatest = (category: ContentCategory, count: number) =>
-    allContents
-      .filter((c) => c.category === category)
-      .sort((a, b) => b.date.localeCompare(a.date))
-      .slice(0, count);
-
-  const latestSermons = getLatest("sunday-sermon", 3);
-  const latestDawn = getLatest("dawn-prayer", 3);
-  const latestBulletin = getLatest("bulletin", 1);
+  const latestSermons = useMergedCategory("sunday-sermon", 3);
+  const latestDawn = useMergedCategory("dawn-prayer", 3);
+  const latestBulletin = useMergedCategory("bulletin", 1);
 
   return (
     <>
@@ -75,7 +99,7 @@ export default function HomePage() {
 
       {/* Quick Links */}
       <section className="mx-auto max-w-5xl px-4 py-12">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {QUICK_LINKS.map((link) => (
             <Link key={link.href} href={link.href}>
               <Card className="group transition-all hover:border-primary/30 hover:shadow-md h-full">

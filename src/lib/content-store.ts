@@ -6,7 +6,7 @@ import { sampleContents } from "./sample-data";
 
 const STORAGE_KEY = "gwanak-contents";
 const VERSION_KEY = "gwanak-contents-version";
-const DATA_VERSION = 2;
+const DATA_VERSION = 3;
 
 function loadFromStorage(): ContentEntry[] {
   if (typeof window === "undefined") return [...sampleContents];

@@ -3,12 +3,13 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, CalendarBlank, BookOpenText, User } from "@phosphor-icons/react";
+import { ArrowLeft, CalendarBlank, BookOpenText, User, FileArrowDown } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { YouTubeEmbed } from "./youtube-embed";
 import { getContent } from "@/lib/content-store";
+import { fetchStaticCategory } from "@/lib/static-content-store";
 import { CATEGORIES } from "@/lib/constants";
 import { formatDate } from "@/lib/utils";
 import type { ContentEntry, ContentCategory } from "@/types";
@@ -24,12 +25,22 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
   const [notFound, setNotFound] = useState(false);
 
   useEffect(() => {
+    // First check localStorage
     const found = getContent(id);
     if (found && found.category === category) {
       setEntry(found);
-    } else {
-      setNotFound(true);
+      return;
     }
+
+    // Then check static data
+    fetchStaticCategory(category).then((entries) => {
+      const staticEntry = entries.find((e) => e.id === id);
+      if (staticEntry) {
+        setEntry(staticEntry);
+      } else {
+        setNotFound(true);
+      }
+    });
   }, [id, category]);
 
   if (notFound) {
@@ -108,6 +119,31 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
             </p>
           ))}
         </div>
+
+        {/* Attachments section */}
+        {entry.attachments && entry.attachments.length > 0 && (
+          <>
+            <Separator className="my-6" />
+            <div>
+              <h3 className="text-sm font-semibold mb-3">첨부파일</h3>
+              <ul className="space-y-2">
+                {entry.attachments.map((att, i) => (
+                  <li key={`att-${i}`}>
+                    <a
+                      href={att.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
+                    >
+                      <FileArrowDown weight="light" className="h-4 w-4" />
+                      {att.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </>
+        )}
       </article>
     </div>
   );
