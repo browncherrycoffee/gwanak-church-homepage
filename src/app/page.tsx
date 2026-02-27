@@ -67,7 +67,7 @@ const WORSHIP_SCHEDULE = [
 
 function useMergedCategory(category: ContentCategory, count: number) {
   const localContents = useContents();
-  const { data: staticContents } = useStaticContents(category);
+  const { data: staticContents } = useStaticContents(category, true);
 
   return useMemo(() => {
     const idSet = new Set<string>();

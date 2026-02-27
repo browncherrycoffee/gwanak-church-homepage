@@ -42,7 +42,7 @@ export function ContentListPage(props: ContentListPageProps) {
 
 function ContentListPageInner({ category, title, description }: ContentListPageProps) {
   const localContents = useContents();
-  const { data: staticContents, loading } = useStaticContents(category);
+  const { data: staticContents, loading } = useStaticContents(category, true);
   const searchParams = useSearchParams();
   const router = useRouter();
   const pathname = usePathname();

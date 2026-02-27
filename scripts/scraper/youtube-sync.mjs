@@ -434,14 +434,19 @@ function loadJson(category) {
 
 function saveJson(category, entries) {
   if (!existsSync(DATA_DIR)) mkdirSync(DATA_DIR, { recursive: true });
-  const path = resolve(DATA_DIR, `${category}.json`);
   // 날짜 내림차순 정렬
   entries.sort((a, b) => {
     const da = a.date ? new Date(a.date).getTime() : 0;
     const db = b.date ? new Date(b.date).getTime() : 0;
     return db - da;
   });
+  // 전체 파일
+  const path = resolve(DATA_DIR, `${category}.json`);
   writeFileSync(path, JSON.stringify(entries, null, 2), "utf-8");
+  // 슬림 인덱스 파일 (content 제거 — 목록 페이지 성능 최적화)
+  const indexPath = resolve(DATA_DIR, `${category}-index.json`);
+  const slim = entries.map(({ content: _c, ...rest }) => rest);
+  writeFileSync(indexPath, JSON.stringify(slim), "utf-8");
 }
 
 // ---------------------------------------------------------------------------
