@@ -21,6 +21,7 @@ const categoryOptions: { value: "all" | ContentCategory; label: string }[] = [
   { value: "catechism", label: "교리문답" },
   { value: "psalm-song", label: "시편찬송" },
   { value: "bulletin", label: "주보" },
+  { value: "notices", label: "교회소식" },
 ];
 
 export default function AdminDashboardPage() {

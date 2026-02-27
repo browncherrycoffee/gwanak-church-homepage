@@ -21,6 +21,7 @@ export const CATEGORIES: Record<ContentCategory, { label: string; path: string }
   bulletin: { label: "주보", path: "/bulletin" },
   "psalm-song": { label: "시편찬송", path: "/psalm-song" },
   "friday-prayer": { label: "금요기도회", path: "/friday-prayer" },
+  notices: { label: "교회소식", path: "/notices" },
 } as const;
 
 

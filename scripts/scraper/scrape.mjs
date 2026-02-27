@@ -16,8 +16,8 @@ const USER_AGENT =
   "Mozilla/5.0 (iPhone; CPU iPhone OS 16_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.0 Mobile/15E148 Safari/604.1";
 
 const BOARDS = {
-  GZ99: { name: "교회소개", category: "about" },
-  IAd7: { name: "예배와 모임", category: "about" },
+  GZ99: { name: "교회소개", category: "notices" },
+  IAd7: { name: "예배와 모임", category: "notices" },
   I5uP: { name: "하이델베르크요리문답", category: "catechism" },
   ROHB: { name: "시편찬송", category: "psalm-song" },
   RMqC: { name: "주일예배 설교", category: "sunday-sermon" },
@@ -166,8 +166,6 @@ function loadResults(boardCode) {
 function saveResults(boardCode, entries) {
   const board = BOARDS[boardCode];
   if (!board) throw new Error(`Unknown board code: ${boardCode}`);
-  // For "about" category, we skip saving to JSON
-  if (board.category === "about") return;
 
   if (!existsSync(DATA_DIR)) {
     mkdirSync(DATA_DIR, { recursive: true });
@@ -226,12 +224,8 @@ async function scrapeBoard(boardCode, globalProgress) {
   console.log(`  Resuming from post #${startPost} (${boardProgress.totalFound || 0} already found)`);
 
   // Load existing results (for merge)
-  let existingEntries = [];
-  let existingIds = new Set();
-  if (board.category !== "about") {
-    existingEntries = loadResults(boardCode);
-    existingIds = new Set(existingEntries.map((e) => e.id));
-  }
+  let existingEntries = loadResults(boardCode);
+  let existingIds = new Set(existingEntries.map((e) => e.id));
 
   let newEntries = [];
   let consecutiveFails = 0;
@@ -280,14 +274,7 @@ async function scrapeBoard(boardCode, globalProgress) {
         const parsed = parseArticle(html);
         const entryId = `${board.category}-cafe-${boardCode}-${postNumber}`;
 
-        if (board.category === "about") {
-          // For "about" boards, just log content
-          console.log(
-            `  [${boardCode}] #${postNumber} - "${parsed.title}" (${parsed.date})`
-          );
-          console.log(`    Content preview: ${(parsed.content || "").substring(0, 120).replace(/\n/g, " ")}...`);
-        } else {
-          if (!existingIds.has(entryId)) {
+        if (!existingIds.has(entryId)) {
             const entry = buildEntry(boardCode, postNumber, parsed);
             newEntries.push(entry);
             existingIds.add(entryId);
@@ -297,7 +284,6 @@ async function scrapeBoard(boardCode, globalProgress) {
           console.log(
             `  [${boardCode}] #${postNumber} - "${parsed.title}" (${totalFound} found)`
           );
-        }
       } catch (err) {
         console.error(
           `  [${boardCode}] #${postNumber} - Parse error: ${err.message}`
@@ -318,7 +304,7 @@ async function scrapeBoard(boardCode, globalProgress) {
     if (processedSinceFlush >= FLUSH_INTERVAL) {
       processedSinceFlush = 0;
 
-      if (board.category !== "about" && newEntries.length > 0) {
+      if (newEntries.length > 0) {
         const merged = mergeEntries(existingEntries, newEntries);
         saveResults(boardCode, merged);
         existingEntries = merged;
@@ -333,7 +319,7 @@ async function scrapeBoard(boardCode, globalProgress) {
   }
 
   // Final flush
-  if (board.category !== "about" && newEntries.length > 0) {
+  if (newEntries.length > 0) {
     const merged = mergeEntries(existingEntries, newEntries);
     saveResults(boardCode, merged);
     console.log(

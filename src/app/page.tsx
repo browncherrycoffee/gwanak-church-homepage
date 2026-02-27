@@ -14,6 +14,7 @@ import {
   YoutubeLogo,
   SunHorizon,
   Flame,
+  Bell,
 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -27,6 +28,12 @@ import type { ContentCategory, ContentEntry } from "@/types";
 
 const QUICK_LINKS = [
   { label: "교회 소개", href: "/about", icon: Church, description: "2009년 설립, 관악교회의 역사와 신앙고백" },
+  {
+    label: "교회소식",
+    href: "/notices",
+    icon: Bell,
+    description: "교회 소개, 예배 안내 및 모임 소식",
+  },
   {
     label: "새벽기도",
     href: "/dawn-prayer",
