@@ -106,7 +106,7 @@ export function CalendarView({ events }: CalendarViewProps) {
         ))}
         {cells.map((cell, i) => {
           if (!cell) {
-            return <div key={`empty-${i}`} className="bg-background p-1 min-h-[3rem]" />;
+            return <div key={`empty-${i}`} className="bg-background p-1 min-h-[3.5rem] sm:min-h-[4rem]" />;
           }
           const hasEvents = eventsByDate.has(cell.dateStr);
           const isToday = cell.dateStr === todayStr;
@@ -118,7 +118,7 @@ export function CalendarView({ events }: CalendarViewProps) {
               key={cell.dateStr}
               onClick={() => setSelectedDate(cell.dateStr)}
               className={cn(
-                "bg-background p-1 min-h-[3rem] text-left transition-colors hover:bg-accent relative",
+                "bg-background p-1 min-h-[3.5rem] sm:min-h-[4rem] text-left transition-colors hover:bg-accent relative",
                 isSelected && "bg-primary/10 ring-1 ring-primary",
               )}
             >
@@ -133,7 +133,7 @@ export function CalendarView({ events }: CalendarViewProps) {
                 {cell.day}
               </span>
               {hasEvents && (
-                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 h-1 w-1 rounded-full bg-primary" />
+                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 h-1.5 w-1.5 rounded-full bg-primary" />
               )}
             </button>
           );

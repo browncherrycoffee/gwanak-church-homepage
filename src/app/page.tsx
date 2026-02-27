@@ -206,6 +206,8 @@ export default function HomePage() {
                         src={getThumbnailUrl(featuredSermon.youtubeVideoId)}
                         alt={featuredSermon.title}
                         className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                        loading="lazy"
+                        decoding="async"
                       />
                       <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
                         <YoutubeLogo weight="fill" className="h-14 w-14 text-white" />

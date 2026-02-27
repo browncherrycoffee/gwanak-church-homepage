@@ -159,7 +159,7 @@ export default function CommunityDetailPage({
               value={commentAuthor}
               onChange={(e) => setCommentAuthor(e.target.value)}
               placeholder="이름"
-              className="max-w-[200px]"
+              className="w-full sm:max-w-[200px]"
               required
             />
           </div>
@@ -172,7 +172,7 @@ export default function CommunityDetailPage({
               className="flex-1"
               required
             />
-            <Button type="submit" size="icon" className="self-end shrink-0">
+            <Button type="submit" size="icon" className="h-11 w-11 self-end shrink-0">
               <PaperPlaneTilt weight="light" className="h-4 w-4" />
             </Button>
           </div>

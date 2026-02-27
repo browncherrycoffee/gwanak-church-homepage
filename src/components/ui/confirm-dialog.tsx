@@ -43,7 +43,7 @@ export function ConfirmDialog({
   return (
     <dialog
       ref={dialogRef}
-      className="fixed inset-0 z-50 m-auto max-w-sm rounded-xl border bg-background p-0 shadow-xl backdrop:bg-black/50"
+      className="fixed inset-0 z-50 m-auto w-[calc(100%-2rem)] max-w-sm rounded-xl border bg-background p-0 shadow-xl backdrop:bg-black/50"
       onClose={onCancel}
     >
       <div className="p-6">
@@ -58,11 +58,11 @@ export function ConfirmDialog({
             <p className="mt-1 text-sm text-muted-foreground">{description}</p>
           </div>
         </div>
-        <div className="mt-6 flex justify-end gap-3">
-          <Button variant="outline" onClick={onCancel}>
+        <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+          <Button variant="outline" className="w-full sm:w-auto" onClick={onCancel}>
             {cancelLabel}
           </Button>
-          <Button variant={destructive ? "destructive" : "default"} onClick={onConfirm}>
+          <Button variant={destructive ? "destructive" : "default"} className="w-full sm:w-auto" onClick={onConfirm}>
             {confirmLabel}
           </Button>
         </div>

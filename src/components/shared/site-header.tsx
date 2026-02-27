@@ -68,7 +68,7 @@ export function SiteHeader() {
           <Link
             href="/admin"
             className={cn(
-              "p-2 rounded-md transition-colors hover:bg-accent",
+              "p-2.5 rounded-md transition-colors hover:bg-accent",
               pathname.startsWith("/admin")
                 ? "text-primary bg-accent"
                 : "text-muted-foreground",
@@ -98,7 +98,7 @@ export function SiteHeader() {
               href={item.href}
               onClick={() => setMobileOpen(false)}
               className={cn(
-                "block px-3 py-2.5 text-sm rounded-md transition-colors",
+                "block px-3 py-3 text-sm rounded-md transition-colors",
                 pathname.startsWith(item.href)
                   ? "text-primary font-medium bg-accent"
                   : "text-muted-foreground hover:bg-muted",
