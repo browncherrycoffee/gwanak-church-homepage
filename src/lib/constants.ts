@@ -20,6 +20,7 @@ export const CATEGORIES: Record<ContentCategory, { label: string; path: string }
   catechism: { label: "교리문답", path: "/catechism" },
   bulletin: { label: "주보", path: "/bulletin" },
   "psalm-song": { label: "시편찬송", path: "/psalm-song" },
+  "friday-prayer": { label: "금요기도회", path: "/friday-prayer" },
 } as const;
 
 

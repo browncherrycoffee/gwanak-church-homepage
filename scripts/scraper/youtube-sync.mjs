@@ -73,9 +73,9 @@ function classifyVideo(title, description = "") {
     return "psalm-song";
   }
 
-  // 금요기도회: 별도 카테고리 없으므로 skip
+  // 금요기도회
   if (t.includes("금요기도회") || t.includes("기도회")) {
-    return null;
+    return "friday-prayer";
   }
 
   return null;
@@ -319,21 +319,27 @@ async function fetchAllChannelVideos(maxPages = 200) {
 // ---------------------------------------------------------------------------
 
 /**
- * 최신 15개 영상의 정확한 publish date를 RSS에서 가져온다
+ * RSS 피드에서 최신 15개 영상의 정확한 날짜 + 기본 정보를 가져온다
  */
-async function fetchRssDates() {
+async function fetchRssVideos() {
   const url = `https://www.youtube.com/feeds/videos.xml?channel_id=${CHANNEL_ID}`;
   const res = await fetch(url);
   const xml = await res.text();
 
   const dateMap = new Map(); // videoId → publishedDate
+  const videos = []; // { videoId, title, publishedDate }
+
   const entries = xml.matchAll(
-    /<yt:videoId>([^<]+)<\/yt:videoId>[\s\S]*?<published>([^<]+)<\/published>/g
+    /<yt:videoId>([^<]+)<\/yt:videoId>[\s\S]*?<title>([^<]+)<\/title>[\s\S]*?<published>([^<]+)<\/published>/g
   );
   for (const m of entries) {
-    dateMap.set(m[1], toDateStr(m[2]));
+    const videoId = m[1];
+    const title = m[2].replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&lt;/g, "<").replace(/&gt;/g, ">");
+    const publishedDate = toDateStr(m[3]);
+    dateMap.set(videoId, publishedDate);
+    videos.push({ videoId, title, publishedDate });
   }
-  return dateMap;
+  return { dateMap, videos };
 }
 
 // ---------------------------------------------------------------------------
@@ -450,14 +456,25 @@ async function main() {
   // 1. 채널 전체 영상 수집
   const allVideos = await fetchAllChannelVideos();
 
-  // 2. RSS에서 정확한 날짜 보완 (최신 15개)
+  // 2. RSS에서 날짜 + 최신 비디오 목록 가져오기 (라이브 스트림 등 채널 탭 미포함 보완)
   console.log("\nRSS에서 날짜 보완 중...");
-  const rssDateMap = await fetchRssDates();
+  const { dateMap: rssDateMap, videos: rssVideos } = await fetchRssVideos();
+
+  // RSS 비디오를 allVideos 앞에 병합 (중복은 이후 단계에서 제거)
+  const rssOnlyVideos = rssVideos.filter(
+    (rv) => !allVideos.some((v) => v.videoId === rv.videoId)
+  );
+  if (rssOnlyVideos.length > 0) {
+    console.log(`RSS 전용 비디오 ${rssOnlyVideos.length}개 병합 (라이브 스트림 등)`);
+    for (const rv of rssOnlyVideos) {
+      allVideos.unshift({ videoId: rv.videoId, title: rv.title, publishedText: "", description: "" });
+    }
+  }
 
   // 3. 기존 JSON 로드 & 존재하는 videoId Set 구성
   const categories = filterCategory
     ? [filterCategory]
-    : ["sunday-sermon", "dawn-prayer", "catechism", "psalm-song"];
+    : ["sunday-sermon", "dawn-prayer", "catechism", "psalm-song", "friday-prayer"];
 
   const existing = {};
   const existingVideoIds = new Set();
@@ -474,6 +491,7 @@ async function main() {
     "dawn-prayer": [],
     catechism: [],
     "psalm-song": [],
+    "friday-prayer": [],
   };
   let skipped = 0;
   let duplicates = 0;
@@ -549,7 +567,7 @@ async function main() {
   }
 
   console.log(`\n중복 제외: ${duplicates}개`);
-  console.log(`분류 불가 (금요기도회 등): ${unclassified}개`);
+  console.log(`분류 불가: ${unclassified}개`);
   if (skipped > 0) console.log(`카테고리 필터로 건너뜀: ${skipped}개`);
   console.log(`총 ${totalNew}개 새 항목 추가 완료`);
 }

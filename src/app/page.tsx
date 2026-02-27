@@ -13,6 +13,7 @@ import {
   Clock,
   YoutubeLogo,
   SunHorizon,
+  Flame,
 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -43,6 +44,12 @@ const QUICK_LINKS = [
     href: "/psalm-song",
     icon: MusicNotes,
     description: "시편에 기반한 찬송과 악보 자료",
+  },
+  {
+    label: "금요기도회",
+    href: "/friday-prayer",
+    icon: Flame,
+    description: "매주 금요일 저녁 기도회 말씀",
   },
   {
     label: "주보",
@@ -124,7 +131,7 @@ export default function HomePage() {
 
       {/* Quick Links */}
       <section className="mx-auto max-w-5xl px-4 py-12">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {QUICK_LINKS.map((link) => (
             <Link key={link.href} href={link.href}>
               <Card className="group transition-all hover:border-primary/30 hover:shadow-md h-full">

@@ -10,8 +10,9 @@ import { SITE_CONFIG } from "@/lib/constants";
 
 const NAV_ITEMS = [
   { label: "교회 소개", href: "/about" },
-  { label: "새벽기도", href: "/dawn-prayer" },
   { label: "주일설교", href: "/sunday-sermon" },
+  { label: "새벽기도", href: "/dawn-prayer" },
+  { label: "금요기도회", href: "/friday-prayer" },
   { label: "교리문답", href: "/catechism" },
   { label: "시편찬송", href: "/psalm-song" },
   { label: "주보", href: "/bulletin" },
