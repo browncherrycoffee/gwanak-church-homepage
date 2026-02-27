@@ -67,16 +67,12 @@ function classifyVideo(title, description = "") {
     return "dawn-prayer";
   }
 
-  // 시편찬송: "시편" 단독 (+ 번호) — 단, 묵상이나 설교 아닌 경우
-  if ((t.match(/시편\s*\d+편?/) || t.match(/psalm/i)) &&
-      !t.includes("설교") && !t.includes("묵상") && !t.includes("새벽")) {
-    return "psalm-song";
-  }
-
-  // 금요기도회
+  // 금요기도회 (시편찬송 체크보다 먼저 - 시편 설교도 금요기도회면 friday-prayer)
   if (t.includes("금요기도회") || t.includes("기도회")) {
     return "friday-prayer";
   }
+
+  // psalm-song은 YouTube에서 분류하지 않음 (실제 시편찬송 악보는 카페 ROHB 게시판에만 있음)
 
   return null;
 }

@@ -125,22 +125,39 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
           <>
             <Separator className="my-6" />
             <div>
-              <h3 className="text-sm font-semibold mb-3">첨부파일</h3>
-              <ul className="space-y-2">
-                {entry.attachments.map((att, i) => (
-                  <li key={`att-${i}`}>
-                    <a
-                      href={att.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
-                    >
-                      <FileArrowDown weight="light" className="h-4 w-4" />
-                      {att.name}
-                    </a>
-                  </li>
-                ))}
-              </ul>
+              <h3 className="text-sm font-semibold mb-4">
+                {entry.category === "psalm-song" ? "악보" : "첨부파일"}
+              </h3>
+              <div className="space-y-4">
+                {entry.attachments.map((att, i) => {
+                  const isImage = /\.(jpg|jpeg|png|gif|webp)$/i.test(att.name);
+                  return (
+                    <div key={`att-${i}`}>
+                      {isImage ? (
+                        <a href={att.url} target="_blank" rel="noopener noreferrer">
+                          <img
+                            src={att.url}
+                            alt={att.name}
+                            className="max-w-full rounded border hover:opacity-90 transition-opacity cursor-pointer"
+                            loading="lazy"
+                          />
+                          <p className="mt-1 text-xs text-muted-foreground">{att.name} (클릭하여 크게 보기)</p>
+                        </a>
+                      ) : (
+                        <a
+                          href={att.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
+                        >
+                          <FileArrowDown weight="light" className="h-4 w-4" />
+                          {att.name}
+                        </a>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </>
         )}

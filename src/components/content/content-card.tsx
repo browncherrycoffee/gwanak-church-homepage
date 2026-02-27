@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, CalendarBlank, YoutubeLogo } from "@phosphor-icons/react";
+import { BookOpen, CalendarBlank, YoutubeLogo, MusicNote, FileText } from "@phosphor-icons/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CATEGORIES } from "@/lib/constants";
@@ -17,6 +17,8 @@ export function ContentCard({ entry }: ContentCardProps) {
   const category = CATEGORIES[entry.category];
   const href = `${category.path}/${entry.id}`;
   const thumbnail = getThumbnailUrl(entry.youtubeVideoId);
+  const hasAttachments = entry.attachments && entry.attachments.length > 0;
+  const isPsalmSong = entry.category === "psalm-song";
 
   return (
     <Link href={href}>
@@ -34,14 +36,24 @@ export function ContentCard({ entry }: ContentCardProps) {
           </div>
         ) : (
           <div className="flex aspect-video items-center justify-center bg-secondary">
-            <BookOpen weight="light" className="h-10 w-10 text-primary/40" />
+            {isPsalmSong ? (
+              <MusicNote weight="light" className="h-10 w-10 text-primary/40" />
+            ) : (
+              <BookOpen weight="light" className="h-10 w-10 text-primary/40" />
+            )}
           </div>
         )}
         <CardContent className="p-4">
-          <div className="flex items-center gap-2 mb-2">
+          <div className="flex items-center gap-2 mb-2 flex-wrap">
             <Badge variant="secondary" className="text-xs">
               {category.label}
             </Badge>
+            {hasAttachments && (
+              <Badge variant="outline" className="text-xs gap-1">
+                <FileText weight="light" className="h-3 w-3" />
+                악보
+              </Badge>
+            )}
             <span className="flex items-center gap-1 text-xs text-muted-foreground">
               <CalendarBlank weight="light" className="h-3 w-3" />
               {formatDate(entry.date)}
