@@ -15,9 +15,11 @@ import type { ContentCategory } from "@/types";
 
 const categoryOptions: { value: "all" | ContentCategory; label: string }[] = [
   { value: "all", label: "전체" },
-  { value: "dawn-prayer", label: "새벽기도" },
   { value: "sunday-sermon", label: "주일설교" },
+  { value: "dawn-prayer", label: "새벽기도" },
+  { value: "friday-prayer", label: "금요기도회" },
   { value: "catechism", label: "교리문답" },
+  { value: "psalm-song", label: "시편찬송" },
   { value: "bulletin", label: "주보" },
 ];
 
