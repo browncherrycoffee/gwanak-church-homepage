@@ -92,7 +92,7 @@ export function SiteHeader() {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <nav className="md:hidden border-t bg-background px-4 pb-4 pt-2">
+        <nav className="md:hidden border-t bg-background px-4 pb-4 pt-2 overflow-y-auto max-h-[calc(100dvh-3.5rem)]">
           {NAV_ITEMS.map((item) => (
             <Link
               key={item.href}
