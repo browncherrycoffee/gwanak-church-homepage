@@ -5,7 +5,7 @@ import { verifyAuthToken } from "@/lib/auth";
 const ADMIN_PUBLIC_PATHS = ["/admin/login"];
 const API_PATHS = ["/api/auth"];
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Only protect /admin routes
@@ -22,7 +22,7 @@ export function middleware(request: NextRequest) {
   }
 
   const authCookie = request.cookies.get("gwanak-admin-auth");
-  if (!authCookie?.value || !verifyAuthToken(authCookie.value)) {
+  if (!authCookie?.value || !(await verifyAuthToken(authCookie.value))) {
     const loginUrl = new URL("/admin/login", request.url);
     loginUrl.searchParams.set("from", pathname);
     return NextResponse.redirect(loginUrl);
