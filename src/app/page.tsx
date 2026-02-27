@@ -60,9 +60,9 @@ const QUICK_LINKS = [
 ] as const;
 
 const WORSHIP_SCHEDULE = [
-  { label: "주일 오전 예배", time: "오전 10시 30분", icon: Church },
-  { label: "새벽 기도회", time: "매일 오전 6시", icon: SunHorizon },
-  { label: "금요 기도회", time: "매주 금요일 저녁", icon: Clock },
+  { label: "주일 오전 예배", time: "매 주일 오전 11시", icon: Church },
+  { label: "새벽기도회", time: "월~금 오전 6시, 토 7시", icon: SunHorizon },
+  { label: "금요기도회", time: "매주 금요일 저녁 8시", icon: Clock },
 ] as const;
 
 function useMergedCategory(category: ContentCategory, count: number) {

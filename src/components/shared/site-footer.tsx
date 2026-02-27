@@ -1,15 +1,16 @@
 "use client";
 
-import { Cross, MapPin, Phone, Envelope } from "@phosphor-icons/react";
+import Link from "next/link";
+import { Cross, MapPin, Phone, Envelope, YoutubeLogo } from "@phosphor-icons/react";
 import { SITE_CONFIG } from "@/lib/constants";
 
 export function SiteFooter() {
   return (
     <footer className="border-t bg-muted/50">
       <div className="mx-auto max-w-5xl px-4 py-8">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
           <div>
-            <div className="flex items-center gap-2 mb-2">
+            <div className="flex items-center gap-2 mb-3">
               <Cross weight="fill" className="h-4 w-4 text-primary" />
               <span className="font-semibold text-primary">
                 {SITE_CONFIG.denomination} {SITE_CONFIG.name}
@@ -26,10 +27,43 @@ export function SiteFooter() {
               </p>
               <p className="flex items-center gap-1.5">
                 <Envelope weight="light" className="h-3.5 w-3.5 shrink-0" />
-                {SITE_CONFIG.email}
+                <a href={`mailto:${SITE_CONFIG.email}`} className="hover:text-primary transition-colors">
+                  {SITE_CONFIG.email}
+                </a>
               </p>
             </div>
           </div>
+
+          <div className="flex flex-col gap-3">
+            <p className="text-xs font-medium text-muted-foreground">온라인 채널</p>
+            <a
+              href="https://www.youtube.com/@gwanakchurch"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              <YoutubeLogo weight="fill" className="h-4 w-4 text-red-500" />
+              유튜브 채널
+            </a>
+            <a
+              href={SITE_CONFIG.cafeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              <span className="flex h-4 w-4 items-center justify-center rounded-sm bg-[#00C4FF] text-white text-[9px] font-bold shrink-0">D</span>
+              다음 카페
+            </a>
+            <Link
+              href="/about"
+              className="text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              교회 소개
+            </Link>
+          </div>
+        </div>
+
+        <div className="mt-6 border-t pt-4">
           <p className="text-xs text-muted-foreground">
             &copy; {new Date().getFullYear()} {SITE_CONFIG.name}. All rights reserved.
           </p>
