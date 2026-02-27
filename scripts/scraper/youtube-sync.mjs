@@ -500,11 +500,13 @@ async function main() {
       continue;
     }
 
-    // 날짜 결정 (RSS > 제목에서 추출 > 상대시간 추정)
-    const date =
-      rssDateMap.get(videoId) ??
-      extractDateFromTitle(title) ??
-      estimateDateFromRelative(publishedText);
+    // 날짜 결정
+    // 새벽기도는 영상이 전날 저녁에 업로드되므로 제목 날짜(기도 날짜)를 우선 사용
+    // 기타 카테고리는 RSS 업로드 날짜 우선
+    const titleDate = extractDateFromTitle(title);
+    const date = (category === "dawn-prayer" && titleDate)
+      ? titleDate
+      : rssDateMap.get(videoId) ?? titleDate ?? estimateDateFromRelative(publishedText);
 
     const youtubeUrl = `https://www.youtube.com/watch?v=${videoId}`;
 

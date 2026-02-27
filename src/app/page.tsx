@@ -2,13 +2,26 @@
 
 import { useMemo } from "react";
 import Link from "next/link";
-import { Cross, ArrowRight, BookOpenText, Church, Newspaper, CalendarBlank, MusicNotes } from "@phosphor-icons/react";
+import {
+  Cross,
+  ArrowRight,
+  BookOpenText,
+  Church,
+  Newspaper,
+  CalendarBlank,
+  MusicNotes,
+  Clock,
+  YoutubeLogo,
+  SunHorizon,
+} from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ContentCard } from "@/components/content/content-card";
 import { useContents } from "@/hooks/use-contents";
 import { useStaticContents } from "@/hooks/use-static-contents";
 import { CATEGORIES, SITE_CONFIG } from "@/lib/constants";
+import { getThumbnailUrl } from "@/lib/youtube";
+import { formatDate } from "@/lib/utils";
 import type { ContentCategory, ContentEntry } from "@/types";
 
 const QUICK_LINKS = [
@@ -39,6 +52,12 @@ const QUICK_LINKS = [
   },
 ] as const;
 
+const WORSHIP_SCHEDULE = [
+  { label: "주일 오전 예배", time: "오전 10시 30분", icon: Church },
+  { label: "새벽 기도회", time: "매일 오전 6시", icon: SunHorizon },
+  { label: "금요 기도회", time: "매주 금요일 저녁", icon: Clock },
+] as const;
+
 function useMergedCategory(category: ContentCategory, count: number) {
   const localContents = useContents();
   const { data: staticContents } = useStaticContents(category);
@@ -65,8 +84,14 @@ function useMergedCategory(category: ContentCategory, count: number) {
 
 export default function HomePage() {
   const latestSermons = useMergedCategory("sunday-sermon", 3);
-  const latestDawn = useMergedCategory("dawn-prayer", 3);
+  const latestDawn = useMergedCategory("dawn-prayer", 4);
   const latestBulletin = useMergedCategory("bulletin", 1);
+
+  const todayDawn = latestDawn[0] ?? null;
+  const moreDawn = latestDawn.slice(1, 4);
+
+  const featuredSermon = latestSermons[0] ?? null;
+  const moreSermons = latestSermons.slice(1);
 
   return (
     <>
@@ -152,43 +177,162 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* Latest Sermons */}
-      {latestSermons.length > 0 && (
+      {/* Featured Sermon */}
+      {featuredSermon && (
         <section className="mx-auto max-w-5xl px-4 pb-12">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold">최근 주일설교</h2>
+            <h2 className="text-xl font-bold">이번 주 주일설교</h2>
             <Button asChild variant="ghost" size="sm">
               <Link href="/sunday-sermon" className="gap-1">
                 전체 보기 <ArrowRight weight="light" className="h-4 w-4" />
               </Link>
             </Button>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {latestSermons.map((entry) => (
-              <ContentCard key={entry.id} entry={entry} />
-            ))}
-          </div>
+          {/* Featured: wide card with thumbnail */}
+          <Link href={`/sunday-sermon/${featuredSermon.id}`} className="block mb-6">
+            <Card className="group overflow-hidden transition-all hover:border-primary/30 hover:shadow-md">
+              <div className="flex flex-col sm:flex-row">
+                {featuredSermon.youtubeVideoId && (
+                  <div className="relative sm:w-72 shrink-0 overflow-hidden bg-muted">
+                    <div className="aspect-video sm:h-full sm:aspect-auto">
+                      <img
+                        src={getThumbnailUrl(featuredSermon.youtubeVideoId)}
+                        alt={featuredSermon.title}
+                        className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <YoutubeLogo weight="fill" className="h-14 w-14 text-white" />
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <CardContent className="flex flex-col justify-center p-6">
+                  <span className="text-xs text-muted-foreground mb-2">
+                    <CalendarBlank weight="light" className="inline h-3 w-3 mr-1" />
+                    {formatDate(featuredSermon.date)}
+                  </span>
+                  <h3 className="text-lg font-bold group-hover:text-primary transition-colors line-clamp-3">
+                    {featuredSermon.title}
+                  </h3>
+                  {featuredSermon.scriptureReference && (
+                    <p className="mt-2 text-sm text-muted-foreground">{featuredSermon.scriptureReference}</p>
+                  )}
+                  {featuredSermon.preacher && (
+                    <p className="mt-1 text-sm font-medium text-primary/80">{featuredSermon.preacher}</p>
+                  )}
+                </CardContent>
+              </div>
+            </Card>
+          </Link>
+          {/* Recent 2 more */}
+          {moreSermons.length > 0 && (
+            <div className="grid gap-6 sm:grid-cols-2">
+              {moreSermons.map((entry) => (
+                <ContentCard key={entry.id} entry={entry} />
+              ))}
+            </div>
+          )}
         </section>
       )}
 
-      {/* Latest Dawn Prayers */}
-      {latestDawn.length > 0 && (
+      {/* Today's Dawn Prayer */}
+      {todayDawn && (
         <section className="mx-auto max-w-5xl px-4 pb-12">
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold">최근 새벽기도</h2>
+            <h2 className="text-xl font-bold flex items-center gap-2">
+              <SunHorizon weight="light" className="h-5 w-5" />
+              오늘의 아침말씀
+            </h2>
             <Button asChild variant="ghost" size="sm">
               <Link href={CATEGORIES["dawn-prayer"].path} className="gap-1">
                 전체 보기 <ArrowRight weight="light" className="h-4 w-4" />
               </Link>
             </Button>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {latestDawn.map((entry) => (
-              <ContentCard key={entry.id} entry={entry} />
-            ))}
+          <div className="grid gap-6 lg:grid-cols-4">
+            {/* Featured today's dawn prayer */}
+            <Link href={`/dawn-prayer/${todayDawn.id}`} className="lg:col-span-2">
+              <Card className="group overflow-hidden transition-all hover:border-primary/30 hover:shadow-md h-full">
+                {todayDawn.youtubeVideoId && (
+                  <div className="relative aspect-video overflow-hidden bg-muted">
+                    <img
+                      src={getThumbnailUrl(todayDawn.youtubeVideoId)}
+                      alt={todayDawn.title}
+                      className="h-full w-full object-cover transition-transform group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <YoutubeLogo weight="fill" className="h-12 w-12 text-white" />
+                    </div>
+                    <div className="absolute top-2 left-2 rounded bg-primary px-2 py-0.5 text-xs font-medium text-primary-foreground">
+                      최신
+                    </div>
+                  </div>
+                )}
+                <CardContent className="p-4">
+                  <p className="text-xs text-muted-foreground mb-1">{formatDate(todayDawn.date)}</p>
+                  <h3 className="font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+                    {todayDawn.title}
+                  </h3>
+                  {todayDawn.scriptureReference && (
+                    <p className="mt-1 text-sm text-muted-foreground">{todayDawn.scriptureReference}</p>
+                  )}
+                </CardContent>
+              </Card>
+            </Link>
+            {/* 3 more recent dawn prayers */}
+            <div className="lg:col-span-2 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+              {moreDawn.map((entry) => (
+                <Link key={entry.id} href={`/dawn-prayer/${entry.id}`}>
+                  <Card className="group transition-all hover:border-primary/30 hover:shadow-md overflow-hidden">
+                    <div className="flex gap-3 p-3">
+                      {entry.youtubeVideoId && (
+                        <div className="relative shrink-0 w-24 aspect-video rounded overflow-hidden bg-muted">
+                          <img
+                            src={getThumbnailUrl(entry.youtubeVideoId)}
+                            alt={entry.title}
+                            className="h-full w-full object-cover"
+                          />
+                        </div>
+                      )}
+                      <div className="min-w-0">
+                        <p className="text-xs text-muted-foreground">{formatDate(entry.date)}</p>
+                        <h3 className="text-sm font-medium line-clamp-2 group-hover:text-primary transition-colors mt-0.5">
+                          {entry.title}
+                        </h3>
+                      </div>
+                    </div>
+                  </Card>
+                </Link>
+              ))}
+            </div>
           </div>
         </section>
       )}
+
+      {/* Worship Schedule */}
+      <section className="bg-secondary/50">
+        <div className="mx-auto max-w-5xl px-4 py-12">
+          <h2 className="text-xl font-bold mb-6">예배 안내</h2>
+          <div className="grid gap-4 sm:grid-cols-3">
+            {WORSHIP_SCHEDULE.map((item) => (
+              <Card key={item.label}>
+                <CardContent className="flex items-center gap-4 p-5">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-background text-primary">
+                    <item.icon weight="light" className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{item.label}</h3>
+                    <p className="text-sm text-muted-foreground">{item.time}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+          <p className="mt-4 text-sm text-muted-foreground">
+            {SITE_CONFIG.address}
+          </p>
+        </div>
+      </section>
     </>
   );
 }
