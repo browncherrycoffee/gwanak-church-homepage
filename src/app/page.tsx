@@ -136,7 +136,7 @@ export default function HomePage() {
           <div className="grid gap-3 grid-cols-2 sm:grid-cols-4">
             {QUICK_LINK_GROUPS[0].items.map((link) => (
               <Link key={link.href} href={link.href}>
-                <div className="group flex h-full items-start gap-3 rounded-xl border-2 border-primary bg-muted/40 p-4 transition-colors hover:bg-muted/70">
+                <div className="group flex h-full items-start gap-3 rounded-xl border-2 border-primary bg-muted/70 p-4 transition-colors hover:bg-muted/70">
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                     <link.icon weight="light" className="h-4 w-4" />
                   </div>
@@ -160,7 +160,7 @@ export default function HomePage() {
               <div className="space-y-2">
                 {group.items.map((link) => (
                   <Link key={link.href} href={link.href}>
-                    <div className="group flex items-center gap-4 rounded-xl border-2 border-primary bg-muted/40 p-4 transition-colors hover:bg-muted/70">
+                    <div className="group flex items-center gap-4 rounded-xl border-2 border-primary bg-muted/70 p-4 transition-colors hover:bg-muted/70">
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                         <link.icon weight="light" className="h-4 w-4" />
                       </div>
