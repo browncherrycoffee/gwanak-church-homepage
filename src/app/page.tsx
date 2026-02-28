@@ -157,7 +157,7 @@ export default function HomePage() {
         {/* 교회 안내 + 교인 공간 — 나란히 */}
         <div className="grid gap-6 sm:grid-cols-2">
           {([QUICK_LINK_GROUPS[1], QUICK_LINK_GROUPS[2]] as const).map((group) => (
-            <div key={group.label} className="rounded-xl bg-muted/70 p-5">
+            <div key={group.label} className="rounded-xl bg-primary/5 p-5">
               <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {group.label}
               </p>
