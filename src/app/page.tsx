@@ -136,13 +136,13 @@ export default function HomePage() {
           <div className="grid gap-3 grid-cols-2 sm:grid-cols-4">
             {QUICK_LINK_GROUPS[0].items.map((link) => (
               <Link key={link.href} href={link.href}>
-                <div className="group flex h-full items-start gap-3 rounded-xl bg-primary p-4 transition-colors hover:bg-primary/90">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/15 text-white">
+                <div className="group flex h-full items-start gap-3 rounded-xl border-2 border-primary/40 bg-background p-4 transition-colors hover:border-primary hover:bg-primary/5">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                     <link.icon weight="light" className="h-4 w-4" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white">{link.label}</h3>
-                    <p className="mt-0.5 hidden text-xs text-white/60 line-clamp-2 sm:block">{link.description}</p>
+                    <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">{link.label}</h3>
+                    <p className="mt-0.5 hidden text-xs text-muted-foreground line-clamp-2 sm:block">{link.description}</p>
                   </div>
                 </div>
               </Link>
@@ -160,13 +160,13 @@ export default function HomePage() {
               <div className="space-y-2">
                 {group.items.map((link) => (
                   <Link key={link.href} href={link.href}>
-                    <div className="group flex items-center gap-4 rounded-xl bg-primary p-4 transition-colors hover:bg-primary/90">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/15 text-white">
+                    <div className="group flex items-center gap-4 rounded-xl border-2 border-primary/40 bg-background p-4 transition-colors hover:border-primary hover:bg-primary/5">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
                         <link.icon weight="light" className="h-4 w-4" />
                       </div>
                       <div className="min-w-0">
-                        <h3 className="text-sm font-semibold text-white">{link.label}</h3>
-                        <p className="mt-0.5 text-xs text-white/60 truncate">{link.description}</p>
+                        <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">{link.label}</h3>
+                        <p className="mt-0.5 text-xs text-muted-foreground truncate">{link.description}</p>
                       </div>
                     </div>
                   </Link>
