@@ -138,7 +138,7 @@ export default function HomePage() {
             {SITE_CONFIG.denomination}
           </p>
           <p className="mt-2 text-sm text-primary-foreground/60">
-            2026 표어: &ldquo;모여서 함께 예배, 흩어져 삶의 예배&rdquo; (로마서 12:1)
+            {SITE_CONFIG.mottoYear} 표어: &ldquo;{SITE_CONFIG.motto}&rdquo; ({SITE_CONFIG.mottoVerse})
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
             <Button asChild variant="secondary" size="lg">

@@ -8,10 +8,12 @@ export const SITE_CONFIG = {
   phone: "070-8682-3991",
   fax: "02-876-3991",
   email: "gwanakchurch@gmail.com",
-  website: "http://www.GwanakChurch.org",
   founded: "2009-05-17",
   pastor: "유해신 목사",
   cafeUrl: "https://cafe.daum.net/-goodchurch",
+  motto: "모여서 함께 예배, 흩어져 삶의 예배",
+  mottoVerse: "로마서 12:1",
+  mottoYear: "2026",
 } as const;
 
 export const CATEGORIES: Record<ContentCategory, { label: string; path: string }> = {

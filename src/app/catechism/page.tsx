@@ -7,7 +7,7 @@ export default function CatechismPage() {
     <ContentListPage
       category="catechism"
       title="교리문답"
-      description="하이델베르크 교리문답을 통해 바른 신앙을 배웁니다."
+      description="웨스트민스터 대교리문답과 하이델베르크 요리문답 강해 자료입니다."
     />
   );
 }
