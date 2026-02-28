@@ -8,7 +8,7 @@ const securityHeaders = [
   { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
   {
     key: "Content-Security-Policy",
-    value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://img.youtube.com; font-src 'self' https://fonts.gstatic.com; frame-src https://www.youtube.com; connect-src 'self'",
+    value: "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://img.youtube.com https://t1.daumcdn.net; font-src 'self' https://fonts.gstatic.com; frame-src https://www.youtube.com; connect-src 'self'",
   },
   {
     key: "Strict-Transport-Security",

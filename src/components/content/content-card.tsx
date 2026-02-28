@@ -48,7 +48,7 @@ export function ContentCard({ entry }: ContentCardProps) {
             <Badge variant="secondary" className="text-xs">
               {category.label}
             </Badge>
-            {hasAttachments && (
+            {hasAttachments && isPsalmSong && (
               <Badge variant="outline" className="text-xs gap-1">
                 <FileText weight="light" className="h-3 w-3" />
                 악보

@@ -26,7 +26,7 @@ export async function fetchStaticCategory(
   const promise = (async () => {
     try {
       const filename = slim ? `${category}-index.json` : `${category}.json`;
-      const res = await fetch(`/data/${filename}`, { cache: "no-cache" });
+      const res = await fetch(`/data/${filename}`, { cache: "force-cache" });
       if (!res.ok) return [];
       const data = (await res.json()) as ContentEntry[];
       if (!Array.isArray(data)) return [];

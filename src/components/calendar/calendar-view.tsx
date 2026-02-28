@@ -153,10 +153,12 @@ export function CalendarView({ events }: CalendarViewProps) {
               <Card key={ev.id} className="py-0">
                 <CardContent className="p-4">
                   <div className="flex items-start gap-3">
+                    {ev.time && (
                     <div className="flex items-center gap-1 text-sm text-muted-foreground shrink-0 pt-0.5">
                       <Clock weight="light" className="h-4 w-4" />
                       {ev.time}
                     </div>
+                  )}
                     <div>
                       <h4 className="font-medium">{ev.title}</h4>
                       {ev.description && (

@@ -17,7 +17,7 @@ const NAV_ITEMS = [
   { label: "교리문답", href: "/catechism" },
   { label: "시편찬송", href: "/psalm-song" },
   { label: "주보", href: "/bulletin" },
-  { label: "커뮤니티", href: "/community" },
+  { label: "교인 커뮤니티", href: "/community" },
   { label: "활동 사진", href: "/gallery" },
   { label: "교회 일정", href: "/calendar" },
 ] as const;

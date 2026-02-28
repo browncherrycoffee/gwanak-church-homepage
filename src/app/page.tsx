@@ -40,7 +40,7 @@ const QUICK_LINKS = [
     label: "새벽기도",
     href: "/dawn-prayer",
     icon: Cross,
-    description: "매일 새벽 6시 말씀 영상 (유튜브)",
+    description: "월~금 오전 6시, 토 오전 7시 말씀 영상 (유튜브)",
   },
   {
     label: "교리문답",
