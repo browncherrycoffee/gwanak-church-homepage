@@ -11,34 +11,9 @@ export interface GalleryPhoto {
 
 const STORAGE_KEY = "gwanak-gallery";
 const VERSION_KEY = "gwanak-gallery-version";
-const DATA_VERSION = 1;
+const DATA_VERSION = 2;
 
-const samplePhotos: GalleryPhoto[] = [
-  {
-    id: "photo-christmas-2025",
-    title: "2025 성탄절 예배",
-    imageUrl: "https://images.unsplash.com/photo-1543589077-47d81606c1bf?w=800&h=600&fit=crop",
-    description: "2025년 12월 25일 성탄절 예배 및 찬양 콘서트",
-    date: "2025-12-25",
-    createdAt: "2025-12-25T12:00:00.000Z",
-  },
-  {
-    id: "photo-worship-2025",
-    title: "주일예배 모습",
-    imageUrl: "https://images.unsplash.com/photo-1438232992991-995b7058bbb3?w=800&h=600&fit=crop",
-    description: "관악교회 주일예배 모습",
-    date: "2025-10-12",
-    createdAt: "2025-10-12T12:00:00.000Z",
-  },
-  {
-    id: "photo-fellowship-2025",
-    title: "교제 모임",
-    imageUrl: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800&h=600&fit=crop",
-    description: "부서별 교제 모임",
-    date: "2025-09-14",
-    createdAt: "2025-09-14T12:00:00.000Z",
-  },
-];
+const samplePhotos: GalleryPhoto[] = [];
 
 function loadFromStorage(): GalleryPhoto[] {
   if (typeof window === "undefined") return [...samplePhotos];

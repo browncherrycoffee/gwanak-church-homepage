@@ -6,12 +6,31 @@ import { SiteFooter } from "@/components/shared/site-footer";
 import { SITE_CONFIG } from "@/lib/constants";
 import "./globals.css";
 
+const BASE_URL = "https://gwanak-church-homepage.vercel.app";
+
 export const metadata: Metadata = {
   title: {
     default: SITE_CONFIG.name,
     template: `%s | ${SITE_CONFIG.name}`,
   },
   description: SITE_CONFIG.description,
+  metadataBase: new URL(BASE_URL),
+  openGraph: {
+    title: SITE_CONFIG.name,
+    description: SITE_CONFIG.description,
+    url: BASE_URL,
+    siteName: SITE_CONFIG.name,
+    locale: "ko_KR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: SITE_CONFIG.name,
+    description: SITE_CONFIG.description,
+  },
+  alternates: {
+    canonical: BASE_URL,
+  },
 };
 
 export const viewport: Viewport = {

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Cross, MapPin, Phone, Envelope, YoutubeLogo } from "@phosphor-icons/react";
+import { Cross, MapPin, Phone, Envelope, YoutubeLogo, NavigationArrow } from "@phosphor-icons/react";
 import { SITE_CONFIG } from "@/lib/constants";
 
 export function SiteFooter() {
@@ -53,6 +53,15 @@ export function SiteFooter() {
             >
               <span className="flex h-4 w-4 items-center justify-center rounded-sm bg-[#00C4FF] text-white text-[9px] font-bold shrink-0">D</span>
               다음 카페
+            </a>
+            <a
+              href="https://map.kakao.com/?q=서울+관악구+대학길+52"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+            >
+              <NavigationArrow weight="light" className="h-4 w-4 shrink-0" />
+              위치 안내 (카카오맵)
             </a>
             <Link
               href="/about"

@@ -1,6 +1,6 @@
 "use client";
 
-import { Cross, BookOpenText, TreeStructure, Clock, Church, Scroll } from "@phosphor-icons/react";
+import { Cross, BookOpenText, TreeStructure, Clock, Church, Scroll, NavigationArrow } from "@phosphor-icons/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { SITE_CONFIG } from "@/lib/constants";
@@ -159,6 +159,21 @@ export default function AboutPage() {
                 <h4 className="font-medium mb-1">수요 노방전도</h4>
                 <p className="text-muted-foreground">오전 11:40 (교회당 인근)</p>
               </div>
+            </div>
+            <div className="mt-4 pt-4 border-t">
+              <h4 className="font-medium mb-2 text-sm">교회 위치</h4>
+              <p className="text-sm text-muted-foreground mb-2">
+                08819 서울특별시 관악구 대학길 52(신림동), 3층
+              </p>
+              <a
+                href="https://map.kakao.com/?q=서울+관악구+대학길+52"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm text-primary hover:underline"
+              >
+                <NavigationArrow weight="light" className="h-4 w-4" />
+                카카오맵에서 보기
+              </a>
             </div>
           </div>
         </CardContent>

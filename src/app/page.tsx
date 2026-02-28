@@ -15,6 +15,8 @@ import {
   SunHorizon,
   Flame,
   Bell,
+  ChatCircle,
+  Images,
 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -63,6 +65,24 @@ const QUICK_LINKS = [
     href: "/bulletin",
     icon: Newspaper,
     description: "매 주일 발행되는 교회 주보",
+  },
+  {
+    label: "교인 커뮤니티",
+    href: "/community",
+    icon: ChatCircle,
+    description: "교인들의 기도 제목과 나눔 게시판",
+  },
+  {
+    label: "활동 사진",
+    href: "/gallery",
+    icon: Images,
+    description: "교회 행사 및 모임 사진 모음",
+  },
+  {
+    label: "교회 일정",
+    href: "/calendar",
+    icon: CalendarBlank,
+    description: "예배, 모임, 행사 일정 달력",
   },
 ] as const;
 
@@ -257,7 +277,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold flex items-center gap-2">
               <SunHorizon weight="light" className="h-5 w-5" />
-              오늘의 아침말씀
+              오늘의 새벽기도
             </h2>
             <Button asChild variant="ghost" size="sm">
               <Link href={CATEGORIES["dawn-prayer"].path} className="gap-1">
