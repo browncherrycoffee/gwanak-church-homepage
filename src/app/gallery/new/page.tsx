@@ -51,6 +51,7 @@ export default function NewGalleryPhotoPage() {
                 이미지 URL <span className="text-destructive">*</span>
               </label>
               <Input
+                type="url"
                 value={form.imageUrl}
                 onChange={(e) => handleChange("imageUrl", e.target.value)}
                 placeholder="https://example.com/image.jpg"

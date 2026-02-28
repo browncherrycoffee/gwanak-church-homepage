@@ -110,15 +110,18 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
           </div>
         )}
 
-        <Separator className="my-6" />
-
-        <div className="prose prose-neutral max-w-none">
-          {entry.content.split("\n").map((paragraph, i) => (
-            <p key={`p-${i}`} className="mb-4 leading-relaxed text-foreground/90">
-              {paragraph}
-            </p>
-          ))}
-        </div>
+        {entry.content.trim() && (
+          <>
+            <Separator className="my-6" />
+            <div className="prose prose-neutral max-w-none">
+              {entry.content.trim().split("\n").map((paragraph, i) => (
+                <p key={`p-${i}`} className="mb-4 leading-relaxed text-foreground/90">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+          </>
+        )}
 
         {/* Attachments section */}
         {entry.attachments && entry.attachments.length > 0 && (

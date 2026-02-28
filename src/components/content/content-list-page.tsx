@@ -120,7 +120,8 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
       result = result.filter(
         (e) =>
           e.title.toLowerCase().includes(q) ||
-          (e.scriptureReference ?? "").toLowerCase().includes(q),
+          (e.scriptureReference ?? "").toLowerCase().includes(q) ||
+          (e.preacher ?? "").toLowerCase().includes(q),
       );
     }
     return result;

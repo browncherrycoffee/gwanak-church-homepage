@@ -24,7 +24,11 @@ function LoginForm() {
       });
 
       if (res.ok) {
-        const from = searchParams.get("from") || "/admin";
+        const rawFrom = searchParams.get("from");
+        const from =
+          rawFrom && rawFrom.startsWith("/") && !rawFrom.startsWith("//")
+            ? rawFrom
+            : "/admin";
         router.replace(from);
       } else {
         const data = await res.json();
@@ -66,7 +70,7 @@ function LoginForm() {
           <button
             type="submit"
             disabled={submitting}
-            className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary-light disabled:opacity-50"
+            className="inline-flex h-10 w-full items-center justify-center rounded-md bg-primary px-4 text-sm font-medium text-primary-foreground hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {submitting ? "확인 중..." : "로그인"}
           </button>
