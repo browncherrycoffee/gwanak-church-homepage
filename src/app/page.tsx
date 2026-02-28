@@ -127,7 +127,7 @@ export default function HomePage() {
       </section>
 
       {/* Quick Links */}
-      <section className="mx-auto max-w-5xl px-4 py-12 space-y-8">
+      <section className="mx-auto max-w-5xl px-4 py-12 space-y-6 sm:space-y-8">
         {/* 말씀 & 기도 — 4열 그리드 */}
         <div>
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
@@ -145,7 +145,7 @@ export default function HomePage() {
                       <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">
                         {link.label}
                       </h3>
-                      <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">{link.description}</p>
+                      <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2 hidden sm:block">{link.description}</p>
                     </div>
                   </CardContent>
                 </Card>
