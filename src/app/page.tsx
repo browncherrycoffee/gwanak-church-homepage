@@ -129,7 +129,7 @@ export default function HomePage() {
       {/* Quick Links */}
       <section className="mx-auto max-w-5xl px-4 py-12 space-y-6 sm:space-y-8">
         {/* 말씀 & 기도 — 4열 그리드 */}
-        <div className="rounded-xl bg-primary/10 p-5">
+        <div className="rounded-xl bg-emerald-100 p-5">
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-primary/70">
             {QUICK_LINK_GROUPS[0].label}
           </p>
@@ -157,7 +157,7 @@ export default function HomePage() {
         {/* 교회 안내 + 교인 공간 — 나란히 */}
         <div className="grid gap-6 sm:grid-cols-2">
           {([QUICK_LINK_GROUPS[1], QUICK_LINK_GROUPS[2]] as const).map((group) => (
-            <div key={group.label} className="rounded-xl bg-primary/5 p-5">
+            <div key={group.label} className="rounded-xl bg-emerald-50 p-5">
               <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {group.label}
               </p>
