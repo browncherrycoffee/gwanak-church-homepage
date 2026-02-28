@@ -282,7 +282,7 @@ export default function AboutPage() {
                 <div className="shrink-0 w-14 pt-0.5">
                   <span className="font-bold text-primary">{item.year}</span>
                 </div>
-                <ul className="space-y-1 text-sm text-foreground/90">
+                <ul className="space-y-1 text-sm text-foreground/90 break-keep">
                   {item.events.map((event, i) => (
                     <li key={`${item.year}-${i}`} className="leading-relaxed">
                       {event}

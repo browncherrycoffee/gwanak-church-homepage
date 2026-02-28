@@ -141,7 +141,7 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
                           <img
                             src={att.url}
                             alt={att.name}
-                            className="max-w-full rounded border hover:opacity-90 transition-opacity cursor-pointer"
+                            className="w-full max-w-full rounded border hover:opacity-90 transition-opacity cursor-pointer"
                             loading="lazy"
                           />
                           <p className="mt-1 text-xs text-muted-foreground">{att.name} (클릭하여 크게 보기)</p>

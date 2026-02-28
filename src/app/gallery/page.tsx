@@ -17,12 +17,12 @@ export default function GalleryPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold">활동 사진</h1>
           <p className="mt-1 text-muted-foreground">관악교회의 활동 모습을 사진으로 만나보세요.</p>
         </div>
-        <Button asChild>
+        <Button asChild className="self-start shrink-0">
           <Link href="/gallery/new">
             <Plus weight="light" className="mr-2 h-4 w-4" />
             사진 추가

@@ -207,7 +207,7 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
           <select
             value={urlYear}
             onChange={(e) => handleYearChange(e.target.value)}
-            className="border-input bg-background text-foreground h-11 rounded-md border px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+            className="w-full sm:w-auto border-input bg-background text-foreground h-11 rounded-md border px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
           >
             <option value="">전체 연도</option>
             {availableYears.map((y) => (

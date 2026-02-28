@@ -17,12 +17,12 @@ export default function CommunityPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold">교인 커뮤니티</h1>
           <p className="mt-1 text-muted-foreground">교인들을 위한 나눔과 교제의 공간입니다.</p>
         </div>
-        <Button asChild>
+        <Button asChild className="self-start shrink-0">
           <Link href="/community/new">
             <Plus weight="light" className="mr-2 h-4 w-4" />
             글 작성

@@ -11,12 +11,12 @@ export default function CalendarPage() {
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-8">
         <div>
           <h1 className="text-2xl font-bold">교회 일정</h1>
           <p className="mt-1 text-muted-foreground">관악교회 월별 일정을 확인하세요.</p>
         </div>
-        <Button asChild>
+        <Button asChild className="self-start shrink-0">
           <Link href="/calendar/new">
             <Plus weight="light" className="mr-2 h-4 w-4" />
             일정 추가

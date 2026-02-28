@@ -103,14 +103,14 @@ export default function AdminDashboardPage() {
                     )}
                   </div>
                   <div className="flex items-center gap-1 shrink-0">
-                    <Button asChild variant="ghost" size="icon-sm">
+                    <Button asChild variant="ghost" size="icon">
                       <Link href={`/admin/${entry.id}/edit`}>
                         <PencilSimple weight="light" className="h-4 w-4" />
                       </Link>
                     </Button>
                     <Button
                       variant="ghost"
-                      size="icon-sm"
+                      size="icon"
                       onClick={() => setDeleteId(entry.id)}
                       className="text-destructive hover:text-destructive"
                     >
