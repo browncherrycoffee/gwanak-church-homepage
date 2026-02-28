@@ -129,26 +129,24 @@ export default function HomePage() {
       {/* Quick Links */}
       <section className="mx-auto max-w-5xl px-4 py-12 space-y-6 sm:space-y-8">
         {/* 말씀 & 기도 — 4열 그리드 */}
-        <div className="rounded-xl bg-emerald-100 p-5">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-primary/70">
+        <div className="rounded-xl bg-emerald-200 p-5">
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-emerald-900/70">
             {QUICK_LINK_GROUPS[0].label}
           </p>
           <div className="grid gap-3 grid-cols-2 sm:grid-cols-4">
             {QUICK_LINK_GROUPS[0].items.map((link) => (
               <Link key={link.href} href={link.href}>
-                <Card className="group transition-all hover:border-primary/30 hover:shadow-md h-full">
-                  <CardContent className="flex items-start gap-3 p-4">
-                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">
-                      <link.icon weight="light" className="h-4 w-4" />
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">
-                        {link.label}
-                      </h3>
-                      <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2 hidden sm:block">{link.description}</p>
-                    </div>
-                  </CardContent>
-                </Card>
+                <div className="group rounded-lg bg-white/60 hover:bg-white/90 transition-colors h-full p-4 flex items-start gap-3">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-100 text-primary">
+                    <link.icon weight="light" className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">
+                      {link.label}
+                    </h3>
+                    <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2 hidden sm:block">{link.description}</p>
+                  </div>
+                </div>
               </Link>
             ))}
           </div>
@@ -157,26 +155,24 @@ export default function HomePage() {
         {/* 교회 안내 + 교인 공간 — 나란히 */}
         <div className="grid gap-6 sm:grid-cols-2">
           {([QUICK_LINK_GROUPS[1], QUICK_LINK_GROUPS[2]] as const).map((group) => (
-            <div key={group.label} className="rounded-xl bg-emerald-50 p-5">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            <div key={group.label} className="rounded-xl bg-emerald-100 p-5">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-emerald-900/60">
                 {group.label}
               </p>
               <div className="space-y-2">
                 {group.items.map((link) => (
                   <Link key={link.href} href={link.href}>
-                    <Card className="group transition-all hover:border-primary/30 hover:shadow-md">
-                      <CardContent className="flex items-center gap-4 p-4">
-                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">
-                          <link.icon weight="light" className="h-4 w-4" />
-                        </div>
-                        <div className="min-w-0">
-                          <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">
-                            {link.label}
-                          </h3>
-                          <p className="mt-0.5 text-xs text-muted-foreground truncate">{link.description}</p>
-                        </div>
-                      </CardContent>
-                    </Card>
+                    <div className="group rounded-lg bg-white/60 hover:bg-white/90 transition-colors p-4 flex items-center gap-4">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-emerald-50 text-primary">
+                        <link.icon weight="light" className="h-4 w-4" />
+                      </div>
+                      <div className="min-w-0">
+                        <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">
+                          {link.label}
+                        </h3>
+                        <p className="mt-0.5 text-xs text-muted-foreground truncate">{link.description}</p>
+                      </div>
+                    </div>
                   </Link>
                 ))}
               </div>
