@@ -129,22 +129,20 @@ export default function HomePage() {
       {/* Quick Links */}
       <section className="mx-auto max-w-5xl px-4 py-12 space-y-6 sm:space-y-8">
         {/* 말씀 & 기도 — 4열 그리드 */}
-        <div className="rounded-xl bg-primary p-5">
-          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/60">
+        <div>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             {QUICK_LINK_GROUPS[0].label}
           </p>
           <div className="grid gap-3 grid-cols-2 sm:grid-cols-4">
             {QUICK_LINK_GROUPS[0].items.map((link) => (
               <Link key={link.href} href={link.href}>
-                <div className="group rounded-lg bg-white/10 hover:bg-white/20 transition-colors h-full p-4 flex items-start gap-3">
+                <div className="group flex h-full items-start gap-3 rounded-xl bg-primary p-4 transition-colors hover:bg-primary/90">
                   <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/15 text-white">
                     <link.icon weight="light" className="h-4 w-4" />
                   </div>
                   <div>
-                    <h3 className="text-sm font-semibold text-white group-hover:text-white/80 transition-colors">
-                      {link.label}
-                    </h3>
-                    <p className="mt-0.5 text-xs text-white/55 line-clamp-2 hidden sm:block">{link.description}</p>
+                    <h3 className="text-sm font-semibold text-white">{link.label}</h3>
+                    <p className="mt-0.5 hidden text-xs text-white/60 line-clamp-2 sm:block">{link.description}</p>
                   </div>
                 </div>
               </Link>
@@ -155,22 +153,20 @@ export default function HomePage() {
         {/* 교회 안내 + 교인 공간 — 나란히 */}
         <div className="grid gap-6 sm:grid-cols-2">
           {([QUICK_LINK_GROUPS[1], QUICK_LINK_GROUPS[2]] as const).map((group) => (
-            <div key={group.label} className="rounded-xl bg-primary p-5">
-              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-white/60">
+            <div key={group.label}>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {group.label}
               </p>
               <div className="space-y-2">
                 {group.items.map((link) => (
                   <Link key={link.href} href={link.href}>
-                    <div className="group rounded-lg bg-white/10 hover:bg-white/20 transition-colors p-4 flex items-center gap-4">
+                    <div className="group flex items-center gap-4 rounded-xl bg-primary p-4 transition-colors hover:bg-primary/90">
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/15 text-white">
                         <link.icon weight="light" className="h-4 w-4" />
                       </div>
                       <div className="min-w-0">
-                        <h3 className="text-sm font-semibold text-white group-hover:text-white/80 transition-colors">
-                          {link.label}
-                        </h3>
-                        <p className="mt-0.5 text-xs text-white/55 truncate">{link.description}</p>
+                        <h3 className="text-sm font-semibold text-white">{link.label}</h3>
+                        <p className="mt-0.5 text-xs text-white/60 truncate">{link.description}</p>
                       </div>
                     </div>
                   </Link>
