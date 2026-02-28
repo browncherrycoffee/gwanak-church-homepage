@@ -28,61 +28,31 @@ import { getThumbnailUrl } from "@/lib/youtube";
 import { formatDate } from "@/lib/utils";
 import type { ContentCategory, ContentEntry } from "@/types";
 
-const QUICK_LINKS = [
-  { label: "교회 소개", href: "/about", icon: Church, description: "2009년 설립, 관악교회의 역사와 신앙고백" },
+const QUICK_LINK_GROUPS = [
   {
-    label: "교회소식",
-    href: "/notices",
-    icon: Bell,
-    description: "교회 소개, 예배 안내 및 모임 소식",
+    label: "말씀 & 기도",
+    items: [
+      { label: "새벽기도", href: "/dawn-prayer", icon: Cross, description: "월~금 오전 6시, 토 오전 7시 말씀 영상 (유튜브)" },
+      { label: "금요기도회", href: "/friday-prayer", icon: Flame, description: "매주 금요일 저녁 기도회 말씀" },
+      { label: "교리문답", href: "/catechism", icon: BookOpenText, description: "웨스트민스터 대교리문답 / 하이델베르크 요리문답" },
+      { label: "시편찬송", href: "/psalm-song", icon: MusicNotes, description: "시편에 기반한 찬송과 악보 자료" },
+    ],
   },
   {
-    label: "새벽기도",
-    href: "/dawn-prayer",
-    icon: Cross,
-    description: "월~금 오전 6시, 토 오전 7시 말씀 영상 (유튜브)",
+    label: "교회 안내",
+    items: [
+      { label: "교회 소개", href: "/about", icon: Church, description: "2009년 설립, 관악교회의 역사와 신앙고백" },
+      { label: "교회소식", href: "/notices", icon: Bell, description: "교회 소개, 예배 안내 및 모임 소식" },
+      { label: "주보", href: "/bulletin", icon: Newspaper, description: "매 주일 발행되는 교회 주보" },
+    ],
   },
   {
-    label: "교리문답",
-    href: "/catechism",
-    icon: BookOpenText,
-    description: "웨스트민스터 대교리문답 / 하이델베르크 요리문답",
-  },
-  {
-    label: "시편찬송",
-    href: "/psalm-song",
-    icon: MusicNotes,
-    description: "시편에 기반한 찬송과 악보 자료",
-  },
-  {
-    label: "금요기도회",
-    href: "/friday-prayer",
-    icon: Flame,
-    description: "매주 금요일 저녁 기도회 말씀",
-  },
-  {
-    label: "주보",
-    href: "/bulletin",
-    icon: Newspaper,
-    description: "매 주일 발행되는 교회 주보",
-  },
-  {
-    label: "교인 커뮤니티",
-    href: "/community",
-    icon: ChatCircle,
-    description: "교인들의 기도 제목과 나눔 게시판",
-  },
-  {
-    label: "활동 사진",
-    href: "/gallery",
-    icon: Images,
-    description: "교회 행사 및 모임 사진 모음",
-  },
-  {
-    label: "교회 일정",
-    href: "/calendar",
-    icon: CalendarBlank,
-    description: "예배, 모임, 행사 일정 달력",
+    label: "교인 공간",
+    items: [
+      { label: "교인 커뮤니티", href: "/community", icon: ChatCircle, description: "교인들의 기도 제목과 나눔 게시판" },
+      { label: "활동 사진", href: "/gallery", icon: Images, description: "교회 행사 및 모임 사진 모음" },
+      { label: "교회 일정", href: "/calendar", icon: CalendarBlank, description: "예배, 모임, 행사 일정 달력" },
+    ],
   },
 ] as const;
 
@@ -157,24 +127,60 @@ export default function HomePage() {
       </section>
 
       {/* Quick Links */}
-      <section className="mx-auto max-w-5xl px-4 py-12">
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {QUICK_LINKS.map((link) => (
-            <Link key={link.href} href={link.href}>
-              <Card className="group transition-all hover:border-primary/30 hover:shadow-md h-full">
-                <CardContent className="flex items-start gap-4 p-5">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">
-                    <link.icon weight="light" className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold group-hover:text-primary transition-colors">
-                      {link.label}
-                    </h3>
-                    <p className="mt-0.5 text-sm text-muted-foreground">{link.description}</p>
-                  </div>
-                </CardContent>
-              </Card>
-            </Link>
+      <section className="mx-auto max-w-5xl px-4 py-12 space-y-8">
+        {/* 말씀 & 기도 — 4열 그리드 */}
+        <div>
+          <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+            {QUICK_LINK_GROUPS[0].label}
+          </p>
+          <div className="grid gap-3 grid-cols-2 sm:grid-cols-4">
+            {QUICK_LINK_GROUPS[0].items.map((link) => (
+              <Link key={link.href} href={link.href}>
+                <Card className="group transition-all hover:border-primary/30 hover:shadow-md h-full">
+                  <CardContent className="flex items-start gap-3 p-4">
+                    <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">
+                      <link.icon weight="light" className="h-4 w-4" />
+                    </div>
+                    <div>
+                      <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">
+                        {link.label}
+                      </h3>
+                      <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">{link.description}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* 교회 안내 + 교인 공간 — 나란히 */}
+        <div className="grid gap-6 sm:grid-cols-2">
+          {([QUICK_LINK_GROUPS[1], QUICK_LINK_GROUPS[2]] as const).map((group) => (
+            <div key={group.label}>
+              <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                {group.label}
+              </p>
+              <div className="space-y-2">
+                {group.items.map((link) => (
+                  <Link key={link.href} href={link.href}>
+                    <Card className="group transition-all hover:border-primary/30 hover:shadow-md">
+                      <CardContent className="flex items-center gap-4 p-4">
+                        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">
+                          <link.icon weight="light" className="h-4 w-4" />
+                        </div>
+                        <div className="min-w-0">
+                          <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">
+                            {link.label}
+                          </h3>
+                          <p className="mt-0.5 text-xs text-muted-foreground truncate">{link.description}</p>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </section>
