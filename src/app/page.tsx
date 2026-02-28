@@ -166,7 +166,7 @@ export default function HomePage() {
                       </div>
                       <div className="min-w-0">
                         <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">{link.label}</h3>
-                        <p className="mt-0.5 text-xs text-muted-foreground truncate">{link.description}</p>
+                        <p className="mt-0.5 text-xs text-muted-foreground line-clamp-2">{link.description}</p>
                       </div>
                     </div>
                   </Link>
@@ -240,7 +240,7 @@ export default function HomePage() {
                     </div>
                   </div>
                 )}
-                <CardContent className="flex flex-col justify-center p-6">
+                <CardContent className="flex flex-col justify-center p-4 sm:p-6">
                   <span className="text-xs text-muted-foreground mb-2">
                     <CalendarBlank weight="light" className="inline h-3 w-3 mr-1" />
                     {formatDate(featuredSermon.date)}
@@ -283,9 +283,9 @@ export default function HomePage() {
               </Link>
             </Button>
           </div>
-          <div className="grid gap-6 lg:grid-cols-4">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
             {/* Featured today's dawn prayer */}
-            <Link href={`/dawn-prayer/${todayDawn.id}`} className="lg:col-span-2">
+            <Link href={`/dawn-prayer/${todayDawn.id}`} className="md:col-span-1 lg:col-span-2">
               <Card className="group overflow-hidden transition-all hover:border-primary/30 hover:shadow-md h-full">
                 {todayDawn.youtubeVideoId && (
                   <div className="relative aspect-video overflow-hidden bg-muted">
@@ -314,7 +314,7 @@ export default function HomePage() {
               </Card>
             </Link>
             {/* 3 more recent dawn prayers */}
-            <div className="lg:col-span-2 grid gap-4 sm:grid-cols-2 lg:grid-cols-1">
+            <div className="md:col-span-1 lg:col-span-2 grid gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-1">
               {moreDawn.map((entry) => (
                 <Link key={entry.id} href={`/dawn-prayer/${entry.id}`}>
                   <Card className="group transition-all hover:border-primary/30 hover:shadow-md overflow-hidden">

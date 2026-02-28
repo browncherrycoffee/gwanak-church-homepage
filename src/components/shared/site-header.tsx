@@ -69,7 +69,7 @@ export function SiteHeader() {
           <Link
             href="/admin"
             className={cn(
-              "p-2.5 rounded-md transition-colors hover:bg-accent",
+              "flex h-11 w-11 items-center justify-center rounded-md transition-colors hover:bg-accent",
               pathname.startsWith("/admin")
                 ? "text-primary bg-accent"
                 : "text-muted-foreground",
@@ -81,7 +81,7 @@ export function SiteHeader() {
           </Link>
           <Button
             variant="ghost"
-            size="icon"
+            className="h-11 w-11"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? "메뉴 닫기" : "메뉴 열기"}
           >
