@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAdmin } from "@/hooks/use-admin";
 import { FloppyDisk, ArrowLeft } from "@phosphor-icons/react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,6 +12,12 @@ import { addGalleryPhoto } from "@/lib/gallery-store";
 
 export default function NewGalleryPhotoPage() {
   const router = useRouter();
+  const { isAdmin, loading } = useAdmin();
+
+  useEffect(() => {
+    if (!loading && !isAdmin) router.replace("/admin/login");
+  }, [loading, isAdmin, router]);
+
   const [form, setForm] = useState({
     title: "",
     imageUrl: "",
@@ -28,6 +35,8 @@ export default function NewGalleryPhotoPage() {
     addGalleryPhoto(form);
     router.push("/gallery");
   };
+
+  if (loading || !isAdmin) return null;
 
   return (
     <div className="mx-auto max-w-2xl px-4 py-8">

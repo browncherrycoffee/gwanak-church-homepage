@@ -7,6 +7,7 @@ import { List, X, Cross, GearSix } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SITE_CONFIG } from "@/lib/constants";
+import { useAdmin } from "@/hooks/use-admin";
 
 const NAV_ITEMS = [
   { label: "교회 소개", href: "/about" },
@@ -25,6 +26,12 @@ const NAV_ITEMS = [
 export function SiteHeader() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { isAdmin, loading } = useAdmin();
+
+  const handleLogout = async () => {
+    await fetch("/api/auth", { method: "DELETE" });
+    window.location.reload();
+  };
 
   return (
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -62,6 +69,23 @@ export function SiteHeader() {
           >
             <GearSix weight="light" className="h-4 w-4" />
           </Link>
+          {!loading && !isAdmin && (
+            <Link
+              href="/admin/login"
+              className="ml-1 rounded-full border border-primary/70 px-2.5 py-1 text-xs font-medium text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
+            >
+              관리자 로그인
+            </Link>
+          )}
+          {!loading && isAdmin && (
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="ml-1 rounded-full border border-border px-2.5 py-1 text-xs font-medium text-muted-foreground transition-colors hover:border-destructive hover:text-destructive"
+            >
+              로그아웃
+            </button>
+          )}
         </nav>
 
         {/* Mobile toggle + admin */}
@@ -108,6 +132,27 @@ export function SiteHeader() {
               {item.label}
             </Link>
           ))}
+          {!loading && (
+            <div className="mt-2 border-t pt-2">
+              {isAdmin ? (
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="block w-full rounded-md px-3 py-3 text-left text-sm text-muted-foreground transition-colors hover:bg-muted"
+                >
+                  로그아웃
+                </button>
+              ) : (
+                <Link
+                  href="/admin/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="block rounded-md px-3 py-3 text-sm font-medium text-primary transition-colors hover:bg-muted"
+                >
+                  관리자 로그인
+                </Link>
+              )}
+            </div>
+          )}
         </nav>
       )}
     </header>

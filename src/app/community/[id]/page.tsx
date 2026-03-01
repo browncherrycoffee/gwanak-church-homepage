@@ -24,6 +24,7 @@ import {
   subscribeCommunity,
 } from "@/lib/community-store";
 import { formatDate } from "@/lib/utils";
+import { useAdmin } from "@/hooks/use-admin";
 import type { CommunityPost } from "@/lib/community-store";
 
 export default function CommunityDetailPage({
@@ -37,6 +38,7 @@ export default function CommunityDetailPage({
   const [notFound, setNotFound] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
   const [commentAuthor, setCommentAuthor] = useState("");
+  const { isAdmin } = useAdmin();
   const [commentContent, setCommentContent] = useState("");
 
   useEffect(() => {
@@ -91,15 +93,17 @@ export default function CommunityDetailPage({
           <ArrowLeft weight="light" className="h-4 w-4" />
           글 목록
         </Link>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-destructive hover:text-destructive"
-          onClick={() => setShowDelete(true)}
-        >
-          <Trash weight="light" className="mr-1 h-4 w-4" />
-          삭제
-        </Button>
+        {isAdmin && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-destructive hover:text-destructive"
+            onClick={() => setShowDelete(true)}
+          >
+            <Trash weight="light" className="mr-1 h-4 w-4" />
+            삭제
+          </Button>
+        )}
       </div>
 
       <article>

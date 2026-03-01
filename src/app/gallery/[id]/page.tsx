@@ -9,6 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { ConfirmDialog } from "@/components/ui/confirm-dialog";
 import { getGalleryPhoto, deleteGalleryPhoto } from "@/lib/gallery-store";
 import { formatDate } from "@/lib/utils";
+import { useAdmin } from "@/hooks/use-admin";
 import type { GalleryPhoto } from "@/lib/gallery-store";
 
 export default function GalleryDetailPage({
@@ -21,6 +22,7 @@ export default function GalleryDetailPage({
   const [photo, setPhoto] = useState<GalleryPhoto | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [showDelete, setShowDelete] = useState(false);
+  const { isAdmin } = useAdmin();
 
   useEffect(() => {
     const found = getGalleryPhoto(id);
@@ -62,15 +64,17 @@ export default function GalleryDetailPage({
           <ArrowLeft weight="light" className="h-4 w-4" />
           사진 목록
         </Link>
-        <Button
-          variant="ghost"
-          size="sm"
-          className="text-destructive hover:text-destructive"
-          onClick={() => setShowDelete(true)}
-        >
-          <Trash weight="light" className="mr-1 h-4 w-4" />
-          삭제
-        </Button>
+        {isAdmin && (
+          <Button
+            variant="ghost"
+            size="sm"
+            className="text-destructive hover:text-destructive"
+            onClick={() => setShowDelete(true)}
+          >
+            <Trash weight="light" className="mr-1 h-4 w-4" />
+            삭제
+          </Button>
+        )}
       </div>
 
       <article>

@@ -6,9 +6,11 @@ import { Plus } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { GalleryCard } from "@/components/gallery/gallery-card";
 import { useGalleryPhotos } from "@/hooks/use-gallery";
+import { useAdmin } from "@/hooks/use-admin";
 
 export default function GalleryPage() {
   const photos = useGalleryPhotos();
+  const { isAdmin } = useAdmin();
 
   const sorted = useMemo(
     () => [...photos].sort((a, b) => b.date.localeCompare(a.date)),
@@ -22,12 +24,14 @@ export default function GalleryPage() {
           <h1 className="text-2xl font-bold">활동 사진</h1>
           <p className="mt-1 text-muted-foreground">관악교회의 활동 모습을 사진으로 만나보세요.</p>
         </div>
-        <Button asChild className="self-start shrink-0">
-          <Link href="/gallery/new">
-            <Plus weight="light" className="mr-2 h-4 w-4" />
-            사진 추가
-          </Link>
-        </Button>
+        {isAdmin && (
+          <Button asChild className="self-start shrink-0">
+            <Link href="/gallery/new">
+              <Plus weight="light" className="mr-2 h-4 w-4" />
+              사진 추가
+            </Link>
+          </Button>
+        )}
       </div>
 
       {sorted.length === 0 ? (

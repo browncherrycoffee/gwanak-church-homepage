@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
-import { headers } from "next/headers";
-import { createAuthToken } from "@/lib/auth";
+import { headers, cookies } from "next/headers";
+import { createAuthToken, verifyAuthToken } from "@/lib/auth";
 import { checkRateLimit, recordFailedAttempt, resetAttempts } from "@/lib/rate-limit";
 
 const COOKIE_NAME = "gwanak-admin-auth";
@@ -16,9 +16,12 @@ async function delay(ms: number): Promise<void> {
 }
 
 export async function GET() {
-  // This endpoint is no longer needed since middleware handles auth,
-  // but keep it for backward compatibility with any client code
-  return NextResponse.json({ authenticated: false }, { status: 401 });
+  const cookieStore = await cookies();
+  const token = cookieStore.get("gwanak-admin-auth")?.value;
+  if (!token || !(await verifyAuthToken(token))) {
+    return NextResponse.json({ authenticated: false }, { status: 401 });
+  }
+  return NextResponse.json({ authenticated: true });
 }
 
 export async function POST(request: Request) {
