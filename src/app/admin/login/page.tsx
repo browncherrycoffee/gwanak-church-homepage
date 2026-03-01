@@ -1,11 +1,10 @@
 "use client";
 
 import { Suspense, useState } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { LockSimple } from "@phosphor-icons/react";
 
 function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -29,7 +28,7 @@ function LoginForm() {
           rawFrom && rawFrom.startsWith("/") && !rawFrom.startsWith("//")
             ? rawFrom
             : "/admin";
-        router.replace(from);
+        window.location.replace(from);
       } else {
         const data = await res.json();
         setError(data.error || "비밀번호가 올바르지 않습니다.");
@@ -63,7 +62,10 @@ function LoginForm() {
               setError("");
             }}
             placeholder="비밀번호"
-            autoFocus
+            autoComplete="current-password"
+            autoCapitalize="none"
+            autoCorrect="off"
+            spellCheck={false}
             className="flex h-10 w-full rounded-md border bg-background px-3 py-2 text-sm placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           />
           {error && <p className="text-sm text-destructive">{error}</p>}
