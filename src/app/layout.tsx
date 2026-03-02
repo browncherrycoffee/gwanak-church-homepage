@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 import { notoSansKR, geistMono } from "@/lib/fonts";
 import { SiteHeader } from "@/components/shared/site-header";
 import { SiteFooter } from "@/components/shared/site-footer";
+import { ThemeProvider } from "@/components/shared/theme-provider";
+import { ScrollToTop } from "@/components/shared/scroll-to-top";
 import { SITE_CONFIG } from "@/lib/constants";
 import "./globals.css";
 
@@ -41,11 +43,14 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="ko" className={`${notoSansKR.variable} ${geistMono.variable}`}>
+    <html lang="ko" className={`${notoSansKR.variable} ${geistMono.variable}`} suppressHydrationWarning>
       <body className="min-h-screen font-sans antialiased flex flex-col">
-        <SiteHeader />
-        <main className="flex-1">{children}</main>
-        <SiteFooter />
+        <ThemeProvider>
+          <SiteHeader />
+          <main className="flex-1">{children}</main>
+          <SiteFooter />
+          <ScrollToTop />
+        </ThemeProvider>
       </body>
     </html>
   );

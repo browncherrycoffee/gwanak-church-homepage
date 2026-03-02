@@ -11,6 +11,7 @@ async function getSlimEntry(category: string, id: string) {
     if (!res.ok) return null;
     const entries = (await res.json()) as Array<{
       id: string;
+      youtubeVideoId?: string;
       title: string;
       scriptureReference?: string;
       preacher?: string;
@@ -34,7 +35,13 @@ export async function generateMetadata({
   return {
     title: entry.title,
     description,
-    openGraph: { title: entry.title, description },
+    openGraph: {
+      title: entry.title,
+      description,
+      ...(entry.youtubeVideoId
+        ? { images: [{ url: `https://img.youtube.com/vi/${entry.youtubeVideoId}/hqdefault.jpg`, width: 480, height: 360 }] }
+        : {}),
+    },
   };
 }
 
