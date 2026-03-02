@@ -3,29 +3,45 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { List, X, Cross } from "@phosphor-icons/react";
+import { List, X, Cross, CaretDown } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SITE_CONFIG } from "@/lib/constants";
 import { useAdmin } from "@/hooks/use-admin";
 
-const NAV_ITEMS = [
-  { label: "교회 소개", href: "/about" },
-  { label: "교회소식", href: "/notices" },
-  { label: "주일설교", href: "/sunday-sermon" },
-  { label: "새벽기도", href: "/dawn-prayer" },
-  { label: "금요기도회", href: "/friday-prayer" },
-  { label: "교리문답", href: "/catechism" },
-  { label: "시편찬송", href: "/psalm-song" },
-  { label: "주보", href: "/bulletin" },
-  { label: "교인 커뮤니티", href: "/community" },
-  { label: "활동 사진", href: "/gallery" },
-  { label: "교회 일정", href: "/calendar" },
+const NAV_GROUPS = [
+  {
+    label: "말씀 & 기도",
+    items: [
+      { label: "주일설교", href: "/sunday-sermon" },
+      { label: "새벽기도", href: "/dawn-prayer" },
+      { label: "금요기도회", href: "/friday-prayer" },
+      { label: "교리문답", href: "/catechism" },
+      { label: "시편찬송", href: "/psalm-song" },
+    ],
+  },
+  {
+    label: "교회 안내",
+    items: [
+      { label: "교회 소개", href: "/about" },
+      { label: "교회소식", href: "/notices" },
+      { label: "주보", href: "/bulletin" },
+    ],
+  },
+  {
+    label: "교인 공간",
+    items: [
+      { label: "교인 커뮤니티", href: "/community" },
+      { label: "활동 사진", href: "/gallery" },
+      { label: "교회 일정", href: "/calendar" },
+    ],
+  },
 ] as const;
 
 export function SiteHeader() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [openGroup, setOpenGroup] = useState<string | null>(null);
   const { isAdmin, loading } = useAdmin();
 
   const handleLogout = async () => {
@@ -43,20 +59,51 @@ export function SiteHeader() {
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-1">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={cn(
-                "px-3 py-2 text-sm rounded-md transition-colors hover:bg-accent",
-                pathname.startsWith(item.href)
-                  ? "text-primary font-medium bg-accent"
-                  : "text-muted-foreground",
-              )}
-            >
-              {item.label}
-            </Link>
-          ))}
+          {NAV_GROUPS.map((group) => {
+            const isGroupActive = group.items.some((item) => pathname.startsWith(item.href));
+            const isOpen = openGroup === group.label;
+            return (
+              <div
+                key={group.label}
+                className="relative"
+                onMouseEnter={() => setOpenGroup(group.label)}
+                onMouseLeave={() => setOpenGroup(null)}
+              >
+                <button
+                  type="button"
+                  className={cn(
+                    "flex items-center gap-1 px-3 py-2 text-sm rounded-md transition-colors hover:bg-accent",
+                    isGroupActive ? "text-primary font-medium bg-accent" : "text-muted-foreground",
+                  )}
+                >
+                  {group.label}
+                  <CaretDown
+                    weight="bold"
+                    className={cn("h-3 w-3 transition-transform", isOpen && "rotate-180")}
+                  />
+                </button>
+                {isOpen && (
+                  <div className="absolute top-full left-0 mt-1 w-36 rounded-lg border bg-background shadow-md py-1 z-50">
+                    {group.items.map((item) => (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        onClick={() => setOpenGroup(null)}
+                        className={cn(
+                          "block px-3 py-2 text-sm transition-colors hover:bg-accent",
+                          pathname.startsWith(item.href)
+                            ? "text-primary font-medium"
+                            : "text-muted-foreground",
+                        )}
+                      >
+                        {item.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
           {!loading && !isAdmin && (
             <Link
               href="/admin/login"
@@ -92,20 +139,28 @@ export function SiteHeader() {
       {/* Mobile nav */}
       {mobileOpen && (
         <nav className="md:hidden border-t bg-background px-4 pb-4 pt-2 overflow-y-auto max-h-[calc(100dvh-3.5rem)]">
-          {NAV_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setMobileOpen(false)}
-              className={cn(
-                "block px-3 py-3 text-sm rounded-md transition-colors",
-                pathname.startsWith(item.href)
-                  ? "text-primary font-medium bg-accent"
-                  : "text-muted-foreground hover:bg-muted",
-              )}
-            >
-              {item.label}
-            </Link>
+          {NAV_GROUPS.map((group, gi) => (
+            <div key={group.label}>
+              {gi > 0 && <div className="my-2 border-t" />}
+              <p className="px-3 pb-1 pt-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+                {group.label}
+              </p>
+              {group.items.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={cn(
+                    "block px-3 py-3 text-sm rounded-md transition-colors",
+                    pathname.startsWith(item.href)
+                      ? "text-primary font-medium bg-accent"
+                      : "text-muted-foreground hover:bg-muted",
+                  )}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </div>
           ))}
           {!loading && (
             <div className="mt-2 border-t pt-2">

@@ -21,6 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ContentCard } from "@/components/content/content-card";
+import { YouTubeEmbed } from "@/components/content/youtube-embed";
 import { useContents } from "@/hooks/use-contents";
 import { useStaticContents } from "@/hooks/use-static-contents";
 import { CATEGORIES, SITE_CONFIG } from "@/lib/constants";
@@ -90,6 +91,7 @@ export default function HomePage() {
   const latestSermons = useMergedCategory("sunday-sermon", 3);
   const latestDawn = useMergedCategory("dawn-prayer", 4);
   const latestBulletin = useMergedCategory("bulletin", 1);
+  const latestNotices = useMergedCategory("notices", 3);
 
   const todayDawn = latestDawn[0] ?? null;
   const moreDawn = latestDawn.slice(1, 4);
@@ -177,6 +179,40 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* Notices */}
+      {latestNotices.length > 0 && (
+        <section className="mx-auto max-w-5xl px-4 pb-12">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold flex items-center gap-2">
+              <Bell weight="light" className="h-5 w-5" />
+              교회소식
+            </h2>
+            <Button asChild variant="ghost" size="sm">
+              <Link href="/notices" className="gap-1">
+                전체 보기 <ArrowRight weight="light" className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+          <div className="divide-y rounded-xl border overflow-hidden">
+            {latestNotices.map((notice) => (
+              <Link key={notice.id} href={`/notices/${notice.id}`} className="block group">
+                <div className="flex items-center justify-between gap-4 px-4 py-3 transition-colors hover:bg-muted/50">
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium line-clamp-1 group-hover:text-primary transition-colors">
+                      {notice.title}
+                    </p>
+                    {notice.scriptureReference && (
+                      <p className="text-xs text-muted-foreground mt-0.5">{notice.scriptureReference}</p>
+                    )}
+                  </div>
+                  <span className="shrink-0 text-xs text-muted-foreground">{formatDate(notice.date)}</span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* This Week's Bulletin */}
       {latestBulletin.length > 0 && latestBulletin[0] && (
         <section className="mx-auto max-w-5xl px-4 pb-12">
@@ -220,44 +256,31 @@ export default function HomePage() {
               </Link>
             </Button>
           </div>
-          {/* Featured: wide card with thumbnail */}
-          <Link href={`/sunday-sermon/${featuredSermon.id}`} className="block mb-6">
-            <Card className="group overflow-hidden transition-all hover:border-primary/30 hover:shadow-md">
-              <div className="flex flex-col sm:flex-row">
-                {featuredSermon.youtubeVideoId && (
-                  <div className="relative sm:w-72 shrink-0 overflow-hidden bg-muted">
-                    <div className="aspect-video sm:h-full sm:aspect-auto">
-                      <img
-                        src={getThumbnailUrl(featuredSermon.youtubeVideoId)}
-                        alt={featuredSermon.title}
-                        className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                      <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <YoutubeLogo weight="fill" className="h-14 w-14 text-white" />
-                      </div>
-                    </div>
-                  </div>
-                )}
-                <CardContent className="flex flex-col justify-center p-4 sm:p-6">
-                  <span className="text-xs text-muted-foreground mb-2">
-                    <CalendarBlank weight="light" className="inline h-3 w-3 mr-1" />
-                    {formatDate(featuredSermon.date)}
-                  </span>
-                  <h3 className="text-lg font-bold group-hover:text-primary transition-colors line-clamp-3">
-                    {featuredSermon.title}
-                  </h3>
-                  {featuredSermon.scriptureReference && (
-                    <p className="mt-2 text-sm text-muted-foreground">{featuredSermon.scriptureReference}</p>
-                  )}
-                  {featuredSermon.preacher && (
-                    <p className="mt-1 text-sm font-medium text-primary/80">{featuredSermon.preacher}</p>
-                  )}
-                </CardContent>
-              </div>
-            </Card>
-          </Link>
+          {/* Featured: YouTube embed + meta */}
+          <Card className="overflow-hidden mb-6">
+            <CardContent className="p-4 sm:p-6">
+              {featuredSermon.youtubeVideoId && (
+                <div className="mb-4">
+                  <YouTubeEmbed videoId={featuredSermon.youtubeVideoId} title={featuredSermon.title} />
+                </div>
+              )}
+              <span className="text-xs text-muted-foreground">
+                <CalendarBlank weight="light" className="inline h-3 w-3 mr-1" />
+                {formatDate(featuredSermon.date)}
+              </span>
+              <Link href={`/sunday-sermon/${featuredSermon.id}`} className="group block mt-1">
+                <h3 className="text-lg font-bold group-hover:text-primary transition-colors line-clamp-3">
+                  {featuredSermon.title}
+                </h3>
+              </Link>
+              {featuredSermon.scriptureReference && (
+                <p className="mt-1 text-sm text-muted-foreground">{featuredSermon.scriptureReference}</p>
+              )}
+              {featuredSermon.preacher && (
+                <p className="mt-1 text-sm font-medium text-primary/80">{featuredSermon.preacher}</p>
+              )}
+            </CardContent>
+          </Card>
           {/* Recent 2 more */}
           {moreSermons.length > 0 && (
             <div className="grid gap-6 sm:grid-cols-2">

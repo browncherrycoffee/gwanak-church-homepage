@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, CalendarBlank, BookOpenText, User, FileArrowDown } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, CalendarBlank, BookOpenText, User, FileArrowDown } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -23,6 +23,23 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
   const router = useRouter();
   const [entry, setEntry] = useState<ContentEntry | null>(null);
   const [notFound, setNotFound] = useState(false);
+  const [siblings, setSiblings] = useState<{ prev: ContentEntry | null; next: ContentEntry | null }>({
+    prev: null,
+    next: null,
+  });
+
+  useEffect(() => {
+    if (!entry) return;
+    fetchStaticCategory(category, true).then((allEntries) => {
+      const sorted = [...allEntries].sort((a, b) => b.date.localeCompare(a.date));
+      const idx = sorted.findIndex((e) => e.id === entry.id);
+      if (idx < 0) return;
+      setSiblings({
+        next: idx > 0 ? (sorted[idx - 1] ?? null) : null,
+        prev: idx < sorted.length - 1 ? (sorted[idx + 1] ?? null) : null,
+      });
+    });
+  }, [entry, category]);
 
   useEffect(() => {
     // First check localStorage
@@ -165,6 +182,41 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
           </>
         )}
       </article>
+
+      {/* Prev / Next navigation */}
+      {(siblings.prev || siblings.next) && (
+        <>
+          <Separator className="my-6" />
+          <div className="flex gap-3">
+            {siblings.prev ? (
+              <Link href={`${cat.path}/${siblings.prev.id}`} className="flex-1">
+                <div className="flex items-center gap-2 rounded-lg border p-3 transition-colors hover:border-primary/50 hover:bg-muted/50">
+                  <ArrowLeft weight="light" className="h-4 w-4 shrink-0 text-muted-foreground" />
+                  <div className="min-w-0">
+                    <p className="text-xs text-muted-foreground">이전</p>
+                    <p className="text-sm font-medium line-clamp-1">{siblings.prev.title}</p>
+                    <p className="text-xs text-muted-foreground">{formatDate(siblings.prev.date)}</p>
+                  </div>
+                </div>
+              </Link>
+            ) : (
+              <div className="flex-1" />
+            )}
+            {siblings.next && (
+              <Link href={`${cat.path}/${siblings.next.id}`} className="flex-1">
+                <div className="flex items-center justify-end gap-2 rounded-lg border p-3 text-right transition-colors hover:border-primary/50 hover:bg-muted/50">
+                  <div className="min-w-0">
+                    <p className="text-xs text-muted-foreground">다음</p>
+                    <p className="text-sm font-medium line-clamp-1">{siblings.next.title}</p>
+                    <p className="text-xs text-muted-foreground">{formatDate(siblings.next.date)}</p>
+                  </div>
+                  <ArrowRight weight="light" className="h-4 w-4 shrink-0 text-muted-foreground" />
+                </div>
+              </Link>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 }
