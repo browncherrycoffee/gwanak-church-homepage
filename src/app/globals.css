@@ -1,9 +1,6 @@
 @import "tailwindcss";
 
-/* class 기반 다크 모드: .dark 클래스 조상이 있을 때 dark: 유틸리티 적용 */
-@variant dark (&:where(.dark, .dark *));
-
-@theme {
+@theme inline {
   --color-background: #ffffff;
   --color-foreground: #1a1a1a;
 
@@ -55,38 +52,6 @@
     -moz-osx-font-smoothing: grayscale;
     word-break: keep-all;
     overflow-wrap: break-word;
-  }
-
-  /* 다크 모드 색상 변수 */
-  .dark {
-    --color-background: #0c1a13;
-    --color-foreground: #dff0e7;
-
-    --color-primary: #40a875;
-    --color-primary-light: #5bbf8e;
-    --color-primary-dark: #2d7a54;
-    --color-primary-foreground: #ffffff;
-
-    --color-secondary: #112b1c;
-    --color-secondary-foreground: #80c49a;
-
-    --color-muted: #182a20;
-    --color-muted-foreground: #7c9e89;
-
-    --color-accent: #1d3527;
-    --color-accent-foreground: #80c49a;
-
-    --color-border: #283f30;
-    --color-ring: #40a875;
-
-    --color-destructive: #f87171;
-    --color-destructive-foreground: #ffffff;
-
-    --color-card: #101f16;
-    --color-card-foreground: #dff0e7;
-
-    --color-popover: #101f16;
-    --color-popover-foreground: #dff0e7;
   }
 }
 

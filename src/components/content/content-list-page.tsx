@@ -7,9 +7,10 @@ import { CaretLeft, CaretRight, MagnifyingGlass, X } from "@phosphor-icons/react
 import { useContents } from "@/hooks/use-contents";
 import { useStaticContents } from "@/hooks/use-static-contents";
 import { ContentCard } from "./content-card";
-import { ITEMS_PER_PAGE } from "@/lib/constants";
+import { ITEMS_PER_PAGE, CATEGORIES } from "@/lib/constants";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { formatDate } from "@/lib/utils";
 import type { ContentCategory } from "@/types";
 
 function paginationRange(current: number, total: number): (number | "...")[] {
@@ -285,11 +286,37 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
         </div>
       ) : (
         <>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {pageItems.map((entry) => (
-              <ContentCard key={entry.id} entry={entry} showCategory={false} />
-            ))}
-          </div>
+          {["notices", "bulletin"].includes(category) ? (
+            <div className="divide-y rounded-xl border overflow-hidden">
+              {pageItems.map((entry) => (
+                <Link
+                  key={entry.id}
+                  href={`${CATEGORIES[entry.category].path}/${entry.id}`}
+                  className="block group"
+                >
+                  <div className="flex items-center justify-between gap-4 px-4 py-3.5 transition-colors hover:bg-muted/50">
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium line-clamp-1 group-hover:text-primary transition-colors">
+                        {entry.title}
+                      </p>
+                      {(entry.scriptureReference || entry.preacher) && (
+                        <p className="text-xs text-muted-foreground mt-0.5">
+                          {[entry.preacher, entry.scriptureReference].filter(Boolean).join(" · ")}
+                        </p>
+                      )}
+                    </div>
+                    <span className="shrink-0 text-xs text-muted-foreground">{formatDate(entry.date)}</span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {pageItems.map((entry) => (
+                <ContentCard key={entry.id} entry={entry} showCategory={false} />
+              ))}
+            </div>
+          )}
 
           {/* Pagination */}
           {totalPages > 1 && (

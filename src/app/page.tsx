@@ -16,6 +16,7 @@ import {
   Bell,
   ChatCircle,
   Images,
+  MapPin,
 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -101,28 +102,52 @@ export default function HomePage() {
   return (
     <>
       {/* Hero */}
-      <section className="relative bg-primary text-primary-foreground">
-        <div className="mx-auto max-w-5xl px-4 py-16 sm:py-24 text-center">
-          <Cross weight="light" className="mx-auto mb-4 h-10 w-10 opacity-80" />
-          <h1 className="text-3xl font-bold sm:text-4xl lg:text-5xl">{SITE_CONFIG.name}</h1>
-          <p className="mt-3 text-lg text-primary-foreground/80">
+      <section className="relative overflow-hidden bg-primary text-primary-foreground">
+        {/* Subtle radial gradient overlay for depth */}
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage:
+              "radial-gradient(ellipse at 20% 60%, rgba(255,255,255,0.06) 0%, transparent 55%), radial-gradient(ellipse at 80% 30%, rgba(255,255,255,0.04) 0%, transparent 50%)",
+          }}
+        />
+        <div className="relative mx-auto max-w-5xl px-4 py-16 sm:py-24 text-center">
+          <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-primary-foreground/10 mb-5 mx-auto ring-1 ring-primary-foreground/20">
+            <Cross weight="fill" className="h-8 w-8 text-primary-foreground/90" />
+          </div>
+          <h1 className="text-3xl font-bold sm:text-5xl lg:text-6xl tracking-tight">{SITE_CONFIG.name}</h1>
+          <p className="mt-3 text-base sm:text-lg text-primary-foreground/75">
             {SITE_CONFIG.denomination}
           </p>
-          <p className="mt-2 text-sm text-primary-foreground/60">
-            {SITE_CONFIG.mottoYear} 표어: &ldquo;{SITE_CONFIG.motto}&rdquo; ({SITE_CONFIG.mottoVerse})
+          <p className="mt-3 inline-block rounded-full border border-primary-foreground/20 bg-primary-foreground/10 px-4 py-1.5 text-sm text-primary-foreground/85">
+            &ldquo;{SITE_CONFIG.motto}&rdquo; &nbsp;{SITE_CONFIG.mottoVerse}
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-3">
-            <Button asChild variant="secondary" size="lg">
-              <Link href="/about">교회 소개</Link>
+            <Button asChild variant="secondary" size="lg" className="font-semibold shadow-lg">
+              <Link href="/sunday-sermon">주일설교 보기</Link>
             </Button>
             <Button
               asChild
               variant="outline"
               size="lg"
-              className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground"
+              className="bg-transparent border-primary-foreground/30 text-primary-foreground hover:bg-primary-foreground/10 hover:text-primary-foreground font-semibold"
             >
-              <Link href="/sunday-sermon">주일설교 보기</Link>
+              <Link href="/about">교회 소개</Link>
             </Button>
+          </div>
+          {/* Worship time quick info */}
+          <div className="mt-8 flex flex-wrap justify-center gap-2 sm:gap-3">
+            {WORSHIP_SCHEDULE.map((item) => (
+              <div
+                key={item.label}
+                className="flex items-center gap-1.5 rounded-full bg-primary-foreground/10 px-3 py-1 text-xs text-primary-foreground/80 ring-1 ring-primary-foreground/15"
+              >
+                <item.icon weight="light" className="h-3.5 w-3.5 shrink-0" />
+                <span className="font-medium">{item.label}</span>
+                <span className="text-primary-foreground/60">{item.time}</span>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -137,8 +162,8 @@ export default function HomePage() {
           <div className="grid gap-3 grid-cols-2 sm:grid-cols-4">
             {QUICK_LINK_GROUPS[0].items.map((link) => (
               <Link key={link.href} href={link.href}>
-                <div className="group flex h-full items-start gap-3 rounded-xl border-2 border-primary bg-muted/70 p-4 transition-colors hover:bg-muted/70">
-                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                <div className="group flex h-full items-start gap-3 rounded-xl border border-primary/20 bg-secondary/60 p-4 transition-all hover:border-primary/50 hover:bg-secondary hover:shadow-md">
+                  <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary transition-colors group-hover:bg-primary/25">
                     <link.icon weight="light" className="h-4 w-4" />
                   </div>
                   <div>
@@ -161,8 +186,8 @@ export default function HomePage() {
               <div className="space-y-2">
                 {group.items.map((link) => (
                   <Link key={link.href} href={link.href}>
-                    <div className="group flex items-center gap-4 rounded-xl border-2 border-primary bg-muted/70 p-4 transition-colors hover:bg-muted/70">
-                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary">
+                    <div className="group flex items-center gap-4 rounded-xl border border-primary/20 bg-secondary/60 p-4 transition-all hover:border-primary/50 hover:bg-secondary hover:shadow-md">
+                      <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary transition-colors group-hover:bg-primary/25">
                         <link.icon weight="light" className="h-4 w-4" />
                       </div>
                       <div className="min-w-0">
@@ -361,25 +386,24 @@ export default function HomePage() {
       )}
 
       {/* Worship Schedule */}
-      <section className="bg-secondary/50">
+      <section className="bg-primary text-primary-foreground">
         <div className="mx-auto max-w-5xl px-4 py-12">
           <h2 className="text-xl font-bold mb-6">예배 안내</h2>
           <div className="grid gap-4 sm:grid-cols-3">
             {WORSHIP_SCHEDULE.map((item) => (
-              <Card key={item.label}>
-                <CardContent className="flex items-center gap-4 p-5">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-background text-primary">
-                    <item.icon weight="light" className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <h3 className="font-semibold">{item.label}</h3>
-                    <p className="text-sm text-muted-foreground">{item.time}</p>
-                  </div>
-                </CardContent>
-              </Card>
+              <div key={item.label} className="rounded-xl bg-primary-foreground/10 ring-1 ring-primary-foreground/20 p-5 flex items-center gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-foreground/15 text-primary-foreground">
+                  <item.icon weight="light" className="h-5 w-5" />
+                </div>
+                <div>
+                  <h3 className="font-semibold">{item.label}</h3>
+                  <p className="text-sm text-primary-foreground/70">{item.time}</p>
+                </div>
+              </div>
             ))}
           </div>
-          <p className="mt-4 text-sm text-muted-foreground">
+          <p className="mt-5 text-sm text-primary-foreground/60 flex items-center gap-1.5">
+            <MapPin weight="light" className="h-3.5 w-3.5 shrink-0" />
             {SITE_CONFIG.address}
           </p>
         </div>

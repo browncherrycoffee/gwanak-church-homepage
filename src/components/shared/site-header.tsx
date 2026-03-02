@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { List, X, Cross, CaretDown, Moon, Sun } from "@phosphor-icons/react";
-import { useTheme } from "next-themes";
+import { List, X, Cross, CaretDown } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { SITE_CONFIG } from "@/lib/constants";
@@ -43,11 +42,7 @@ export function SiteHeader() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [openGroup, setOpenGroup] = useState<string | null>(null);
-  const [mounted, setMounted] = useState(false);
   const { isAdmin, loading } = useAdmin();
-  const { theme, setTheme } = useTheme();
-
-  useEffect(() => setMounted(true), []);
 
   const handleLogout = async () => {
     await fetch("/api/auth", { method: "DELETE" });
@@ -109,20 +104,6 @@ export function SiteHeader() {
               </div>
             );
           })}
-          {mounted && (
-            <button
-              type="button"
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              aria-label={theme === "dark" ? "라이트 모드로 전환" : "다크 모드로 전환"}
-              className="ml-1 flex h-8 w-8 items-center justify-center rounded-md text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
-            >
-              {theme === "dark" ? (
-                <Sun weight="light" className="h-4 w-4" />
-              ) : (
-                <Moon weight="light" className="h-4 w-4" />
-              )}
-            </button>
-          )}
           {!loading && !isAdmin && (
             <Link
               href="/admin/login"
@@ -181,22 +162,6 @@ export function SiteHeader() {
               ))}
             </div>
           ))}
-          {mounted && (
-            <div className="mt-2 border-t pt-2">
-              <button
-                type="button"
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                className="flex w-full items-center gap-2 rounded-md px-3 py-3 text-sm text-muted-foreground transition-colors hover:bg-muted"
-              >
-                {theme === "dark" ? (
-                  <Sun weight="light" className="h-4 w-4" />
-                ) : (
-                  <Moon weight="light" className="h-4 w-4" />
-                )}
-                {theme === "dark" ? "라이트 모드" : "다크 모드"}
-              </button>
-            </div>
-          )}
           {!loading && (
             <div className="mt-2 border-t pt-2">
               {isAdmin ? (
