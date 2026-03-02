@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, CalendarBlank, BookOpenText, User, FileArrowDown } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, CalendarBlank, BookOpenText, User, FileArrowDown, LinkSimple, Check } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -27,6 +27,14 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
     prev: null,
     next: null,
   });
+  const [copied, setCopied] = useState(false);
+
+  function handleCopyLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    });
+  }
 
   useEffect(() => {
     if (!entry) return;
@@ -97,9 +105,27 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
 
       <article>
         <header className="mb-6">
-          <Badge variant="secondary" className="mb-3">
-            {cat.label}
-          </Badge>
+          <div className="flex items-center justify-between mb-3">
+            <Badge variant="secondary">{cat.label}</Badge>
+            <button
+              type="button"
+              onClick={handleCopyLink}
+              className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
+              aria-label="링크 복사"
+            >
+              {copied ? (
+                <>
+                  <Check weight="bold" className="h-3.5 w-3.5 text-green-600" />
+                  <span className="text-green-600">복사됨</span>
+                </>
+              ) : (
+                <>
+                  <LinkSimple weight="light" className="h-3.5 w-3.5" />
+                  링크 복사
+                </>
+              )}
+            </button>
+          </div>
           <h1 className="text-2xl font-bold leading-tight sm:text-3xl">{entry.title}</h1>
           <div className="mt-3 flex flex-wrap gap-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-1.5">

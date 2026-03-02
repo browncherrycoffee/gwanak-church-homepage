@@ -11,7 +11,6 @@ import {
   CalendarBlank,
   MusicNotes,
   Clock,
-  YoutubeLogo,
   SunHorizon,
   Flame,
   Bell,
@@ -307,35 +306,30 @@ export default function HomePage() {
             </Button>
           </div>
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-            {/* Featured today's dawn prayer */}
-            <Link href={`/dawn-prayer/${todayDawn.id}`} className="md:col-span-1 lg:col-span-2">
-              <Card className="group overflow-hidden transition-all hover:border-primary/30 hover:shadow-md h-full">
-                {todayDawn.youtubeVideoId && (
-                  <div className="relative aspect-video overflow-hidden bg-muted">
-                    <img
-                      src={getThumbnailUrl(todayDawn.youtubeVideoId)}
-                      alt={todayDawn.title}
-                      className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <YoutubeLogo weight="fill" className="h-12 w-12 text-white" />
-                    </div>
-                    <div className="absolute top-2 left-2 rounded bg-primary px-2 py-0.5 text-xs font-medium text-primary-foreground">
-                      최신
-                    </div>
-                  </div>
-                )}
+            {/* Featured today's dawn prayer — YouTube embed */}
+            <div className="md:col-span-1 lg:col-span-2">
+              <Card className="overflow-hidden h-full">
                 <CardContent className="p-4">
-                  <p className="text-xs text-muted-foreground mb-1">{formatDate(todayDawn.date)}</p>
-                  <h3 className="font-semibold line-clamp-2 group-hover:text-primary transition-colors">
-                    {todayDawn.title}
-                  </h3>
+                  {todayDawn.youtubeVideoId && (
+                    <div className="mb-3">
+                      <YouTubeEmbed videoId={todayDawn.youtubeVideoId} title={todayDawn.title} />
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2 mb-1">
+                    <span className="rounded bg-primary px-2 py-0.5 text-xs font-medium text-primary-foreground">최신</span>
+                    <span className="text-xs text-muted-foreground">{formatDate(todayDawn.date)}</span>
+                  </div>
+                  <Link href={`/dawn-prayer/${todayDawn.id}`} className="group block">
+                    <h3 className="font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+                      {todayDawn.title}
+                    </h3>
+                  </Link>
                   {todayDawn.scriptureReference && (
                     <p className="mt-1 text-sm text-muted-foreground">{todayDawn.scriptureReference}</p>
                   )}
                 </CardContent>
               </Card>
-            </Link>
+            </div>
             {/* 3 more recent dawn prayers */}
             <div className="md:col-span-1 lg:col-span-2 grid gap-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-1">
               {moreDawn.map((entry) => (
