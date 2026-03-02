@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, CalendarBlank, YoutubeLogo, MusicNote, FileText } from "@phosphor-icons/react";
+import { BookOpen, CalendarBlank, YoutubeLogo, MusicNote, FileText, User } from "@phosphor-icons/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CATEGORIES } from "@/lib/constants";
@@ -11,14 +11,17 @@ import type { ContentEntry } from "@/types";
 
 interface ContentCardProps {
   entry: ContentEntry;
+  showCategory?: boolean;
 }
 
-export function ContentCard({ entry }: ContentCardProps) {
+export function ContentCard({ entry, showCategory = true }: ContentCardProps) {
   const category = CATEGORIES[entry.category];
   const href = `${category.path}/${entry.id}`;
   const thumbnail = getThumbnailUrl(entry.youtubeVideoId);
   const hasAttachments = entry.attachments && entry.attachments.length > 0;
   const isPsalmSong = entry.category === "psalm-song";
+  // notices / bulletin are text-based — skip the empty thumbnail placeholder
+  const showPlaceholder = !["notices", "bulletin"].includes(entry.category);
 
   return (
     <Link href={href}>
@@ -34,7 +37,7 @@ export function ContentCard({ entry }: ContentCardProps) {
               <YoutubeLogo weight="fill" className="h-12 w-12 text-white" />
             </div>
           </div>
-        ) : (
+        ) : showPlaceholder ? (
           <div className="flex aspect-video items-center justify-center bg-secondary">
             {isPsalmSong ? (
               <MusicNote weight="light" className="h-10 w-10 text-primary/40" />
@@ -42,12 +45,14 @@ export function ContentCard({ entry }: ContentCardProps) {
               <BookOpen weight="light" className="h-10 w-10 text-primary/40" />
             )}
           </div>
-        )}
+        ) : null}
         <CardContent className="p-4">
           <div className="flex items-center gap-2 mb-2 flex-wrap">
-            <Badge variant="secondary" className="text-xs">
-              {category.label}
-            </Badge>
+            {showCategory && (
+              <Badge variant="secondary" className="text-xs">
+                {category.label}
+              </Badge>
+            )}
             {hasAttachments && isPsalmSong && (
               <Badge variant="outline" className="text-xs gap-1">
                 <FileText weight="light" className="h-3 w-3" />
@@ -64,6 +69,12 @@ export function ContentCard({ entry }: ContentCardProps) {
           </h3>
           {entry.scriptureReference && (
             <p className="mt-1 text-sm text-muted-foreground">{entry.scriptureReference}</p>
+          )}
+          {entry.preacher && (
+            <p className="mt-1 text-xs text-muted-foreground flex items-center gap-1">
+              <User weight="light" className="h-3 w-3" />
+              {entry.preacher}
+            </p>
           )}
         </CardContent>
       </Card>

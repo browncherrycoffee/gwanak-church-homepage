@@ -11,7 +11,7 @@ export function YouTubeEmbed({ videoId, title = "YouTube video" }: YouTubeEmbedP
   if (!videoId) return null;
 
   return (
-    <div className="relative w-full overflow-hidden rounded-lg border bg-muted" style={{ paddingBottom: "56.25%" }}>
+    <div className="relative aspect-video w-full overflow-hidden rounded-lg border bg-muted">
       <iframe
         className="absolute inset-0 h-full w-full"
         src={getEmbedUrl(videoId)}

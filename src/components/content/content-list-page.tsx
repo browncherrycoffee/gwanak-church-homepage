@@ -12,6 +12,19 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import type { ContentCategory } from "@/types";
 
+function paginationRange(current: number, total: number): (number | "...")[] {
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const delta = 2;
+  const left = current - delta;
+  const right = current + delta;
+  const pages: (number | "...")[] = [1];
+  if (left > 2) pages.push("...");
+  for (let i = Math.max(2, left); i <= Math.min(total - 1, right); i++) pages.push(i);
+  if (right < total - 1) pages.push("...");
+  pages.push(total);
+  return pages;
+}
+
 interface ContentListPageProps {
   category: ContentCategory;
   title: string;
@@ -186,7 +199,7 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
           />
           <Input
             type="search"
-            placeholder="제목, 성경구절 검색..."
+            placeholder="제목, 성경구절, 설교자 검색..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="pl-9 pr-9"
@@ -274,44 +287,70 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
         <>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {pageItems.map((entry) => (
-              <ContentCard key={entry.id} entry={entry} />
+              <ContentCard key={entry.id} entry={entry} showCategory={false} />
             ))}
           </div>
 
           {/* Pagination */}
           {totalPages > 1 && (
-            <nav className="mt-10 flex items-center justify-center gap-2">
+            <nav className="mt-10 flex items-center justify-center gap-1 flex-wrap">
               <Button
                 variant="outline"
-                size="default"
+                size="icon"
+                className="h-9 w-9"
                 asChild={safePage > 1}
                 disabled={safePage <= 1}
               >
                 {safePage > 1 ? (
-                  <Link href={buildPageUrl(safePage - 1)}>
+                  <Link href={buildPageUrl(safePage - 1)} aria-label="이전 페이지">
                     <CaretLeft weight="bold" className="h-4 w-4" />
                   </Link>
                 ) : (
-                  <span>
+                  <span aria-hidden>
                     <CaretLeft weight="bold" className="h-4 w-4" />
                   </span>
                 )}
               </Button>
-              <span className="px-3 text-sm text-muted-foreground">
-                {safePage} / {totalPages}
-              </span>
+
+              {paginationRange(safePage, totalPages).map((item, i) =>
+                item === "..." ? (
+                  <span
+                    key={`ellipsis-${i}`}
+                    className="flex h-9 w-9 items-center justify-center text-sm text-muted-foreground"
+                  >
+                    …
+                  </span>
+                ) : (
+                  <Button
+                    key={item}
+                    variant={item === safePage ? "default" : "outline"}
+                    size="icon"
+                    className="h-9 w-9"
+                    asChild={item !== safePage}
+                    disabled={item === safePage}
+                  >
+                    {item !== safePage ? (
+                      <Link href={buildPageUrl(item)}>{item}</Link>
+                    ) : (
+                      <span>{item}</span>
+                    )}
+                  </Button>
+                ),
+              )}
+
               <Button
                 variant="outline"
-                size="default"
+                size="icon"
+                className="h-9 w-9"
                 asChild={safePage < totalPages}
                 disabled={safePage >= totalPages}
               >
                 {safePage < totalPages ? (
-                  <Link href={buildPageUrl(safePage + 1)}>
+                  <Link href={buildPageUrl(safePage + 1)} aria-label="다음 페이지">
                     <CaretRight weight="bold" className="h-4 w-4" />
                   </Link>
                 ) : (
-                  <span>
+                  <span aria-hidden>
                     <CaretRight weight="bold" className="h-4 w-4" />
                   </span>
                 )}
