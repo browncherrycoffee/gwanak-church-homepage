@@ -4,6 +4,7 @@ import { notoSansKR, geistMono } from "@/lib/fonts";
 import { SiteHeader } from "@/components/shared/site-header";
 import { SiteFooter } from "@/components/shared/site-footer";
 import { ScrollToTop } from "@/components/shared/scroll-to-top";
+import { MobileBottomNav } from "@/components/shared/mobile-bottom-nav";
 import { SITE_CONFIG } from "@/lib/constants";
 import "./globals.css";
 
@@ -45,9 +46,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="ko" className={`${notoSansKR.variable} ${geistMono.variable}`}>
       <body className="min-h-screen font-sans antialiased flex flex-col">
         <SiteHeader />
-        <main className="flex-1">{children}</main>
+        <main className="flex-1 pb-16 md:pb-0">{children}</main>
         <SiteFooter />
         <ScrollToTop />
+        <MobileBottomNav />
       </body>
     </html>
   );

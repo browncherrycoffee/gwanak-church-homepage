@@ -84,11 +84,11 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
   if (!entry) {
     return (
       <div className="mx-auto max-w-3xl px-4 py-8">
-        <div className="h-4 w-28 animate-pulse rounded bg-muted mb-6" />
+        <div className="h-5 w-32 animate-pulse rounded bg-muted mb-8" />
         <div className="space-y-3 mb-6">
-          <div className="h-8 w-4/5 animate-pulse rounded bg-muted" />
-          <div className="h-4 w-1/2 animate-pulse rounded bg-muted" />
-          <div className="h-4 w-1/3 animate-pulse rounded bg-muted" />
+          <div className="h-9 w-4/5 animate-pulse rounded bg-muted" />
+          <div className="h-5 w-1/2 animate-pulse rounded bg-muted" />
+          <div className="h-5 w-1/3 animate-pulse rounded bg-muted" />
         </div>
         <div className="aspect-video animate-pulse rounded-xl bg-muted" />
       </div>
@@ -99,54 +99,55 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
+      {/* 뒤로가기 — 크고 명확하게 */}
       <div className="mb-6">
         <Link
           href={cat.path}
-          className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-primary transition-colors"
+          className="inline-flex items-center gap-2 rounded-lg border px-4 py-2.5 text-base font-medium text-muted-foreground hover:text-primary hover:border-primary/50 hover:bg-muted/50 transition-colors"
         >
-          <ArrowLeft weight="light" className="h-4 w-4" />
-          {cat.label} 목록
+          <ArrowLeft weight="regular" className="h-5 w-5" />
+          {cat.label} 목록으로
         </Link>
       </div>
 
       <article>
         <header className="mb-6">
-          <div className="flex items-center justify-between mb-3">
-            <Badge variant="secondary">{cat.label}</Badge>
+          <div className="flex items-center justify-between mb-4">
+            <Badge variant="secondary" className="text-sm px-3 py-1">{cat.label}</Badge>
             <button
               type="button"
               onClick={handleCopyLink}
-              className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-primary transition-colors"
+              className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors px-2 py-1"
               aria-label="링크 복사"
             >
               {copied ? (
                 <>
-                  <Check weight="bold" className="h-3.5 w-3.5 text-green-600" />
+                  <Check weight="bold" className="h-4 w-4 text-green-600" />
                   <span className="text-green-600">복사됨</span>
                 </>
               ) : (
                 <>
-                  <LinkSimple weight="light" className="h-3.5 w-3.5" />
+                  <LinkSimple weight="light" className="h-4 w-4" />
                   링크 복사
                 </>
               )}
             </button>
           </div>
-          <h1 className="text-2xl font-bold leading-tight sm:text-3xl">{entry.title}</h1>
-          <div className="mt-3 flex flex-wrap gap-4 text-sm text-muted-foreground">
-            <span className="flex items-center gap-1.5">
-              <CalendarBlank weight="light" className="h-4 w-4" />
+          <h1 className="text-2xl font-bold leading-snug sm:text-3xl">{entry.title}</h1>
+          <div className="mt-4 flex flex-wrap gap-4 text-base text-muted-foreground">
+            <span className="flex items-center gap-2">
+              <CalendarBlank weight="light" className="h-5 w-5 shrink-0" />
               {formatDate(entry.date)}
             </span>
             {entry.preacher && (
-              <span className="flex items-center gap-1.5">
-                <User weight="light" className="h-4 w-4" />
-                {entry.preacher}
+              <span className="flex items-center gap-2">
+                <User weight="light" className="h-5 w-5 shrink-0" />
+                {entry.preacher} 목사
               </span>
             )}
             {entry.scriptureReference && (
-              <span className="flex items-center gap-1.5">
-                <BookOpenText weight="light" className="h-4 w-4" />
+              <span className="flex items-center gap-2">
+                <BookOpenText weight="light" className="h-5 w-5 shrink-0" />
                 {entry.scriptureReference}
               </span>
             )}
@@ -156,15 +157,15 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
         {entry.youtubeVideoId && (
           <div className="mb-6">
             <YouTubeEmbed videoId={entry.youtubeVideoId} title={entry.title} />
-            <div className="mt-2 flex justify-end">
+            <div className="mt-3 flex justify-end">
               <a
                 href={`https://www.youtube.com/watch?v=${entry.youtubeVideoId}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-red-500 transition-colors"
+                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-red-500 transition-colors py-1"
               >
-                <YoutubeLogo weight="fill" className="h-3.5 w-3.5 text-red-500" />
-                YouTube에서 보기
+                <YoutubeLogo weight="fill" className="h-4 w-4 text-red-500" />
+                YouTube에서 크게 보기
               </a>
             </div>
           </div>
@@ -173,9 +174,9 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
         {entry.content.trim() && (
           <>
             <Separator className="my-6" />
-            <div className="prose prose-neutral max-w-none">
+            <div className="space-y-4">
               {entry.content.trim().split("\n").map((paragraph, i) => (
-                <p key={`p-${i}`} className="mb-4 leading-relaxed text-foreground/90">
+                <p key={`p-${i}`} className="text-base leading-relaxed text-foreground/90">
                   {paragraph}
                 </p>
               ))}
@@ -188,7 +189,7 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
           <>
             <Separator className="my-6" />
             <div>
-              <h3 className="text-sm font-semibold mb-4">
+              <h3 className="text-base font-semibold mb-4">
                 {entry.category === "psalm-song" ? "악보" : "첨부파일"}
               </h3>
               <div className="space-y-4">
@@ -204,16 +205,16 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
                             className="w-full max-w-full rounded border hover:opacity-90 transition-opacity cursor-pointer"
                             loading="lazy"
                           />
-                          <p className="mt-1 text-xs text-muted-foreground">{att.name} (클릭하여 크게 보기)</p>
+                          <p className="mt-1 text-sm text-muted-foreground">{att.name} (클릭하여 크게 보기)</p>
                         </a>
                       ) : (
                         <a
                           href={att.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 text-sm text-primary hover:underline"
+                          className="inline-flex items-center gap-2 text-base text-primary hover:underline py-1"
                         >
-                          <FileArrowDown weight="light" className="h-4 w-4" />
+                          <FileArrowDown weight="light" className="h-5 w-5" />
                           {att.name}
                         </a>
                       )}
@@ -226,19 +227,19 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
         )}
       </article>
 
-      {/* Prev / Next navigation */}
+      {/* Prev / Next navigation — 더 크고 명확하게 */}
       {(siblings.prev || siblings.next) && (
         <>
-          <Separator className="my-6" />
+          <Separator className="my-8" />
           <div className="flex gap-3">
             {siblings.prev ? (
               <Link href={`${cat.path}/${siblings.prev.id}`} className="flex-1">
-                <div className="flex items-center gap-2 rounded-lg border p-3 transition-colors hover:border-primary/50 hover:bg-muted/50">
-                  <ArrowLeft weight="light" className="h-4 w-4 shrink-0 text-muted-foreground" />
+                <div className="flex items-center gap-3 rounded-lg border p-4 transition-colors hover:border-primary/50 hover:bg-muted/50 min-h-[4.5rem]">
+                  <ArrowLeft weight="regular" className="h-5 w-5 shrink-0 text-muted-foreground" />
                   <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground">이전</p>
-                    <p className="text-sm font-medium line-clamp-1">{siblings.prev.title}</p>
-                    <p className="text-xs text-muted-foreground">{formatDate(siblings.prev.date)}</p>
+                    <p className="text-xs text-muted-foreground mb-0.5">이전 설교</p>
+                    <p className="text-sm font-semibold line-clamp-2 leading-snug">{siblings.prev.title}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{formatDate(siblings.prev.date)}</p>
                   </div>
                 </div>
               </Link>
@@ -247,13 +248,13 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
             )}
             {siblings.next && (
               <Link href={`${cat.path}/${siblings.next.id}`} className="flex-1">
-                <div className="flex items-center justify-end gap-2 rounded-lg border p-3 text-right transition-colors hover:border-primary/50 hover:bg-muted/50">
+                <div className="flex items-center justify-end gap-3 rounded-lg border p-4 text-right transition-colors hover:border-primary/50 hover:bg-muted/50 min-h-[4.5rem]">
                   <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground">다음</p>
-                    <p className="text-sm font-medium line-clamp-1">{siblings.next.title}</p>
-                    <p className="text-xs text-muted-foreground">{formatDate(siblings.next.date)}</p>
+                    <p className="text-xs text-muted-foreground mb-0.5">다음 설교</p>
+                    <p className="text-sm font-semibold line-clamp-2 leading-snug">{siblings.next.title}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{formatDate(siblings.next.date)}</p>
                   </div>
-                  <ArrowRight weight="light" className="h-4 w-4 shrink-0 text-muted-foreground" />
+                  <ArrowRight weight="regular" className="h-5 w-5 shrink-0 text-muted-foreground" />
                 </div>
               </Link>
             )}

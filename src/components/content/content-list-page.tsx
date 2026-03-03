@@ -305,18 +305,18 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
                   href={`${CATEGORIES[entry.category].path}/${entry.id}`}
                   className="block group"
                 >
-                  <div className="flex items-center justify-between gap-4 px-4 py-3.5 transition-colors hover:bg-muted/50">
+                  <div className="flex items-center justify-between gap-4 px-4 py-4 transition-colors hover:bg-muted/50">
                     <div className="min-w-0">
-                      <p className="text-sm font-medium line-clamp-1 group-hover:text-primary transition-colors">
+                      <p className="text-base font-medium line-clamp-1 group-hover:text-primary transition-colors">
                         {entry.title}
                       </p>
                       {(entry.scriptureReference || entry.preacher) && (
-                        <p className="text-xs text-muted-foreground mt-0.5">
+                        <p className="text-sm text-muted-foreground mt-0.5">
                           {[entry.preacher, entry.scriptureReference].filter(Boolean).join(" · ")}
                         </p>
                       )}
                     </div>
-                    <span className="shrink-0 text-xs text-muted-foreground">{formatDate(entry.date)}</span>
+                    <span className="shrink-0 text-sm text-muted-foreground whitespace-nowrap">{formatDate(entry.date)}</span>
                   </div>
                 </Link>
               ))}

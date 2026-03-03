@@ -138,11 +138,11 @@ export function SiteHeader() {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <nav className="md:hidden border-t bg-background px-4 pb-4 pt-2 overflow-y-auto max-h-[calc(100dvh-3.5rem)]">
+        <nav className="md:hidden border-t bg-background px-4 pb-6 pt-3 overflow-y-auto max-h-[calc(100dvh-3.5rem)]">
           {NAV_GROUPS.map((group, gi) => (
             <div key={group.label}>
-              {gi > 0 && <div className="my-2 border-t" />}
-              <p className="px-3 pb-1 pt-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              {gi > 0 && <div className="my-3 border-t" />}
+              <p className="px-3 pb-1 pt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
                 {group.label}
               </p>
               {group.items.map((item) => (
@@ -151,10 +151,10 @@ export function SiteHeader() {
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
                   className={cn(
-                    "block px-3 py-3 text-sm rounded-md transition-colors",
+                    "block px-3 py-3.5 text-base rounded-md transition-colors",
                     pathname.startsWith(item.href)
-                      ? "text-primary font-medium bg-accent"
-                      : "text-muted-foreground hover:bg-muted",
+                      ? "text-primary font-semibold bg-accent"
+                      : "text-foreground hover:bg-muted",
                   )}
                 >
                   {item.label}
@@ -163,12 +163,12 @@ export function SiteHeader() {
             </div>
           ))}
           {!loading && (
-            <div className="mt-2 border-t pt-2">
+            <div className="mt-3 border-t pt-3">
               {isAdmin ? (
                 <button
                   type="button"
                   onClick={handleLogout}
-                  className="block w-full rounded-md px-3 py-3 text-left text-sm text-muted-foreground transition-colors hover:bg-muted"
+                  className="block w-full rounded-md px-3 py-3.5 text-left text-base text-muted-foreground transition-colors hover:bg-muted"
                 >
                   로그아웃
                 </button>
@@ -176,7 +176,7 @@ export function SiteHeader() {
                 <Link
                   href="/admin/login"
                   onClick={() => setMobileOpen(false)}
-                  className="block rounded-md px-3 py-3 text-sm font-medium text-primary transition-colors hover:bg-muted"
+                  className="block rounded-md px-3 py-3.5 text-base font-medium text-primary transition-colors hover:bg-muted"
                 >
                   관리자 로그인
                 </Link>

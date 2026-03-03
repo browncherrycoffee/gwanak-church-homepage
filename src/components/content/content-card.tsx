@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, CalendarBlank, YoutubeLogo, MusicNote, FileText, User } from "@phosphor-icons/react";
+import { BookOpen, CalendarBlank, PlayCircle, MusicNote, FileText, User } from "@phosphor-icons/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CATEGORIES } from "@/lib/constants";
@@ -33,8 +33,12 @@ export function ContentCard({ entry, showCategory = true }: ContentCardProps) {
               alt={entry.title}
               className="h-full w-full object-cover transition-transform group-hover:scale-105"
             />
-            <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity">
-              <YoutubeLogo weight="fill" className="h-12 w-12 text-white" />
+            {/* 재생 버튼 — 항상 표시 (hover 시 더 선명) */}
+            <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/35 transition-colors">
+              <PlayCircle
+                weight="fill"
+                className="h-14 w-14 text-white opacity-80 group-hover:opacity-100 drop-shadow-lg transition-opacity"
+              />
             </div>
           </div>
         ) : showPlaceholder ? (
@@ -59,20 +63,20 @@ export function ContentCard({ entry, showCategory = true }: ContentCardProps) {
                 악보
               </Badge>
             )}
-            <span className="flex items-center gap-1 text-xs text-muted-foreground">
-              <CalendarBlank weight="light" className="h-3 w-3" />
+            <span className="flex items-center gap-1 text-sm text-muted-foreground">
+              <CalendarBlank weight="light" className="h-3.5 w-3.5" />
               {formatDate(entry.date)}
             </span>
           </div>
-          <h3 className="font-semibold line-clamp-2 group-hover:text-primary transition-colors">
+          <h3 className="text-base font-semibold line-clamp-2 group-hover:text-primary transition-colors leading-snug">
             {entry.title}
           </h3>
           {entry.scriptureReference && (
-            <p className="mt-1 text-sm text-muted-foreground">{entry.scriptureReference}</p>
+            <p className="mt-1.5 text-sm text-muted-foreground">{entry.scriptureReference}</p>
           )}
           {entry.preacher && (
-            <p className="mt-1 text-xs text-muted-foreground flex items-center gap-1">
-              <User weight="light" className="h-3 w-3" />
+            <p className="mt-1 text-sm text-muted-foreground flex items-center gap-1">
+              <User weight="light" className="h-3.5 w-3.5" />
               {entry.preacher}
             </p>
           )}
