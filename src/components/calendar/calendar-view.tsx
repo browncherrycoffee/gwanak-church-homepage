@@ -77,26 +77,26 @@ export function CalendarView({ events }: CalendarViewProps) {
 
   return (
     <div className="space-y-6">
-      {/* Month navigation */}
+      {/* 월 이동 */}
       <div className="flex items-center justify-between">
-        <Button variant="ghost" size="icon" onClick={goPrev} aria-label="이전 달">
-          <CaretLeft weight="light" className="h-5 w-5" />
+        <Button variant="outline" size="icon" onClick={goPrev} aria-label="이전 달" className="h-11 w-11">
+          <CaretLeft weight="bold" className="h-5 w-5" />
         </Button>
-        <h2 className="text-lg font-semibold">
+        <h2 className="text-xl font-bold">
           {year}년 {month + 1}월
         </h2>
-        <Button variant="ghost" size="icon" onClick={goNext} aria-label="다음 달">
-          <CaretRight weight="light" className="h-5 w-5" />
+        <Button variant="outline" size="icon" onClick={goNext} aria-label="다음 달" className="h-11 w-11">
+          <CaretRight weight="bold" className="h-5 w-5" />
         </Button>
       </div>
 
-      {/* Calendar grid */}
-      <div className="grid grid-cols-7 gap-px bg-border rounded-lg overflow-hidden">
+      {/* 달력 그리드 */}
+      <div className="grid grid-cols-7 gap-px bg-border rounded-xl overflow-hidden border">
         {WEEKDAYS.map((wd, i) => (
           <div
             key={wd}
             className={cn(
-              "bg-muted py-2 text-center text-xs font-medium",
+              "bg-muted py-2.5 text-center text-sm font-semibold",
               i === 0 && "text-red-500",
               i === 6 && "text-blue-500",
             )}
@@ -106,47 +106,56 @@ export function CalendarView({ events }: CalendarViewProps) {
         ))}
         {cells.map((cell, i) => {
           if (!cell) {
-            return <div key={`empty-${i}`} className="bg-background p-1 min-h-[3.5rem] sm:min-h-[4rem]" />;
+            return <div key={`empty-${i}`} className="bg-background min-h-[4rem] sm:min-h-[5.5rem]" />;
           }
           const hasEvents = eventsByDate.has(cell.dateStr);
           const isToday = cell.dateStr === todayStr;
           const isSelected = cell.dateStr === selectedDate;
           const dayOfWeek = (firstDay + cell.day - 1) % 7;
+          const eventCount = eventsByDate.get(cell.dateStr)?.length ?? 0;
 
           return (
             <button
               key={cell.dateStr}
+              type="button"
               onClick={() => setSelectedDate(cell.dateStr)}
               className={cn(
-                "bg-background p-1 min-h-[3.5rem] sm:min-h-[4rem] text-left transition-colors hover:bg-accent relative",
-                isSelected && "bg-primary/10 ring-1 ring-primary",
+                "bg-background min-h-[4rem] sm:min-h-[5.5rem] p-1.5 text-left transition-colors hover:bg-accent relative flex flex-col items-start",
+                isSelected && "bg-primary/10 ring-1 ring-inset ring-primary",
               )}
             >
               <span
                 className={cn(
-                  "inline-flex h-6 w-6 items-center justify-center rounded-full text-xs",
+                  "inline-flex h-7 w-7 items-center justify-center rounded-full text-sm font-medium",
                   isToday && "bg-primary text-primary-foreground font-bold",
-                  dayOfWeek === 0 && !isToday && "text-red-500",
-                  dayOfWeek === 6 && !isToday && "text-blue-500",
+                  !isToday && dayOfWeek === 0 && "text-red-500",
+                  !isToday && dayOfWeek === 6 && "text-blue-500",
                 )}
               >
                 {cell.day}
               </span>
               {hasEvents && (
-                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 h-1.5 w-1.5 rounded-full bg-primary" />
+                <div className="mt-1 flex flex-wrap gap-0.5 px-0.5">
+                  {Array.from({ length: Math.min(eventCount, 3) }).map((_, idx) => (
+                    <span
+                      key={idx}
+                      className="h-1.5 w-1.5 rounded-full bg-primary opacity-80"
+                    />
+                  ))}
+                </div>
               )}
             </button>
           );
         })}
       </div>
 
-      {/* Selected day events */}
+      {/* 선택된 날짜 일정 */}
       <div>
-        <h3 className="font-semibold mb-3">
+        <h3 className="text-base font-bold mb-3 text-muted-foreground">
           {selectedDate.replace(/-/g, ".")} 일정
         </h3>
         {selectedEvents.length === 0 ? (
-          <p className="text-sm text-muted-foreground py-4">해당 날짜에 일정이 없습니다.</p>
+          <p className="text-sm text-muted-foreground py-3 pl-1">해당 날짜에 일정이 없습니다.</p>
         ) : (
           <div className="space-y-2">
             {selectedEvents.map((ev) => (
@@ -154,13 +163,13 @@ export function CalendarView({ events }: CalendarViewProps) {
                 <CardContent className="p-4">
                   <div className="flex items-start gap-3">
                     {ev.time && (
-                    <div className="flex items-center gap-1 text-sm text-muted-foreground shrink-0 pt-0.5">
-                      <Clock weight="light" className="h-4 w-4" />
-                      {ev.time}
-                    </div>
-                  )}
+                      <div className="flex items-center gap-1.5 text-base font-semibold text-primary shrink-0">
+                        <Clock weight="light" className="h-4 w-4" />
+                        {ev.time}
+                      </div>
+                    )}
                     <div>
-                      <h4 className="font-medium">{ev.title}</h4>
+                      <h4 className="text-base font-semibold">{ev.title}</h4>
                       {ev.description && (
                         <p className="text-sm text-muted-foreground mt-0.5">{ev.description}</p>
                       )}

@@ -52,7 +52,7 @@ export function ContentCard({ entry, showCategory = true, featured = false }: Co
             ) : null}
 
             {/* 콘텐츠 */}
-            <CardContent className="sm:w-1/2 p-5 sm:p-6 flex flex-col justify-between gap-4">
+            <CardContent className={`${(thumbnail || showPlaceholder) ? "sm:w-1/2" : "w-full"} p-5 sm:p-6 flex flex-col justify-between gap-4`}>
               <div>
                 <div className="flex items-center gap-2 mb-3 flex-wrap">
                   <span className="rounded-full bg-primary px-3 py-0.5 text-xs font-bold text-primary-foreground">최신</span>
