@@ -8,6 +8,8 @@ export default function BulletinPage() {
       category="bulletin"
       title="주보"
       description="매 주일 발행되는 교회 주보입니다."
+      featuredFirst
+      columns={2}
     />
   );
 }

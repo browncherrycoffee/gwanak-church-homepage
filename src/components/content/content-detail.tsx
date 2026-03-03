@@ -14,6 +14,16 @@ import { CATEGORIES } from "@/lib/constants";
 import { formatDate } from "@/lib/utils";
 import type { ContentEntry, ContentCategory } from "@/types";
 
+const SIBLING_LABELS: Record<ContentCategory, { prev: string; next: string }> = {
+  "sunday-sermon": { prev: "이전 주일설교", next: "다음 주일설교" },
+  "dawn-prayer": { prev: "이전 새벽기도", next: "다음 새벽기도" },
+  "friday-prayer": { prev: "이전 금요기도회", next: "다음 금요기도회" },
+  catechism: { prev: "이전 교리문답", next: "다음 교리문답" },
+  "psalm-song": { prev: "이전 시편찬송", next: "다음 시편찬송" },
+  bulletin: { prev: "이전 주보", next: "다음 주보" },
+  notices: { prev: "이전 소식", next: "다음 소식" },
+};
+
 interface ContentDetailProps {
   id: string;
   category: ContentCategory;
@@ -252,7 +262,7 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
                 <div className="flex items-center gap-3 rounded-lg border p-4 transition-colors hover:border-primary/50 hover:bg-muted/50 min-h-[4.5rem]">
                   <ArrowLeft weight="regular" className="h-5 w-5 shrink-0 text-muted-foreground" />
                   <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground mb-0.5">이전 설교</p>
+                    <p className="text-xs text-muted-foreground mb-0.5">{SIBLING_LABELS[entry.category].prev}</p>
                     <p className="text-sm font-semibold line-clamp-2 leading-snug">{siblings.prev.title}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{formatDate(siblings.prev.date)}</p>
                   </div>
@@ -265,7 +275,7 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
               <Link href={`${cat.path}/${siblings.next.id}`} className="flex-1">
                 <div className="flex items-center justify-end gap-3 rounded-lg border p-4 text-right transition-colors hover:border-primary/50 hover:bg-muted/50 min-h-[4.5rem]">
                   <div className="min-w-0">
-                    <p className="text-xs text-muted-foreground mb-0.5">다음 설교</p>
+                    <p className="text-xs text-muted-foreground mb-0.5">{SIBLING_LABELS[entry.category].next}</p>
                     <p className="text-sm font-semibold line-clamp-2 leading-snug">{siblings.next.title}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{formatDate(siblings.next.date)}</p>
                   </div>

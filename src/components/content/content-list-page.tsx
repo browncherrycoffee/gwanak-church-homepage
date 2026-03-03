@@ -36,6 +36,16 @@ const CATEGORY_ICONS: Record<ContentCategory, Icon> = {
   notices: Bell,
 };
 
+const CATEGORY_PREV_LABELS: Record<ContentCategory, string> = {
+  "sunday-sermon": "이전 주일설교",
+  "dawn-prayer": "이전 새벽기도",
+  "friday-prayer": "이전 금요기도회",
+  catechism: "이전 교리문답",
+  "psalm-song": "이전 시편찬송",
+  bulletin: "이전 주보",
+  notices: "이전 소식",
+};
+
 function paginationRange(current: number, total: number): (number | "...")[] {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
   const delta = 2;
@@ -369,7 +379,7 @@ function ContentListPageInner({
               {/* 나머지 그리드 */}
               {pageItems.length > 1 && (
                 <>
-                  <p className="mb-4 text-sm font-semibold text-muted-foreground uppercase tracking-wider">이전 설교</p>
+                  <p className="mb-4 text-sm font-semibold text-muted-foreground uppercase tracking-wider">{CATEGORY_PREV_LABELS[category]}</p>
                   <div className={gridCols}>
                     {pageItems.slice(1).map((entry) => (
                       <ContentCard key={entry.id} entry={entry} showCategory={false} />
