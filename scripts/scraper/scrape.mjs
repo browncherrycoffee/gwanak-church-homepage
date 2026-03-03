@@ -174,6 +174,10 @@ function saveResults(boardCode, entries) {
   const filePath = getDataFilePath(boardCode);
   try {
     writeFileSync(filePath, JSON.stringify(entries, null, 2), "utf-8");
+    // 슬림 인덱스 파일 자동 생성 (content 제거 — 목록/홈 성능 최적화)
+    const indexPath = resolve(DATA_DIR, `${board.category}-index.json`);
+    const slim = entries.map(({ content: _c, ...rest }) => rest);
+    writeFileSync(indexPath, JSON.stringify(slim), "utf-8");
   } catch (err) {
     console.error(`Failed to save ${filePath}: ${err.message}`);
   }
@@ -363,16 +367,17 @@ function mergeEntries(existing, incoming) {
 
 async function main() {
   const args = process.argv.slice(2);
-  const targetBoard = args[0];
 
   let boardsToScrape;
-  if (targetBoard) {
-    if (!BOARDS[targetBoard]) {
-      console.error(`Unknown board code: ${targetBoard}`);
-      console.error(`Available boards: ${Object.keys(BOARDS).join(", ")}`);
+  if (args.length > 0) {
+    // 여러 게시판 코드를 인자로 받을 수 있음: node scrape.mjs IYIi IAd7 GZ99
+    const invalid = args.filter((a) => !BOARDS[a]);
+    if (invalid.length > 0) {
+      console.error(`Unknown board code(s): ${invalid.join(", ")}`);
+      console.error(`Available: ${Object.keys(BOARDS).join(", ")}`);
       process.exit(1);
     }
-    boardsToScrape = [targetBoard];
+    boardsToScrape = args;
   } else {
     // Default order
     boardsToScrape = ["GZ99", "IAd7", "I5uP", "ROHB", "RMqC", "IYIi", "RNUE"];
