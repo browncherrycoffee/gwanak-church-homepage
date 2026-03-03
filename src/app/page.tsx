@@ -253,16 +253,22 @@ export default function HomePage() {
           </div>
           <Link href={`/bulletin/${latestBulletin[0].id}`}>
             <Card className="group transition-all hover:border-primary/30 hover:shadow-md">
-              <CardContent className="p-6">
-                <h3 className="text-lg font-semibold group-hover:text-primary transition-colors">
-                  {latestBulletin[0].title}
-                </h3>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  {latestBulletin[0].scriptureReference && `본문: ${latestBulletin[0].scriptureReference}`}
-                </p>
-                <p className="mt-3 text-sm text-muted-foreground line-clamp-3 whitespace-pre-line">
-                  {latestBulletin[0].content}
-                </p>
+              <CardContent className="p-6 flex items-start gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <Newspaper weight="light" className="h-6 w-6" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-xs text-muted-foreground mb-1">{formatDate(latestBulletin[0].date)}</p>
+                  <h3 className="text-base font-semibold group-hover:text-primary transition-colors line-clamp-2">
+                    {latestBulletin[0].title}
+                  </h3>
+                  {latestBulletin[0].scriptureReference && (
+                    <p className="mt-1 text-sm text-muted-foreground">{latestBulletin[0].scriptureReference}</p>
+                  )}
+                  <span className="mt-3 inline-flex items-center gap-1 text-xs font-medium text-primary">
+                    보기 <ArrowRight weight="bold" className="h-3 w-3" />
+                  </span>
+                </div>
               </CardContent>
             </Card>
           </Link>

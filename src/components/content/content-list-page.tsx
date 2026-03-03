@@ -41,11 +41,22 @@ export function ContentListPage(props: ContentListPageProps) {
             <h1 className="text-2xl font-bold">{props.title}</h1>
             <p className="mt-1 text-muted-foreground">{props.description}</p>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={`skel-${i}`} className="h-48 animate-pulse rounded-lg bg-muted" />
-            ))}
-          </div>
+          {["notices", "bulletin"].includes(props.category) ? (
+            <div className="divide-y rounded-xl border overflow-hidden">
+              {Array.from({ length: 10 }).map((_, i) => (
+                <div key={`skel-${i}`} className="flex items-center justify-between px-4 py-3.5">
+                  <div className="h-4 w-2/3 animate-pulse rounded bg-muted" />
+                  <div className="h-4 w-16 animate-pulse rounded bg-muted" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {Array.from({ length: 6 }).map((_, i) => (
+                <div key={`skel-${i}`} className="h-48 animate-pulse rounded-lg bg-muted" />
+              ))}
+            </div>
+          )}
         </div>
       }
     >

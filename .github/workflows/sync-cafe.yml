@@ -1,0 +1,52 @@
+name: 주간 다음카페 동기화
+
+on:
+  schedule:
+    # 매주 토요일 오전 11시 KST (= UTC 02:00)
+    - cron: '0 2 * * 6'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-cafe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: 저장소 체크아웃
+        uses: actions/checkout@v4
+
+      - name: Node.js 설정
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: YouTube 동기화
+        run: node scripts/scraper/youtube-sync.mjs
+
+      - name: 다음카페 동기화 — 주보 (IYIi)
+        run: node scripts/scraper/scrape.mjs IYIi
+        continue-on-error: true
+
+      - name: 다음카페 동기화 — 교회소식 (IAd7 · GZ99)
+        run: node scripts/scraper/scrape.mjs IAd7 GZ99
+        continue-on-error: true
+
+      - name: 다음카페 동기화 — 시편찬송 (ROHB)
+        run: node scripts/scraper/scrape.mjs ROHB
+        continue-on-error: true
+
+      - name: 변경 사항 확인 및 커밋
+        run: |
+          git config user.name "gwanak-sync-bot"
+          git config user.email "gwanak-sync-bot@users.noreply.github.com"
+          git add public/data/ scripts/scraper/progress.json
+          if git diff --staged --quiet; then
+            echo "새로운 콘텐츠 없음 — 커밋 건너뜀"
+          else
+            ADDED=$(git diff --staged --stat | tail -1)
+            git commit -m "주간 업데이트: $(TZ=Asia/Seoul date '+%Y-%m-%d') 카페+YouTube 동기화 ($ADDED)"
+            git push
+          fi

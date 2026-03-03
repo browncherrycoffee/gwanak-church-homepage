@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, CalendarBlank, BookOpenText, User, FileArrowDown, LinkSimple, Check } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, CalendarBlank, BookOpenText, User, FileArrowDown, LinkSimple, Check, YoutubeLogo } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -83,8 +83,14 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
 
   if (!entry) {
     return (
-      <div className="mx-auto max-w-3xl px-4 py-16 text-center text-muted-foreground">
-        불러오는 중...
+      <div className="mx-auto max-w-3xl px-4 py-8">
+        <div className="h-4 w-28 animate-pulse rounded bg-muted mb-6" />
+        <div className="space-y-3 mb-6">
+          <div className="h-8 w-4/5 animate-pulse rounded bg-muted" />
+          <div className="h-4 w-1/2 animate-pulse rounded bg-muted" />
+          <div className="h-4 w-1/3 animate-pulse rounded bg-muted" />
+        </div>
+        <div className="aspect-video animate-pulse rounded-xl bg-muted" />
       </div>
     );
   }
@@ -150,6 +156,17 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
         {entry.youtubeVideoId && (
           <div className="mb-6">
             <YouTubeEmbed videoId={entry.youtubeVideoId} title={entry.title} />
+            <div className="mt-2 flex justify-end">
+              <a
+                href={`https://www.youtube.com/watch?v=${entry.youtubeVideoId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1 text-xs text-muted-foreground hover:text-red-500 transition-colors"
+              >
+                <YoutubeLogo weight="fill" className="h-3.5 w-3.5 text-red-500" />
+                YouTube에서 보기
+              </a>
+            </div>
           </div>
         )}
 
