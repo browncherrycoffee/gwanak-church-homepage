@@ -3,7 +3,19 @@
 import { Suspense, useMemo, useState, useEffect, useRef } from "react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
-import { CaretLeft, CaretRight, MagnifyingGlass, X } from "@phosphor-icons/react";
+import {
+  CaretLeft,
+  CaretRight,
+  MagnifyingGlass,
+  X,
+  Church,
+  SunHorizon,
+  Flame,
+  BookOpenText,
+  MusicNotes,
+  Newspaper,
+  Bell,
+} from "@phosphor-icons/react";
 import { useContents } from "@/hooks/use-contents";
 import { useStaticContents } from "@/hooks/use-static-contents";
 import { ContentCard } from "./content-card";
@@ -12,6 +24,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { formatDate } from "@/lib/utils";
 import type { ContentCategory } from "@/types";
+import type { Icon } from "@phosphor-icons/react";
+
+const CATEGORY_ICONS: Record<ContentCategory, Icon> = {
+  "sunday-sermon": Church,
+  "dawn-prayer": SunHorizon,
+  "friday-prayer": Flame,
+  catechism: BookOpenText,
+  "psalm-song": MusicNotes,
+  bulletin: Newspaper,
+  notices: Bell,
+};
 
 function paginationRange(current: number, total: number): (number | "...")[] {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
@@ -30,42 +53,57 @@ interface ContentListPageProps {
   category: ContentCategory;
   title: string;
   description: string;
+  featuredFirst?: boolean;
+  columns?: 2 | 3;
 }
 
 export function ContentListPage(props: ContentListPageProps) {
+  const CategoryIcon = CATEGORY_ICONS[props.category];
+
   return (
     <Suspense
       fallback={
         <div className="mx-auto max-w-5xl px-4 py-8">
-          <div className="mb-8">
-            <h1 className="text-2xl font-bold">{props.title}</h1>
-            <p className="mt-1 text-muted-foreground">{props.description}</p>
+          {/* Header skeleton */}
+          <div className="mb-8 flex items-center gap-3">
+            <div className="h-11 w-11 animate-pulse rounded-xl bg-muted" />
+            <div>
+              <div className="h-7 w-32 animate-pulse rounded bg-muted mb-1" />
+              <div className="h-4 w-56 animate-pulse rounded bg-muted" />
+            </div>
           </div>
           {["notices", "bulletin"].includes(props.category) ? (
             <div className="divide-y rounded-xl border overflow-hidden">
               {Array.from({ length: 10 }).map((_, i) => (
-                <div key={`skel-${i}`} className="flex items-center justify-between px-4 py-3.5">
-                  <div className="h-4 w-2/3 animate-pulse rounded bg-muted" />
+                <div key={`skel-${i}`} className="flex items-center justify-between px-4 py-4">
+                  <div className="h-5 w-2/3 animate-pulse rounded bg-muted" />
                   <div className="h-4 w-16 animate-pulse rounded bg-muted" />
                 </div>
               ))}
             </div>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className={`grid gap-6 sm:grid-cols-2 ${props.columns !== 2 ? "lg:grid-cols-3" : ""}`}>
               {Array.from({ length: 6 }).map((_, i) => (
-                <div key={`skel-${i}`} className="h-48 animate-pulse rounded-lg bg-muted" />
+                <div key={`skel-${i}`} className="h-56 animate-pulse rounded-xl bg-muted" />
               ))}
             </div>
           )}
         </div>
       }
     >
-      <ContentListPageInner {...props} />
+      <ContentListPageInner {...props} CategoryIcon={CategoryIcon} />
     </Suspense>
   );
 }
 
-function ContentListPageInner({ category, title, description }: ContentListPageProps) {
+function ContentListPageInner({
+  category,
+  title,
+  description,
+  featuredFirst = false,
+  columns = 3,
+  CategoryIcon,
+}: ContentListPageProps & { CategoryIcon: Icon }) {
   const localContents = useContents();
   const { data: staticContents, loading } = useStaticContents(category, true);
   const searchParams = useSearchParams();
@@ -76,10 +114,8 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
   const urlYear = searchParams.get("year") ?? "";
   const page = Math.max(1, Number(searchParams.get("page")) || 1);
 
-  // Local state for search input (for responsive feel)
   const [query, setQuery] = useState(urlQuery);
 
-  // Refs to avoid stale closures in debounce
   const pathnameRef = useRef(pathname);
   const searchParamsRef = useRef(searchParams);
   const routerRef = useRef(router);
@@ -89,12 +125,10 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
     routerRef.current = router;
   });
 
-  // Sync local input if URL changes externally
   useEffect(() => {
     setQuery(urlQuery);
   }, [urlQuery]);
 
-  // Debounce URL update when typing in search box
   useEffect(() => {
     const timer = setTimeout(() => {
       const params = new URLSearchParams(searchParamsRef.current.toString());
@@ -109,7 +143,6 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
     return () => clearTimeout(timer);
   }, [query]);
 
-  // Merge local (localStorage) + static (JSON), dedupe by ID, sort by date desc
   const merged = useMemo(() => {
     const idSet = new Set<string>();
     const all = [...localContents.filter((c) => c.category === category)];
@@ -124,7 +157,6 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
     return all;
   }, [localContents, staticContents, category]);
 
-  // Extract available years from data
   const availableYears = useMemo(() => {
     const years = new Set<string>();
     for (const entry of merged) {
@@ -134,7 +166,6 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
     return Array.from(years).sort((a, b) => b.localeCompare(a));
   }, [merged]);
 
-  // Filter by year + search query
   const filtered = useMemo(() => {
     let result = merged;
     if (urlYear) {
@@ -157,7 +188,10 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
   const startIdx = (safePage - 1) * ITEMS_PER_PAGE;
   const pageItems = filtered.slice(startIdx, startIdx + ITEMS_PER_PAGE);
 
-  // Build URL preserving current filters, changing only page
+  const isFiltered = urlQuery !== "" || urlYear !== "";
+  // featuredFirst: 1페이지이고 필터 없을 때만 히어로 카드 적용
+  const showFeatured = featuredFirst && safePage === 1 && !isFiltered && pageItems.length > 0;
+
   function buildPageUrl(p: number) {
     const params = new URLSearchParams(searchParams.toString());
     if (p === 1) {
@@ -169,7 +203,6 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
     return qs ? `${pathname}?${qs}` : pathname;
   }
 
-  // Year change
   function handleYearChange(year: string) {
     const params = new URLSearchParams(searchParams.toString());
     if (year) {
@@ -182,7 +215,6 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
     router.push(qs ? `${pathname}?${qs}` : pathname);
   }
 
-  // Clear search
   function clearSearch() {
     setQuery("");
     const params = new URLSearchParams(searchParams.toString());
@@ -192,17 +224,24 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
     router.replace(qs ? `${pathname}?${qs}` : pathname);
   }
 
-  const isFiltered = urlQuery !== "" || urlYear !== "";
+  const gridCols = columns === 2 ? "grid gap-6 sm:grid-cols-2" : "grid gap-6 sm:grid-cols-2 lg:grid-cols-3";
 
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
-      {/* Header */}
-      <div className="mb-6">
-        <h1 className="text-2xl font-bold">{title}</h1>
-        <p className="mt-1 text-muted-foreground">{description}</p>
+      {/* 카테고리 헤더 */}
+      <div className="mb-8">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary shrink-0">
+            <CategoryIcon weight="light" className="h-6 w-6" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold leading-tight">{title}</h1>
+            <p className="text-sm text-muted-foreground mt-0.5">{description}</p>
+          </div>
+        </div>
       </div>
 
-      {/* Search + Year Filter */}
+      {/* 검색 + 연도 필터 */}
       <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
         <div className="relative flex-1">
           <MagnifyingGlass
@@ -214,7 +253,7 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
             placeholder="제목, 성경구절, 설교자 검색..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="pl-9 pr-9"
+            className="pl-9 pr-9 h-11 text-base"
           />
           {query && (
             <button
@@ -232,7 +271,7 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
           <select
             value={urlYear}
             onChange={(e) => handleYearChange(e.target.value)}
-            className="w-full sm:w-auto border-input bg-background text-foreground h-11 rounded-md border px-3 py-1 text-sm shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
+            className="w-full sm:w-auto border-input bg-background text-foreground h-11 rounded-md border px-3 py-1 text-base shadow-xs outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]"
           >
             <option value="">전체 연도</option>
             {availableYears.map((y) => (
@@ -244,9 +283,9 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
         )}
       </div>
 
-      {/* Result count */}
+      {/* 결과 수 */}
       {!loading && (
-        <p className="mb-4 text-xs text-muted-foreground/70">
+        <p className="mb-5 text-sm text-muted-foreground/70">
           {isFiltered ? (
             <>
               <span className="font-medium text-foreground">{filtered.length}</span>개 검색됨
@@ -270,9 +309,9 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
       )}
 
       {loading ? (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className={gridCols}>
           {Array.from({ length: 6 }).map((_, i) => (
-            <div key={`skel-${i}`} className="h-48 animate-pulse rounded-lg bg-muted" />
+            <div key={`skel-${i}`} className="h-56 animate-pulse rounded-xl bg-muted" />
           ))}
         </div>
       ) : filtered.length === 0 ? (
@@ -321,21 +360,39 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
                 </Link>
               ))}
             </div>
+          ) : showFeatured ? (
+            <>
+              {/* 최신 히어로 카드 */}
+              <div className="mb-6">
+                <ContentCard entry={pageItems[0]!} showCategory={false} featured />
+              </div>
+              {/* 나머지 그리드 */}
+              {pageItems.length > 1 && (
+                <>
+                  <p className="mb-4 text-sm font-semibold text-muted-foreground uppercase tracking-wider">이전 설교</p>
+                  <div className={gridCols}>
+                    {pageItems.slice(1).map((entry) => (
+                      <ContentCard key={entry.id} entry={entry} showCategory={false} />
+                    ))}
+                  </div>
+                </>
+              )}
+            </>
           ) : (
-            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+            <div className={gridCols}>
               {pageItems.map((entry) => (
                 <ContentCard key={entry.id} entry={entry} showCategory={false} />
               ))}
             </div>
           )}
 
-          {/* Pagination */}
+          {/* 페이지네이션 */}
           {totalPages > 1 && (
-            <nav className="mt-10 flex items-center justify-center gap-1 flex-wrap">
+            <nav className="mt-10 flex items-center justify-center gap-1.5 flex-wrap">
               <Button
                 variant="outline"
                 size="icon"
-                className="h-9 w-9"
+                className="h-10 w-10"
                 asChild={safePage > 1}
                 disabled={safePage <= 1}
               >
@@ -354,7 +411,7 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
                 item === "..." ? (
                   <span
                     key={`ellipsis-${i}`}
-                    className="flex h-9 w-9 items-center justify-center text-sm text-muted-foreground"
+                    className="flex h-10 w-10 items-center justify-center text-sm text-muted-foreground"
                   >
                     …
                   </span>
@@ -363,7 +420,7 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
                     key={item}
                     variant={item === safePage ? "default" : "outline"}
                     size="icon"
-                    className="h-9 w-9"
+                    className="h-10 w-10 text-base"
                     asChild={item !== safePage}
                     disabled={item === safePage}
                   >
@@ -379,7 +436,7 @@ function ContentListPageInner({ category, title, description }: ContentListPageP
               <Button
                 variant="outline"
                 size="icon"
-                className="h-9 w-9"
+                className="h-10 w-10"
                 asChild={safePage < totalPages}
                 disabled={safePage >= totalPages}
               >

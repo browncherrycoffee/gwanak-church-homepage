@@ -8,6 +8,8 @@ export default function SundaySermonPage() {
       category="sunday-sermon"
       title="주일설교"
       description="매 주일 선포되는 하나님의 말씀입니다."
+      featuredFirst
+      columns={2}
     />
   );
 }

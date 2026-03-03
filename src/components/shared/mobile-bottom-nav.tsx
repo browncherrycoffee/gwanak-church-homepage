@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { Icon } from "@phosphor-icons/react";
-import { House, Play, SunHorizon, Newspaper, DotsThreeOutline } from "@phosphor-icons/react";
+import { House, Play, SunHorizon, Newspaper, CalendarBlank } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 interface BottomNavItem {
@@ -18,7 +18,7 @@ const BOTTOM_NAV_ITEMS: BottomNavItem[] = [
   { label: "주일설교", href: "/sunday-sermon", icon: Play },
   { label: "새벽기도", href: "/dawn-prayer", icon: SunHorizon },
   { label: "주보", href: "/bulletin", icon: Newspaper },
-  { label: "더보기", href: "/about", icon: DotsThreeOutline },
+  { label: "교회일정", href: "/calendar", icon: CalendarBlank },
 ];
 
 export function MobileBottomNav() {

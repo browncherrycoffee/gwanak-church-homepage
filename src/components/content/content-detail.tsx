@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, CalendarBlank, BookOpenText, User, FileArrowDown, LinkSimple, Check, YoutubeLogo } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, CalendarBlank, BookOpenText, User, FileArrowDown, ShareNetwork, Check, YoutubeLogo } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -29,8 +29,23 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
   });
   const [copied, setCopied] = useState(false);
 
-  function handleCopyLink() {
-    navigator.clipboard.writeText(window.location.href).then(() => {
+  async function handleShare() {
+    const url = window.location.href;
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: entry?.title ?? "관악교회 설교",
+          text: [entry?.preacher && `${entry.preacher} 목사`, entry?.scriptureReference].filter(Boolean).join(" | "),
+          url,
+        });
+        return;
+      } catch {
+        // 사용자가 취소한 경우 무시
+        return;
+      }
+    }
+    // 네이티브 공유 미지원 시 클립보드 복사
+    navigator.clipboard.writeText(url).then(() => {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     });
@@ -116,9 +131,9 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
             <Badge variant="secondary" className="text-sm px-3 py-1">{cat.label}</Badge>
             <button
               type="button"
-              onClick={handleCopyLink}
-              className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors px-2 py-1"
-              aria-label="링크 복사"
+              onClick={handleShare}
+              className="flex items-center gap-1.5 rounded-lg border px-3 py-2 text-sm font-medium text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors"
+              aria-label="공유하기"
             >
               {copied ? (
                 <>
@@ -127,8 +142,8 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
                 </>
               ) : (
                 <>
-                  <LinkSimple weight="light" className="h-4 w-4" />
-                  링크 복사
+                  <ShareNetwork weight="light" className="h-4 w-4" />
+                  공유하기
                 </>
               )}
             </button>
@@ -162,10 +177,10 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
                 href={`https://www.youtube.com/watch?v=${entry.youtubeVideoId}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-red-500 transition-colors py-1"
+                className="inline-flex items-center gap-2 rounded-lg border border-red-200 px-4 py-2 text-sm font-medium text-red-600 hover:bg-red-50 transition-colors"
               >
-                <YoutubeLogo weight="fill" className="h-4 w-4 text-red-500" />
-                YouTube에서 크게 보기
+                <YoutubeLogo weight="fill" className="h-4 w-4" />
+                YouTube 앱에서 보기
               </a>
             </div>
           </div>
