@@ -25,10 +25,24 @@ import { ContentCard } from "@/components/content/content-card";
 import { YouTubeEmbed } from "@/components/content/youtube-embed";
 import { useContents } from "@/hooks/use-contents";
 import { useStaticContents } from "@/hooks/use-static-contents";
+import { useCalendarEvents } from "@/hooks/use-calendar";
 import { CATEGORIES, SITE_CONFIG } from "@/lib/constants";
 import { getThumbnailUrl } from "@/lib/youtube";
 import { formatDate } from "@/lib/utils";
 import type { ContentCategory, ContentEntry } from "@/types";
+
+const WEEKDAY_NAMES = ["일", "월", "화", "수", "목", "금", "토"] as const;
+
+function getTodayStr(): string {
+  const t = new Date();
+  return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`;
+}
+
+function formatKoreanDate(dateStr: string): string {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const date = new Date(y!, (m ?? 1) - 1, d);
+  return `${m}월 ${d}일 (${WEEKDAY_NAMES[date.getDay()]})`;
+}
 
 const QUICK_LINK_GROUPS = [
   {
@@ -92,7 +106,18 @@ export default function HomePage() {
   const latestSermons = useMergedCategory("sunday-sermon", 3);
   const latestDawn = useMergedCategory("dawn-prayer", 4);
   const latestBulletin = useMergedCategory("bulletin", 1);
-  const latestNotices = useMergedCategory("notices", 3);
+  const latestNotices = useMergedCategory("notices", 5);
+  const calendarEvents = useCalendarEvents();
+  const upcomingEvents = useMemo(() => {
+    const todayStr = getTodayStr();
+    const t = new Date();
+    t.setDate(t.getDate() + 14);
+    const limitStr = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`;
+    return [...calendarEvents]
+      .filter((e) => e.date >= todayStr && e.date <= limitStr)
+      .sort((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time))
+      .slice(0, 6);
+  }, [calendarEvents]);
 
   const todayDawn = latestDawn[0] ?? null;
   const moreDawn = latestDawn.slice(1, 4);
@@ -291,6 +316,39 @@ export default function HomePage() {
                   <span className="shrink-0 text-sm text-muted-foreground whitespace-nowrap">{formatDate(notice.date)}</span>
                 </div>
               </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* 다가오는 일정 */}
+      {upcomingEvents.length > 0 && (
+        <section className="mx-auto max-w-5xl px-4 pb-10">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold flex items-center gap-2">
+              <CalendarBlank weight="light" className="h-6 w-6" />
+              다가오는 일정
+            </h2>
+            <Button asChild variant="ghost" size="sm">
+              <Link href="/calendar" className="gap-1 text-sm">
+                전체 보기 <ArrowRight weight="light" className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+          <div className="divide-y rounded-xl border overflow-hidden">
+            {upcomingEvents.map((ev) => (
+              <div key={ev.id} className="flex items-center gap-3 px-4 py-3.5 hover:bg-muted/40">
+                <span className="shrink-0 text-sm font-bold text-primary w-[5.5rem]">
+                  {formatKoreanDate(ev.date)}
+                </span>
+                {ev.time && (
+                  <span className="shrink-0 flex items-center gap-1 text-sm text-muted-foreground">
+                    <Clock weight="light" className="h-3.5 w-3.5" />
+                    {ev.time}
+                  </span>
+                )}
+                <p className="text-base font-medium line-clamp-1 min-w-0 flex-1">{ev.title}</p>
+              </div>
             ))}
           </div>
         </section>

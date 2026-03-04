@@ -3,7 +3,7 @@
 import { Suspense, useMemo, useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { Plus, MagnifyingGlass, X, CaretLeft, CaretRight } from "@phosphor-icons/react";
+import { Plus, MagnifyingGlass, X, CaretLeft, CaretRight, ChatCircle } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { CommunityCard } from "@/components/community/community-card";
@@ -126,9 +126,14 @@ function CommunityPageInner() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold">교인 커뮤니티</h1>
-          <p className="mt-1 text-muted-foreground">교인들을 위한 나눔과 교제의 공간입니다.</p>
+        <div className="flex items-center gap-3">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary shrink-0">
+            <ChatCircle weight="light" className="h-6 w-6" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold leading-tight">교인 커뮤니티</h1>
+            <p className="text-sm text-muted-foreground mt-0.5">교인들을 위한 나눔과 교제의 공간입니다.</p>
+          </div>
         </div>
         <Button asChild className="self-start shrink-0">
           <Link href="/community/new">
@@ -149,7 +154,7 @@ function CommunityPageInner() {
           placeholder="제목, 내용, 작성자 검색..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          className="pl-9 pr-9"
+          className="pl-9 pr-9 h-11 text-base"
         />
         {query && (
           <button
@@ -164,7 +169,7 @@ function CommunityPageInner() {
       </div>
 
       {/* Result count */}
-      <p className="mb-4 text-xs text-muted-foreground/70">
+      <p className="mb-4 text-sm text-muted-foreground/70">
         {isFiltered ? (
           <>
             <span className="font-medium text-foreground">{filtered.length}</span>개 검색됨
@@ -213,7 +218,7 @@ function CommunityPageInner() {
               <Button
                 variant="outline"
                 size="icon"
-                className="h-9 w-9"
+                className="h-10 w-10"
                 asChild={safePage > 1}
                 disabled={safePage <= 1}
               >
@@ -239,7 +244,7 @@ function CommunityPageInner() {
                     key={item}
                     variant={item === safePage ? "default" : "outline"}
                     size="icon"
-                    className="h-9 w-9"
+                    className="h-10 w-10"
                     asChild={item !== safePage}
                     disabled={item === safePage}
                   >
@@ -255,7 +260,7 @@ function CommunityPageInner() {
               <Button
                 variant="outline"
                 size="icon"
-                className="h-9 w-9"
+                className="h-10 w-10"
                 asChild={safePage < totalPages}
                 disabled={safePage >= totalPages}
               >

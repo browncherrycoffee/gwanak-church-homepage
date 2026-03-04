@@ -3,7 +3,7 @@
 import { Suspense, useMemo } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { Plus, CaretLeft, CaretRight } from "@phosphor-icons/react";
+import { Plus, CaretLeft, CaretRight, Images } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { GalleryCard } from "@/components/gallery/gallery-card";
 import { useGalleryPhotos } from "@/hooks/use-gallery";
@@ -78,9 +78,14 @@ function GalleryPageInner() {
   return (
     <div className="mx-auto max-w-5xl px-4 py-8">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-8">
-        <div>
-          <h1 className="text-2xl font-bold">활동 사진</h1>
-          <p className="mt-1 text-muted-foreground">관악교회의 활동 모습을 사진으로 만나보세요.</p>
+        <div className="flex items-center gap-3">
+          <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary shrink-0">
+            <Images weight="light" className="h-6 w-6" />
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold leading-tight">활동 사진</h1>
+            <p className="text-sm text-muted-foreground mt-0.5">관악교회의 활동 모습을 사진으로 만나보세요.</p>
+          </div>
         </div>
         {isAdmin && (
           <Button asChild className="self-start shrink-0">
@@ -98,7 +103,7 @@ function GalleryPageInner() {
         </div>
       ) : (
         <>
-          <p className="mb-4 text-xs text-muted-foreground/70">
+          <p className="mb-4 text-sm text-muted-foreground/70">
             총 <span className="font-medium">{sorted.length}</span>개
           </p>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
@@ -112,7 +117,7 @@ function GalleryPageInner() {
               <Button
                 variant="outline"
                 size="icon"
-                className="h-9 w-9"
+                className="h-10 w-10"
                 asChild={safePage > 1}
                 disabled={safePage <= 1}
               >
@@ -138,7 +143,7 @@ function GalleryPageInner() {
                     key={item}
                     variant={item === safePage ? "default" : "outline"}
                     size="icon"
-                    className="h-9 w-9"
+                    className="h-10 w-10"
                     asChild={item !== safePage}
                     disabled={item === safePage}
                   >
@@ -154,7 +159,7 @@ function GalleryPageInner() {
               <Button
                 variant="outline"
                 size="icon"
-                className="h-9 w-9"
+                className="h-10 w-10"
                 asChild={safePage < totalPages}
                 disabled={safePage >= totalPages}
               >
