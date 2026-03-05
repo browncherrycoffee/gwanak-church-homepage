@@ -17,6 +17,8 @@ import {
   ChatCircle,
   Images,
   MapPin,
+  Phone,
+  NavigationArrow,
   PlayCircle,
 } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
@@ -176,6 +178,68 @@ export default function HomePage() {
                 <span className="text-primary-foreground/65">{item.time}</span>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* 처음 오셨나요? — 방문자 환영 섹션 */}
+      <section className="mx-auto max-w-5xl px-4 pt-10 pb-2">
+        <div className="rounded-2xl overflow-hidden border border-primary/25">
+          {/* 인트로 */}
+          <div className="bg-primary/5 px-6 py-6 sm:px-8">
+            <p className="inline-block rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary mb-3">
+              처음 오셨나요?
+            </p>
+            <h2 className="text-xl sm:text-2xl font-bold leading-snug mb-2">
+              관악교회에 오신 것을 환영합니다
+            </h2>
+            <p className="text-base text-muted-foreground leading-relaxed max-w-2xl">
+              관악교회는 서울 관악구에 위치한 대한예수교장로회(고신) 소속 교회입니다.
+              하나님의 말씀과 개혁교회의 신앙 전통 위에서, 2009년 창립 이래
+              함께 예배하고 교제하며 지역사회를 섬기는 공동체입니다.
+            </p>
+          </div>
+
+          {/* 핵심 정보 3열 */}
+          <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x border-t border-primary/15">
+            <div className="px-6 py-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">주일 예배</p>
+              <p className="text-base font-bold">매 주일 오전 11시</p>
+              <p className="text-sm text-muted-foreground mt-0.5">예배당 (서울 관악구 신림동)</p>
+            </div>
+            <div className="px-6 py-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">목회자</p>
+              <p className="text-base font-bold">유해신 목사 (담임)</p>
+              <p className="text-sm text-muted-foreground mt-0.5">안용준 목사 (청년부)</p>
+            </div>
+            <div className="px-6 py-4">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">교단 · 전통</p>
+              <p className="text-base font-bold">대한예수교장로회 (고신)</p>
+              <p className="text-sm text-muted-foreground mt-0.5">개혁 · 장로교 전통</p>
+            </div>
+          </div>
+
+          {/* CTA 버튼 */}
+          <div className="px-6 py-4 border-t border-primary/15 bg-background/50 flex flex-wrap gap-2 items-center">
+            <Button asChild size="sm">
+              <Link href="/about">
+                <Church weight="light" className="mr-1.5 h-4 w-4" />
+                교회 소개 자세히 보기
+              </Link>
+            </Button>
+            <Button asChild size="sm" variant="outline">
+              <a href="https://map.kakao.com/?q=서울+관악구+대학길+52" target="_blank" rel="noopener noreferrer">
+                <NavigationArrow weight="light" className="mr-1.5 h-4 w-4" />
+                오시는 길
+              </a>
+            </Button>
+            <a
+              href={`tel:${SITE_CONFIG.phone}`}
+              className="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground hover:text-primary hover:bg-muted transition-colors"
+            >
+              <Phone weight="light" className="h-4 w-4" />
+              {SITE_CONFIG.phone}
+            </a>
           </div>
         </div>
       </section>
@@ -487,10 +551,30 @@ export default function HomePage() {
               </div>
             ))}
           </div>
-          <p className="mt-5 text-sm text-primary-foreground/60 flex items-center gap-1.5">
-            <MapPin weight="light" className="h-4 w-4 shrink-0" />
-            {SITE_CONFIG.address}
-          </p>
+          <div className="mt-6 pt-6 border-t border-primary-foreground/15 flex flex-col sm:flex-row gap-4 sm:items-center sm:justify-between">
+            <p className="text-sm text-primary-foreground/70 flex items-start gap-1.5">
+              <MapPin weight="light" className="h-4 w-4 shrink-0 mt-0.5" />
+              {SITE_CONFIG.address}
+            </p>
+            <div className="flex flex-wrap gap-2">
+              <a
+                href="https://map.kakao.com/?q=서울+관악구+대학길+52"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-xl bg-primary-foreground/15 border border-primary-foreground/20 px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary-foreground/25 transition-colors"
+              >
+                <NavigationArrow weight="light" className="h-4 w-4" />
+                오시는 길
+              </a>
+              <a
+                href={`tel:${SITE_CONFIG.phone}`}
+                className="inline-flex items-center gap-1.5 rounded-xl bg-primary-foreground/15 border border-primary-foreground/20 px-4 py-2 text-sm font-semibold text-primary-foreground hover:bg-primary-foreground/25 transition-colors"
+              >
+                <Phone weight="light" className="h-4 w-4" />
+                {SITE_CONFIG.phone}
+              </a>
+            </div>
+          </div>
         </div>
       </section>
     </>

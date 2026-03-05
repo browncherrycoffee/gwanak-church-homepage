@@ -43,9 +43,19 @@ export default function AboutPage() {
   return (
     <div className="mx-auto max-w-3xl px-4 py-8">
       <h1 className="text-2xl font-bold mb-2">교회 소개</h1>
-      <p className="text-muted-foreground mb-8">
+      <p className="text-muted-foreground mb-5">
         {SITE_CONFIG.denomination} {SITE_CONFIG.name}
       </p>
+
+      {/* 처음 오신 분 환영 */}
+      <div className="rounded-2xl border border-primary/20 bg-primary/5 p-5 mb-6">
+        <p className="text-base font-semibold mb-1.5">처음 오신 분들을 환영합니다</p>
+        <p className="text-sm text-muted-foreground leading-relaxed">
+          관악교회는 하나님의 말씀을 중심으로 함께 예배하고, 서로 교제하며, 지역 이웃을 섬기는 공동체입니다.
+          언제든지 주일 오전 11시 예배에 오셔서 저희와 함께 예배드리시기를 진심으로 권합니다.
+          궁금한 점은 전화나 이메일로 편하게 문의해 주세요.
+        </p>
+      </div>
 
       {/* 예배 안내 — 가장 먼저, 가장 크게 */}
       <Card className="mb-6 border-primary/30 bg-secondary/40">
