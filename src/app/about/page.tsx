@@ -348,8 +348,9 @@ export default function AboutPage() {
             <Scroll weight="light" className="h-5 w-5" />
           </div>
           <div>
-            <p className="text-sm font-semibold">담임목사</p>
-            <p className="text-base text-foreground/90">유해신 목사 | 청년부 안용준 목사</p>
+            <p className="text-sm font-semibold">사역자</p>
+            <p className="text-base text-foreground/90">유해신 목사 (담임) · 류영협 전도사</p>
+            <p className="text-sm text-muted-foreground mt-0.5">안광우 강도사 (청년부) · 김인용 전도사 (중고등부)</p>
           </div>
         </div>
       </div>
