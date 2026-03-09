@@ -36,6 +36,10 @@ jobs:
         run: node scripts/scraper/scrape.mjs IAd7 GZ99
         continue-on-error: true
 
+      - name: 다음카페 동기화 — 하이델베르크 요리문답 (I5uP)
+        run: node scripts/scraper/scrape.mjs I5uP
+        continue-on-error: true
+
       - name: 다음카페 동기화 — 시편찬송 (ROHB)
         run: node scripts/scraper/scrape.mjs ROHB
         continue-on-error: true
