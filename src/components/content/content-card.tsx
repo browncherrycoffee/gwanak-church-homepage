@@ -1,13 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { BookOpen, CalendarBlank, PlayCircle, MusicNote, FileText, User, BookOpenText } from "@phosphor-icons/react";
+import { BookOpen, CalendarBlank, PlayCircle, MusicNote, FileText, User, BookOpenText, ArrowRight } from "@phosphor-icons/react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { CATEGORIES } from "@/lib/constants";
 import { formatDate } from "@/lib/utils";
 import { getThumbnailUrl } from "@/lib/youtube";
-import type { ContentEntry } from "@/types";
+import type { ContentEntry, ContentCategory } from "@/types";
+
+const FEATURED_CTA_LABELS: Record<ContentCategory, string> = {
+  "sunday-sermon": "지금 시청하기",
+  "dawn-prayer": "지금 시청하기",
+  "friday-prayer": "지금 시청하기",
+  catechism: "강의 듣기",
+  "psalm-song": "찬송 보기",
+  bulletin: "주보 보기",
+  notices: "소식 보기",
+};
 
 interface ContentCardProps {
   entry: ContentEntry;
@@ -81,8 +91,12 @@ export function ContentCard({ entry, showCategory = true, featured = false }: Co
                 )}
               </div>
               <div className="flex items-center gap-2 text-primary font-semibold text-sm">
-                <PlayCircle weight="fill" className="h-5 w-5" />
-                지금 시청하기
+                {entry.youtubeVideoId ? (
+                  <PlayCircle weight="fill" className="h-5 w-5" />
+                ) : (
+                  <ArrowRight weight="bold" className="h-5 w-5" />
+                )}
+                {FEATURED_CTA_LABELS[entry.category]}
               </div>
             </CardContent>
           </div>

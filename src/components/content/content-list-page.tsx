@@ -46,6 +46,16 @@ const CATEGORY_PREV_LABELS: Record<ContentCategory, string> = {
   notices: "이전 소식",
 };
 
+const CATEGORY_SEARCH_PLACEHOLDERS: Record<ContentCategory, string> = {
+  "sunday-sermon": "제목, 성경구절, 설교자 검색...",
+  "dawn-prayer": "제목, 성경구절 검색...",
+  "friday-prayer": "제목, 성경구절, 설교자 검색...",
+  catechism: "제목, 성경구절 검색...",
+  "psalm-song": "제목 검색...",
+  bulletin: "제목 검색...",
+  notices: "제목 검색...",
+};
+
 function paginationRange(current: number, total: number): (number | "...")[] {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
   const delta = 2;
@@ -260,7 +270,7 @@ function ContentListPageInner({
           />
           <Input
             type="search"
-            placeholder="제목, 성경구절, 설교자 검색..."
+            placeholder={CATEGORY_SEARCH_PLACEHOLDERS[category]}
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             className="pl-9 pr-9 h-11 text-base"
