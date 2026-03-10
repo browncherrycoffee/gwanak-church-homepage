@@ -423,7 +423,7 @@ export default function HomePage() {
         <section className="mx-auto max-w-5xl px-4 pb-10">
           <div className="flex items-center justify-between mb-5">
             <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
-              <CalendarBlank weight="light" className="h-6 w-6" />
+              <Newspaper weight="light" className="h-6 w-6" />
               이번 주 주보
             </h2>
             <Button asChild variant="ghost" size="sm">

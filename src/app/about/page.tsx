@@ -47,6 +47,24 @@ export default function AboutPage() {
         {SITE_CONFIG.denomination} {SITE_CONFIG.name}
       </p>
 
+      {/* 빠른 이동 */}
+      <nav className="sticky top-14 z-40 -mx-4 px-4 py-2 bg-background/90 backdrop-blur border-b mb-6 flex gap-2 overflow-x-auto">
+        {[
+          { label: "예배 안내", href: "#worship" },
+          { label: "교회 소개", href: "#about" },
+          { label: "신앙고백", href: "#confession" },
+          { label: "교회 연혁", href: "#history" },
+        ].map((item) => (
+          <a
+            key={item.href}
+            href={item.href}
+            className="shrink-0 rounded-full border border-border px-3 py-1 text-xs font-medium text-muted-foreground hover:text-primary hover:border-primary/40 transition-colors"
+          >
+            {item.label}
+          </a>
+        ))}
+      </nav>
+
       {/* 처음 오신 분 환영 */}
       <div className="rounded-2xl border border-primary/20 bg-primary/5 p-5 mb-6">
         <p className="text-base font-semibold mb-1.5">처음 오신 분들을 환영합니다</p>
@@ -58,7 +76,7 @@ export default function AboutPage() {
       </div>
 
       {/* 예배 안내 — 가장 먼저, 가장 크게 */}
-      <Card className="mb-6 border-primary/30 bg-secondary/40">
+      <Card id="worship" className="mb-6 border-primary/30 bg-secondary/40 scroll-mt-28">
         <CardContent className="p-6">
           <div className="flex items-center gap-3 mb-5">
             <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
@@ -134,7 +152,7 @@ export default function AboutPage() {
       <Separator className="my-8" />
 
       {/* 교회 소개 */}
-      <Card className="mb-6">
+      <Card id="about" className="mb-6 scroll-mt-28">
         <CardContent className="p-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">
@@ -223,7 +241,7 @@ export default function AboutPage() {
       <Separator className="my-8" />
 
       {/* 신앙고백 */}
-      <Card className="mb-6">
+      <Card id="confession" className="mb-6 scroll-mt-28">
         <CardContent className="p-6">
           <div className="flex items-center gap-3 mb-4">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">
@@ -302,7 +320,7 @@ export default function AboutPage() {
       <Separator className="my-8" />
 
       {/* 교회 연혁 */}
-      <Card>
+      <Card id="history" className="scroll-mt-28">
         <CardContent className="p-6">
           <div className="flex items-center gap-3 mb-6">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-secondary text-primary">

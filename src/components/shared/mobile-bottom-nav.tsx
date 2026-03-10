@@ -39,16 +39,21 @@ export function MobileBottomNav() {
               key={item.href}
               href={item.href}
               className={cn(
-                "flex flex-1 flex-col items-center justify-center gap-1 transition-colors",
+                "flex flex-1 flex-col items-center justify-center gap-0.5 transition-colors",
                 isActive
                   ? "text-primary"
                   : "text-muted-foreground hover:text-foreground",
               )}
             >
-              <item.icon
-                weight={isActive ? "fill" : "regular"}
-                className="h-6 w-6 shrink-0"
-              />
+              <span className={cn(
+                "flex h-7 w-12 items-center justify-center rounded-full transition-colors",
+                isActive && "bg-primary/10"
+              )}>
+                <item.icon
+                  weight={isActive ? "fill" : "regular"}
+                  className="h-5 w-5 shrink-0"
+                />
+              </span>
               <span className="text-[10px] font-medium leading-none">{item.label}</span>
             </Link>
           );

@@ -39,6 +39,21 @@ export function SiteFooter() {
             </div>
           </div>
 
+          <div className="flex flex-col gap-0.5">
+            <p className="text-xs font-medium text-muted-foreground mb-1.5">바로가기</p>
+            {[
+              { label: "주일설교", href: "/sunday-sermon" },
+              { label: "새벽기도", href: "/dawn-prayer" },
+              { label: "금요기도회", href: "/friday-prayer" },
+              { label: "교리문답", href: "/catechism" },
+              { label: "교회 일정", href: "/calendar" },
+            ].map((item) => (
+              <Link key={item.href} href={item.href} className="py-1 text-sm text-muted-foreground hover:text-primary transition-colors">
+                {item.label}
+              </Link>
+            ))}
+          </div>
+
           <div className="flex flex-col gap-1">
             <p className="text-xs font-medium text-muted-foreground mb-1">온라인 채널</p>
             <a
