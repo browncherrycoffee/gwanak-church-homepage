@@ -167,13 +167,13 @@ export default function HomePage() {
             </Button>
           </div>
           {/* Worship time quick info */}
-          <div className="mt-8 flex flex-wrap justify-center gap-2 sm:gap-3">
+          <div className="mt-8 flex flex-wrap justify-center gap-2">
             {WORSHIP_SCHEDULE.map((item) => (
               <div
                 key={item.label}
-                className="flex items-center gap-2 rounded-full bg-primary-foreground/10 px-4 py-1.5 text-sm text-primary-foreground/90 ring-1 ring-primary-foreground/15"
+                className="flex items-center gap-1.5 rounded-full bg-primary-foreground/10 px-3 sm:px-4 py-1.5 text-xs sm:text-sm text-primary-foreground/90 ring-1 ring-primary-foreground/15"
               >
-                <item.icon weight="light" className="h-4 w-4 shrink-0" />
+                <item.icon weight="light" className="h-3.5 w-3.5 sm:h-4 sm:w-4 shrink-0" />
                 <span className="font-semibold">{item.label}</span>
                 <span className="text-primary-foreground/65">{item.time}</span>
               </div>
@@ -186,7 +186,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-5xl px-4 pt-10 pb-2">
         <div className="rounded-2xl overflow-hidden border border-primary/25">
           {/* 인트로 */}
-          <div className="bg-primary/5 px-6 py-6 sm:px-8">
+          <div className="bg-primary/5 px-4 py-5 sm:px-6 sm:py-6 sm:px-8">
             <p className="inline-block rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary mb-3">
               처음 오셨나요?
             </p>
@@ -202,17 +202,17 @@ export default function HomePage() {
 
           {/* 핵심 정보 3열 */}
           <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x border-t border-primary/15">
-            <div className="px-6 py-4">
+            <div className="px-4 sm:px-6 py-3 sm:py-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">주일 예배</p>
               <p className="text-base font-bold">매 주일 오전 11시</p>
               <p className="text-sm text-muted-foreground mt-0.5">예배당 (서울 관악구 신림동)</p>
             </div>
-            <div className="px-6 py-4">
+            <div className="px-4 sm:px-6 py-3 sm:py-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">목회자</p>
               <p className="text-base font-bold">유해신 목사 (담임)</p>
               <p className="text-sm text-muted-foreground mt-0.5">류영협 전도사 · 안광우 강도사 · 김인용 전도사</p>
             </div>
-            <div className="px-6 py-4">
+            <div className="px-4 sm:px-6 py-3 sm:py-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">교단 · 전통</p>
               <p className="text-base font-bold">대한예수교장로회 (고신)</p>
               <p className="text-sm text-muted-foreground mt-0.5">개혁 · 장로교 전통</p>
@@ -248,7 +248,7 @@ export default function HomePage() {
       {featuredSermon && (
         <section className="mx-auto max-w-5xl px-4 pt-10 pb-10">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="text-2xl font-bold flex items-center gap-2">
+            <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
               <PlayCircle weight="fill" className="h-6 w-6 text-primary" />
               이번 주 주일설교
             </h2>
@@ -310,9 +310,9 @@ export default function HomePage() {
           <div className="grid gap-3 grid-cols-2 sm:grid-cols-4">
             {QUICK_LINK_GROUPS[0].items.map((link) => (
               <Link key={link.href} href={link.href}>
-                <div className="group flex h-full items-start gap-3 rounded-xl border border-primary/20 bg-secondary/60 p-4 transition-all hover:border-primary/50 hover:bg-secondary hover:shadow-md">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary transition-colors group-hover:bg-primary/25">
-                    <link.icon weight="light" className="h-5 w-5" />
+                <div className="group flex h-full items-start gap-2.5 sm:gap-3 rounded-xl border border-primary/20 bg-secondary/60 p-3 sm:p-4 transition-all hover:border-primary/50 hover:bg-secondary hover:shadow-md">
+                  <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary transition-colors group-hover:bg-primary/25">
+                    <link.icon weight="light" className="h-4 w-4 sm:h-5 sm:w-5" />
                   </div>
                   <div>
                     <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">{link.label}</h3>
@@ -334,9 +334,9 @@ export default function HomePage() {
               <div className="space-y-2">
                 {group.items.map((link) => (
                   <Link key={link.href} href={link.href}>
-                    <div className="group flex items-center gap-4 rounded-xl border border-primary/20 bg-secondary/60 p-4 transition-all hover:border-primary/50 hover:bg-secondary hover:shadow-md">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary transition-colors group-hover:bg-primary/25">
-                        <link.icon weight="light" className="h-5 w-5" />
+                    <div className="group flex items-center gap-3 sm:gap-4 rounded-xl border border-primary/20 bg-secondary/60 p-3 sm:p-4 transition-all hover:border-primary/50 hover:bg-secondary hover:shadow-md">
+                      <div className="flex h-9 w-9 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg bg-primary/15 text-primary transition-colors group-hover:bg-primary/25">
+                        <link.icon weight="light" className="h-4 w-4 sm:h-5 sm:w-5" />
                       </div>
                       <div className="min-w-0">
                         <h3 className="text-sm font-semibold group-hover:text-primary transition-colors">{link.label}</h3>
@@ -355,7 +355,7 @@ export default function HomePage() {
       {latestNotices.length > 0 && (
         <section className="mx-auto max-w-5xl px-4 pb-10">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold flex items-center gap-2">
+            <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
               <Bell weight="light" className="h-6 w-6" />
               교회소식
             </h2>
@@ -389,7 +389,7 @@ export default function HomePage() {
       {upcomingEvents.length > 0 && (
         <section className="mx-auto max-w-5xl px-4 pb-10">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold flex items-center gap-2">
+            <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
               <CalendarBlank weight="light" className="h-6 w-6" />
               다가오는 일정
             </h2>
@@ -401,17 +401,17 @@ export default function HomePage() {
           </div>
           <div className="divide-y rounded-xl border overflow-hidden">
             {upcomingEvents.map((ev) => (
-              <div key={ev.id} className="flex items-center gap-3 px-4 py-3.5 hover:bg-muted/40">
-                <span className="shrink-0 text-sm font-bold text-primary w-[5.5rem]">
-                  {formatKoreanDate(ev.date)}
-                </span>
-                {ev.time && (
-                  <span className="shrink-0 flex items-center gap-1 text-sm text-muted-foreground">
-                    <Clock weight="light" className="h-3.5 w-3.5" />
-                    {ev.time}
-                  </span>
-                )}
-                <p className="text-base font-medium line-clamp-1 min-w-0 flex-1">{ev.title}</p>
+              <div key={ev.id} className="px-4 py-3 hover:bg-muted/40">
+                <div className="flex items-center gap-2 mb-0.5">
+                  <span className="text-sm font-bold text-primary">{formatKoreanDate(ev.date)}</span>
+                  {ev.time && (
+                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
+                      <Clock weight="light" className="h-3 w-3" />
+                      {ev.time}
+                    </span>
+                  )}
+                </div>
+                <p className="text-sm font-medium line-clamp-1">{ev.title}</p>
               </div>
             ))}
           </div>
@@ -422,7 +422,7 @@ export default function HomePage() {
       {latestBulletin.length > 0 && latestBulletin[0] && (
         <section className="mx-auto max-w-5xl px-4 pb-10">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="text-2xl font-bold flex items-center gap-2">
+            <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
               <CalendarBlank weight="light" className="h-6 w-6" />
               이번 주 주보
             </h2>
@@ -463,7 +463,7 @@ export default function HomePage() {
       {todayDawn && (
         <section className="mx-auto max-w-5xl px-4 pb-10">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="text-2xl font-bold flex items-center gap-2">
+            <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
               <SunHorizon weight="light" className="h-6 w-6" />
               오늘의 새벽기도
             </h2>
@@ -537,7 +537,7 @@ export default function HomePage() {
       {/* Worship Schedule */}
       <section className="bg-primary text-primary-foreground">
         <div className="mx-auto max-w-5xl px-4 py-12">
-          <h2 className="text-2xl font-bold mb-6">예배 안내</h2>
+          <h2 className="text-xl sm:text-2xl font-bold mb-6">예배 안내</h2>
           <div className="grid gap-4 sm:grid-cols-3">
             {WORSHIP_SCHEDULE.map((item) => (
               <div key={item.label} className="rounded-xl bg-primary-foreground/10 ring-1 ring-primary-foreground/20 p-5 flex items-center gap-4">
