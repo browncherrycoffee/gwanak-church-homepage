@@ -45,14 +45,24 @@ jobs:
         continue-on-error: true
 
       - name: 변경 사항 확인 및 커밋
+        id: commit
         run: |
           git config user.name "gwanak-sync-bot"
           git config user.email "gwanak-sync-bot@users.noreply.github.com"
           git add public/data/ scripts/scraper/progress.json
           if git diff --staged --quiet; then
             echo "새로운 콘텐츠 없음 — 커밋 건너뜀"
+            echo "pushed=false" >> $GITHUB_OUTPUT
           else
             ADDED=$(git diff --staged --stat | tail -1)
             git commit -m "자동 업데이트: $(TZ=Asia/Seoul date '+%Y-%m-%d') 카페+YouTube 동기화 ($ADDED)"
             git push
+            echo "pushed=true" >> $GITHUB_OUTPUT
           fi
+
+      - name: Vercel 프로덕션 배포
+        if: steps.commit.outputs.pushed == 'true'
+        run: npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --yes
+        env:
+          VERCEL_ORG_ID: team_cSdDirXmoHpWPIVpdMjU70go
+          VERCEL_PROJECT_ID: prj_zd9bDRw56hnRjW8TElnuHUMvJHXX
