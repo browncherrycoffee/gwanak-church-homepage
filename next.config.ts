@@ -23,6 +23,16 @@ const nextConfig: NextConfig = {
         source: "/(.*)",
         headers: securityHeaders,
       },
+      {
+        // 동기화 데이터 JSON: CDN·브라우저 캐시 방지 → 항상 최신 콘텐츠 제공
+        source: "/data/:path*",
+        headers: [
+          {
+            key: "Cache-Control",
+            value: "no-cache, must-revalidate",
+          },
+        ],
+      },
     ];
   },
 };

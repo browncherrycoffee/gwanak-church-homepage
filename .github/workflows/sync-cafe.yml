@@ -62,6 +62,7 @@ jobs:
 
       - name: Vercel 프로덕션 배포
         if: steps.commit.outputs.pushed == 'true'
+        continue-on-error: true
         run: npx vercel --prod --token ${{ secrets.VERCEL_TOKEN }} --yes
         env:
           VERCEL_ORG_ID: team_cSdDirXmoHpWPIVpdMjU70go
