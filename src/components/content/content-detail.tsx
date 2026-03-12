@@ -258,7 +258,7 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
           <Separator className="my-8" />
           <div className="flex gap-3">
             {siblings.prev ? (
-              <Link href={`${cat.path}/${siblings.prev.id}`} className="flex-1">
+              <Link href={`${cat.path}/${siblings.prev.id}`} className="flex-1" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
                 <div className="flex items-center gap-3 rounded-lg border p-4 transition-colors hover:border-primary/50 hover:bg-muted/50 min-h-[4.5rem]">
                   <ArrowLeft weight="regular" className="h-5 w-5 shrink-0 text-muted-foreground" />
                   <div className="min-w-0">
@@ -272,7 +272,7 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
               <div className="flex-1" />
             )}
             {siblings.next && (
-              <Link href={`${cat.path}/${siblings.next.id}`} className="flex-1">
+              <Link href={`${cat.path}/${siblings.next.id}`} className="flex-1" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
                 <div className="flex items-center justify-end gap-3 rounded-lg border p-4 text-right transition-colors hover:border-primary/50 hover:bg-muted/50 min-h-[4.5rem]">
                   <div className="min-w-0">
                     <p className="text-xs text-muted-foreground mb-0.5">{SIBLING_LABELS[entry.category].next}</p>

@@ -108,6 +108,7 @@ export default function HomePage() {
   const latestSermons = useMergedCategory("sunday-sermon", 3);
   const latestDawn = useMergedCategory("dawn-prayer", 4);
   const latestBulletin = useMergedCategory("bulletin", 1);
+  const latestFriday = useMergedCategory("friday-prayer", 1);
   const latestNotices = useMergedCategory("notices", 5);
   const calendarEvents = useCalendarEvents();
   const upcomingEvents = useMemo(() => {
@@ -121,6 +122,7 @@ export default function HomePage() {
       .slice(0, 6);
   }, [calendarEvents]);
 
+  const fridayEntry = latestFriday[0] ?? null;
   const todayDawn = latestDawn[0] ?? null;
   const moreDawn = latestDawn.slice(1, 4);
 
@@ -186,7 +188,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-5xl px-4 pt-10 pb-2">
         <div className="rounded-2xl overflow-hidden border border-primary/25">
           {/* 인트로 */}
-          <div className="bg-primary/5 px-4 py-5 sm:px-6 sm:py-6 sm:px-8">
+          <div className="bg-primary/5 px-4 py-5 sm:px-8 sm:py-6">
             <p className="inline-block rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary mb-3">
               처음 오셨나요?
             </p>
@@ -451,6 +453,60 @@ export default function HomePage() {
                   )}
                   <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary">
                     주보 보기 <ArrowRight weight="bold" className="h-3.5 w-3.5" />
+                  </span>
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
+        </section>
+      )}
+
+      {/* Latest Friday Prayer */}
+      {fridayEntry && (
+        <section className="mx-auto max-w-5xl px-4 pb-10">
+          <div className="flex items-center justify-between mb-5">
+            <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
+              <Flame weight="light" className="h-6 w-6" />
+              이번 주 금요기도회
+            </h2>
+            <Button asChild variant="ghost" size="sm">
+              <Link href="/friday-prayer" className="gap-1 text-sm">
+                전체 보기 <ArrowRight weight="light" className="h-4 w-4" />
+              </Link>
+            </Button>
+          </div>
+          <Link href={`/friday-prayer/${fridayEntry.id}`}>
+            <Card className="group transition-all hover:border-primary/30 hover:shadow-md">
+              <CardContent className="p-5 sm:p-6 flex items-start gap-4">
+                {fridayEntry.youtubeVideoId ? (
+                  <div className="relative shrink-0 w-28 sm:w-36 aspect-video rounded-lg overflow-hidden bg-muted">
+                    <img
+                      src={getThumbnailUrl(fridayEntry.youtubeVideoId)}
+                      alt={fridayEntry.title}
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 flex items-center justify-center">
+                      <PlayCircle weight="fill" className="h-8 w-8 text-white drop-shadow-md opacity-90" />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Flame weight="light" className="h-7 w-7" />
+                  </div>
+                )}
+                <div className="min-w-0">
+                  <p className="text-sm text-muted-foreground mb-1">{formatDate(fridayEntry.date)}</p>
+                  <h3 className="text-lg font-semibold group-hover:text-primary transition-colors leading-snug">
+                    {fridayEntry.title}
+                  </h3>
+                  {fridayEntry.scriptureReference && (
+                    <p className="mt-1.5 text-base text-muted-foreground flex items-center gap-1.5">
+                      <BookOpenText weight="light" className="h-4 w-4 shrink-0" />
+                      {fridayEntry.scriptureReference}
+                    </p>
+                  )}
+                  <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary">
+                    설교 보기 <ArrowRight weight="bold" className="h-3.5 w-3.5" />
                   </span>
                 </div>
               </CardContent>
