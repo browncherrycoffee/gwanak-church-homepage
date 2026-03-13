@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, ArrowRight, CalendarBlank, BookOpenText, User, FileArrowDown, ShareNetwork, Check, YoutubeLogo } from "@phosphor-icons/react";
+import { ArrowLeft, ArrowRight, CalendarBlank, BookOpenText, User, FileArrowDown, ShareNetwork, Check, YoutubeLogo, Article, CaretDown } from "@phosphor-icons/react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
@@ -38,6 +38,7 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
     next: null,
   });
   const [copied, setCopied] = useState(false);
+  const [contentExpanded, setContentExpanded] = useState(false);
 
   async function handleShare() {
     const url = window.location.href;
@@ -60,6 +61,10 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
       setTimeout(() => setCopied(false), 2000);
     });
   }
+
+  useEffect(() => {
+    setContentExpanded(false);
+  }, [id]);
 
   useEffect(() => {
     if (!entry) return;
@@ -199,12 +204,28 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
         {entry.content.trim() && (
           <>
             <Separator className="my-6" />
-            <div className="space-y-4">
-              {entry.content.trim().split("\n").map((paragraph, i) => (
-                <p key={`p-${i}`} className="text-base leading-relaxed text-foreground/90">
-                  {paragraph}
-                </p>
-              ))}
+            <div>
+              <button
+                type="button"
+                onClick={() => setContentExpanded(!contentExpanded)}
+                className="inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/5 px-4 py-1.5 text-sm font-semibold text-primary hover:bg-primary/10 transition-colors"
+              >
+                <Article weight="light" className="h-4 w-4" />
+                {entry.category === "psalm-song" ? "가사 텍스트로 보기" : "설교 내용 텍스트로 보기"}
+                <CaretDown
+                  weight="bold"
+                  className={`h-3 w-3 transition-transform ${contentExpanded ? "rotate-180" : ""}`}
+                />
+              </button>
+              {contentExpanded && (
+                <div className="mt-4 rounded-xl border bg-muted/30 p-5 space-y-3">
+                  {entry.content.trim().split("\n").filter(Boolean).map((paragraph, i) => (
+                    <p key={`p-${i}`} className="text-base leading-relaxed text-foreground/90">
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+              )}
             </div>
           </>
         )}
