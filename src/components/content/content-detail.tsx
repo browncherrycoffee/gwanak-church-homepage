@@ -201,7 +201,11 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
           </div>
         )}
 
-        {entry.content.trim() && (
+        {(() => {
+          const ct = entry.content.trim();
+          // URL만 있는 경우(e.g. "http://gwanakchurch.org/")는 의미있는 본문이 아니므로 숨김
+          return ct && !/^https?:\/\/\S+$/.test(ct);
+        })() && (
           <>
             <Separator className="my-6" />
             <div>
