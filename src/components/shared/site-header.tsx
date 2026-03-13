@@ -83,22 +83,24 @@ export function SiteHeader() {
                   />
                 </button>
                 {isOpen && (
-                  <div className="absolute top-full left-0 mt-1 w-36 rounded-lg border bg-background shadow-md py-1 z-50">
-                    {group.items.map((item) => (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        onClick={() => setOpenGroup(null)}
-                        className={cn(
-                          "block px-3 py-2 text-sm transition-colors hover:bg-accent",
-                          pathname.startsWith(item.href)
-                            ? "text-primary font-medium"
-                            : "text-muted-foreground",
-                        )}
-                      >
-                        {item.label}
-                      </Link>
-                    ))}
+                  <div className="absolute top-full left-0 w-36 z-50 pt-1">
+                    <div className="rounded-lg border bg-background shadow-md py-1">
+                      {group.items.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          onClick={() => setOpenGroup(null)}
+                          className={cn(
+                            "block px-3 py-2 text-sm transition-colors hover:bg-accent",
+                            pathname.startsWith(item.href)
+                              ? "text-primary font-medium"
+                              : "text-muted-foreground",
+                          )}
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
