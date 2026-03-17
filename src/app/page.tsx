@@ -40,11 +40,6 @@ function getTodayStr(): string {
   return `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`;
 }
 
-function formatKoreanDate(dateStr: string): string {
-  const [y, m, d] = dateStr.split("-").map(Number);
-  const date = new Date(y!, (m ?? 1) - 1, d);
-  return `${m}월 ${d}일 (${WEEKDAY_NAMES[date.getDay()]})`;
-}
 
 const QUICK_LINK_GROUPS = [
   {
@@ -114,12 +109,32 @@ export default function HomePage() {
   const upcomingEvents = useMemo(() => {
     const todayStr = getTodayStr();
     const t = new Date();
-    t.setDate(t.getDate() + 14);
+    t.setDate(t.getDate() + 30);
     const limitStr = `${t.getFullYear()}-${String(t.getMonth() + 1).padStart(2, "0")}-${String(t.getDate()).padStart(2, "0")}`;
     return [...calendarEvents]
       .filter((e) => e.date >= todayStr && e.date <= limitStr)
       .sort((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time))
-      .slice(0, 6);
+      .slice(0, 5);
+  }, [calendarEvents]);
+
+  const calendarGrid = useMemo(() => {
+    const now = new Date();
+    const year = now.getFullYear();
+    const monthIdx = now.getMonth();
+    const todayStr = getTodayStr();
+    const firstDay = new Date(year, monthIdx, 1).getDay();
+    const daysInMonth = new Date(year, monthIdx + 1, 0).getDate();
+    const prefix = `${year}-${String(monthIdx + 1).padStart(2, "0")}-`;
+    const eventsByDate: Record<string, boolean> = {};
+    for (const ev of calendarEvents) {
+      if (ev.date.startsWith(prefix)) eventsByDate[ev.date] = true;
+    }
+    const cells: (number | null)[] = [
+      ...Array.from({ length: firstDay }, () => null),
+      ...Array.from({ length: daysInMonth }, (_, i) => i + 1),
+    ];
+    while (cells.length % 7 !== 0) cells.push(null);
+    return { year, monthIdx, todayStr, cells, eventsByDate };
   }, [calendarEvents]);
 
   const fridayEntry = latestFriday[0] ?? null;
@@ -387,38 +402,108 @@ export default function HomePage() {
         </section>
       )}
 
-      {/* 다가오는 일정 */}
-      {upcomingEvents.length > 0 && (
-        <section className="mx-auto max-w-5xl px-4 pb-10">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
-              <CalendarBlank weight="light" className="h-6 w-6" />
-              다가오는 일정
-            </h2>
-            <Button asChild variant="ghost" size="sm">
-              <Link href="/calendar" className="gap-1 text-sm">
-                전체 보기 <ArrowRight weight="light" className="h-4 w-4" />
-              </Link>
-            </Button>
-          </div>
-          <div className="divide-y rounded-xl border overflow-hidden">
-            {upcomingEvents.map((ev) => (
-              <div key={ev.id} className="px-4 py-3 hover:bg-muted/40">
-                <div className="flex items-center gap-2 mb-0.5">
-                  <span className="text-sm font-bold text-primary">{formatKoreanDate(ev.date)}</span>
-                  {ev.time && (
-                    <span className="flex items-center gap-1 text-xs text-muted-foreground">
-                      <Clock weight="light" className="h-3 w-3" />
-                      {ev.time}
-                    </span>
-                  )}
+      {/* 교회 일정 — 미니 캘린더 */}
+      <section className="mx-auto max-w-5xl px-4 pb-10">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl sm:text-2xl font-bold flex items-center gap-2">
+            <CalendarBlank weight="light" className="h-6 w-6" />
+            교회 일정
+          </h2>
+          <Button asChild variant="ghost" size="sm">
+            <Link href="/calendar" className="gap-1 text-sm">
+              전체 보기 <ArrowRight weight="light" className="h-4 w-4" />
+            </Link>
+          </Button>
+        </div>
+        <Card>
+          <CardContent className="p-4 sm:p-6">
+            {/* Month header */}
+            <p className="text-sm font-semibold text-center mb-3 text-muted-foreground">
+              {calendarGrid.year}년 {calendarGrid.monthIdx + 1}월
+            </p>
+            {/* Day-of-week headers */}
+            <div className="grid grid-cols-7 mb-1">
+              {(["일", "월", "화", "수", "목", "금", "토"] as const).map((d, i) => (
+                <div
+                  key={d}
+                  className={`text-center text-xs font-semibold py-1 ${i === 0 ? "text-red-500" : "text-muted-foreground"}`}
+                >
+                  {d}
                 </div>
-                <p className="text-sm font-medium line-clamp-1">{ev.title}</p>
-              </div>
-            ))}
-          </div>
-        </section>
-      )}
+              ))}
+            </div>
+            {/* Day cells */}
+            <div className="grid grid-cols-7">
+              {calendarGrid.cells.map((day, i) => {
+                if (!day) return <div key={`e-${i}`} />;
+                const dateStr = `${calendarGrid.year}-${String(calendarGrid.monthIdx + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+                const isToday = dateStr === calendarGrid.todayStr;
+                const isPast = dateStr < calendarGrid.todayStr;
+                const hasEvent = !!calendarGrid.eventsByDate[dateStr];
+                const isSun = i % 7 === 0;
+                return (
+                  <div key={dateStr} className="flex flex-col items-center py-0.5">
+                    <span
+                      className={[
+                        "flex h-7 w-7 items-center justify-center rounded-full text-sm leading-none transition-colors",
+                        isToday ? "bg-primary text-primary-foreground font-bold" : "",
+                        !isToday && isPast ? "text-muted-foreground/40" : "",
+                        !isToday && !isPast && isSun ? "text-red-500 font-medium" : "",
+                        !isToday && !isPast && !isSun ? "font-medium" : "",
+                      ].join(" ")}
+                    >
+                      {day}
+                    </span>
+                    {hasEvent ? (
+                      <span className={`mt-0.5 h-1 w-1 rounded-full ${isToday ? "bg-primary-foreground" : "bg-primary"}`} />
+                    ) : (
+                      <span className="mt-0.5 h-1 w-1" />
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+            {/* Upcoming events list */}
+            {upcomingEvents.length > 0 && (
+              <>
+                <div className="my-4 border-t" />
+                <div className="space-y-2.5">
+                  {upcomingEvents.map((ev) => {
+                    const [_y, _m, _d] = ev.date.split("-").map(Number);
+                    const dow = WEEKDAY_NAMES[new Date(_y!, (_m ?? 1) - 1, _d).getDay()];
+                    return (
+                      <div key={ev.id} className="flex items-start gap-3">
+                        <div className="shrink-0 min-w-[2.75rem] rounded-lg bg-primary/10 px-2 py-1.5 text-center">
+                          <p className="text-xs text-muted-foreground leading-none mb-0.5">{_m}월</p>
+                          <p className="text-base font-bold text-primary leading-none">{_d}</p>
+                        </div>
+                        <div className="min-w-0 pt-0.5">
+                          <p className="text-sm font-semibold line-clamp-1">{ev.title}</p>
+                          <p className="text-xs text-muted-foreground mt-0.5 flex items-center gap-1">
+                            <span>{dow}요일</span>
+                            {ev.time && (
+                              <>
+                                <span>·</span>
+                                <Clock weight="light" className="h-3 w-3" />
+                                {ev.time}
+                              </>
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
+            {upcomingEvents.length === 0 && (
+              <p className="mt-4 pt-4 border-t text-center text-sm text-muted-foreground">
+                다가오는 일정이 없습니다
+              </p>
+            )}
+          </CardContent>
+        </Card>
+      </section>
 
       {/* This Week's Bulletin */}
       {latestBulletin.length > 0 && latestBulletin[0] && (
