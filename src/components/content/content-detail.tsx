@@ -203,8 +203,12 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
 
         {(() => {
           const ct = entry.content.trim();
-          // URL만 있는 경우(e.g. "http://gwanakchurch.org/")는 의미있는 본문이 아니므로 숨김
-          return ct && !/^https?:\/\/\S+$/.test(ct);
+          // URL만 있는 경우 숨김
+          if (!ct || /^https?:\/\/\S+$/.test(ct)) return false;
+          // psalm-song은 카페 본문에 가사 텍스트가 없고 악보 이미지만 있으므로,
+          // 제목만 반복하는 짧은 내용(50자 이하)은 표시하지 않음
+          if (entry.category === "psalm-song" && ct.length <= 50) return false;
+          return true;
         })() && (
           <>
             <Separator className="my-6" />
@@ -248,12 +252,13 @@ export function ContentDetail({ id, category }: ContentDetailProps) {
                   return (
                     <div key={`att-${i}`}>
                       {isImage ? (
-                        <a href={att.url} target="_blank" rel="noopener noreferrer">
+                        <a href={att.url} target="_blank" rel="noopener noreferrer" referrerPolicy="no-referrer">
                           <img
                             src={att.url}
                             alt={att.name}
                             className="w-full max-w-full rounded border hover:opacity-90 transition-opacity cursor-pointer"
                             loading="lazy"
+                            referrerPolicy="no-referrer"
                           />
                           <p className="mt-1 text-sm text-muted-foreground">{att.name} (클릭하여 크게 보기)</p>
                         </a>
