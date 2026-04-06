@@ -21,8 +21,10 @@ const BOARDS = {
   I5uP: { name: "하이델베르크요리문답", category: "catechism" },
   ROHB: { name: "시편찬송", category: "psalm-song" },
   RMqC: { name: "주일예배 설교", category: "sunday-sermon" },
-  IYIi: { name: "주보", category: "bulletin" },
+  IYIi: { name: "주일예배준비(주보)", category: "bulletin" },
   RNUE: { name: "아침말씀", category: "dawn-prayer" },
+  RXZr: { name: "매일말씀묵상-요한복음", category: "dawn-prayer" },
+  RXfF: { name: "매일말씀묵상-사무엘상", category: "dawn-prayer" },
 };
 
 // ---------------------------------------------------------------------------
@@ -380,7 +382,7 @@ async function main() {
     boardsToScrape = args;
   } else {
     // Default order
-    boardsToScrape = ["GZ99", "IAd7", "I5uP", "ROHB", "RMqC", "IYIi", "RNUE"];
+    boardsToScrape = ["GZ99", "IAd7", "I5uP", "ROHB", "RMqC", "IYIi", "RNUE", "RXZr", "RXfF"];
   }
 
   const globalProgress = loadProgress();
