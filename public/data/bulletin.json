@@ -1,5 +1,21 @@
 [
   {
+    "id": "bulletin-cafe-IYIi-1291",
+    "category": "bulletin",
+    "title": "2026-4-12 주일 예배 준비",
+    "date": "2026-04-07",
+    "youtubeUrl": "",
+    "youtubeVideoId": "",
+    "scriptureReference": "",
+    "content": "2026 표어: \"모여서 함께 예배, 흩어져 삶의 예배\"(로마서 12:1)\n \n주 안에서 사랑하는 형제 자매님!\n \n모든 성도들이 11시에 함께 예배당에서 모여 예배 드립니다.\n여러 어려움 가운데서도 우리를 지켜 주시고\n예배의 자리로 불러 주시는 주님께 감사드리며 나아옵시다.\n \n오후 1시에는 말씀나눔조 모임을 가집니다. (매월 둘째주)\n다양한 연령대의 성도들이 말씀으로 함께 교제하며\n서로를 세워주며 하나되는 귀한 시간 되길 바랍니다. \n \n모든 성도들께서 오전 오후의 공식 모임에 참석함으로\n예배와 교제를 세우는 일에 동참하여 주시길 바랍니다.\n \n토요일에는 조금 일찍 주무시고 예배를 위해 기도합시다.\n말씀 전하는 목사와 말씀 듣는 교인들에게 성령의 충만함을 허락해 주시길 구합시다.\n \n주일예배와 성경공부\n \n오전 11시 예배\n설교: 시편 120:1-7, \"탄식에서 소망으로\" (안광우 강도사)\n찬송: 3장, 10장, 270장, 569장(설교전), 시편 120편, 180장\n \n시편 120편 찬송 악보\nhttps://cafe.daum.net/-goodchurch/ROHB/123\n \n오후 1시 말씀나눔조 모임\n \n수요노방전도 4월 15일 오전 11:40\n교회당 인근 거리에서 전도지를 나눠주며 예수 그리스도의 복음을 전합니다.\n함께 참여하실 분들은 시간에 맞추어 교회당으로 오세요.\n \n금요기도회 4월 17일 저녁 8시\n하나님 나라와 교회를 위해 기도하고 찬양하는 시간을 가집니다.\n함께 모여 기도와 찬양에 힘씁시다.\n\n(function () {\n\t\tvar sumOfWidth = 100;\n\t\tvar gridImages = Array.prototype.slice.call(document.querySelectorAll('[data-ke-type=\"imageGrid\"] .image-container span'));\n\t\tgridImages.reverse().forEach(function (img) { // 행이 넘어가는지 명확하게 확인하기 위해 역순으로 순회\n\t\t\tvar width = Number(img.style.width.replace('%', ''));\n\t\t\tsumOfWidth += width;\n\t\t\timg.style.flexGrow = width;\n\t\t\timg.style.minWidth = 'calc(' + img.style.width + ' - 1.2% - 1px)';\n\n\t\t\tvar isRightmost = Math.floor(sumOfWidth) > 100; // width 합이 100이 초과하면 다음 행으로 넘어감\n\t\t\tif (isRightmost) {\n\t\t\t\tsumOfWidth = width;\n\t\t\t\timg.classList.add('rightmost');\n\t\t\t}\n\t\t});\n\t})();",
+    "preacher": "축제",
+    "createdAt": "2026-04-07T00:00:00.000Z",
+    "updatedAt": "2026-04-07T00:00:00.000Z",
+    "sourceBoard": "IYIi",
+    "sourcePostId": 1291,
+    "attachments": []
+  },
+  {
     "id": "bulletin-cafe-IYIi-1290",
     "category": "bulletin",
     "title": "2026-4-5 주일 예배 주보",

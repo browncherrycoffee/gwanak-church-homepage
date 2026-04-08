@@ -279,6 +279,9 @@ export function isNotFoundPost(html) {
     html.includes('존재하지 않는 게시글') ||
     html.includes('존재하지 않는 글') ||
     html.includes('찾을 수 없는 게시글') ||
+    // 접근 권한/보드 없음 에러 페이지
+    html.includes('해당 게시판이 존재하지 않거나') ||
+    html.includes('접근 권한이 없습니다') ||
     // HTTP 404 responses from Daum may include this text
     html.includes('404 Not Found') ||
     html.includes('페이지를 찾을 수 없습니다')
