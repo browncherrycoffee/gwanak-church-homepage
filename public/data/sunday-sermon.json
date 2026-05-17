@@ -1,5 +1,37 @@
 [
   {
+    "id": "sunday-sermon-yt-0J9TzpenAGY",
+    "category": "sunday-sermon",
+    "title": "시편 100:1-5, \"즐거운 찬송과 예배의 기쁨\" 유해무 목사 2026-05-17 주일오전예배 설교",
+    "date": "2026-05-17",
+    "youtubeUrl": "https://www.youtube.com/watch?v=0J9TzpenAGY",
+    "youtubeVideoId": "0J9TzpenAGY",
+    "scriptureReference": "시편 100:1-5",
+    "content": "",
+    "preacher": "유해무 목사",
+    "createdAt": "2026-05-17T00:00:00.000Z",
+    "updatedAt": "2026-05-17T00:00:00.000Z",
+    "sourceBoard": "youtube",
+    "sourcePostId": 0,
+    "attachments": []
+  },
+  {
+    "id": "sunday-sermon-yt-bMnXUgNTnCo",
+    "category": "sunday-sermon",
+    "title": "주일 오후 특강: 시편 50편 1-7절, \"예배가 있는 곳에 교회가 있다\"",
+    "date": "2026-05-17",
+    "youtubeUrl": "https://www.youtube.com/watch?v=bMnXUgNTnCo",
+    "youtubeVideoId": "bMnXUgNTnCo",
+    "scriptureReference": "",
+    "content": "",
+    "preacher": "",
+    "createdAt": "2026-05-17T00:00:00.000Z",
+    "updatedAt": "2026-05-17T00:00:00.000Z",
+    "sourceBoard": "youtube",
+    "sourcePostId": 0,
+    "attachments": []
+  },
+  {
     "id": "sunday-sermon-yt-PQRcMopv9Oo",
     "category": "sunday-sermon",
     "title": "관악교회 주일예배 2026. 05. 10.",
