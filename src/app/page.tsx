@@ -227,7 +227,7 @@ export default function HomePage() {
             <div className="px-4 sm:px-6 py-3 sm:py-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">목회자</p>
               <p className="text-base font-bold">유해신 목사 (담임)</p>
-              <p className="text-sm text-muted-foreground mt-0.5">류영협 전도사 · 안광우 강도사 · 김인용 전도사</p>
+              <p className="text-sm text-muted-foreground mt-0.5">류영협 강도사 · 안광우 강도사 · 김인용 전도사</p>
             </div>
             <div className="px-4 sm:px-6 py-3 sm:py-4">
               <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground mb-1">교단 · 전통</p>

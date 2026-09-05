@@ -841,7 +841,7 @@ export default function AboutPage() {
           </div>
           <div>
             <p className="text-sm font-semibold">사역자</p>
-            <p className="text-base text-foreground/90">유해신 목사 (담임) · 류영협 전도사</p>
+            <p className="text-base text-foreground/90">유해신 목사 (담임) · 류영협 강도사</p>
             <p className="text-sm text-muted-foreground mt-0.5">안광우 강도사 (청년부) · 김인용 전도사 (중고등부)</p>
           </div>
         </div>
