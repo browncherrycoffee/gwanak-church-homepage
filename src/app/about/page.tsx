@@ -34,7 +34,7 @@ interface WorshipItem {
 const WORSHIP_ITEMS: WorshipItem[] = [
   { title: "주일 오전 예배", time: "매 주일 오전 11시", note: "교회당", highlight: true },
   { title: "주일 오후 성경공부와 친교", time: "오후 1시", note: "첫째/셋째/다섯째주 교리공부, 둘째주 나눔조모임, 넷째주 부서모임" },
-  { title: "새벽기도회", time: "월~금 오전 6시, 토 오전 7시", note: "교회당 · 유튜브" },
+  { title: "새벽기도회", time: "월~금 오전 6시, 토 오전 7시", note: "유튜브 말씀 영상으로 진행 (예배당 모임 없음)" },
   { title: "금요기도회", time: "매주 금요일 저녁 8시", note: "교회당 · 유튜브" },
   { title: "수요 노방전도", time: "매주 수요일 오전 11시 40분", note: "교회당 인근" },
 ];
