@@ -1,5 +1,37 @@
 [
   {
+    "id": "sunday-sermon-yt-3YsoInRjbQg",
+    "category": "sunday-sermon",
+    "title": "관악교회 주일예배 2026. 10. 18.",
+    "date": "2026-10-18",
+    "youtubeUrl": "https://www.youtube.com/watch?v=3YsoInRjbQg",
+    "youtubeVideoId": "3YsoInRjbQg",
+    "scriptureReference": "",
+    "content": "",
+    "preacher": "",
+    "createdAt": "2026-10-18T00:00:00.000Z",
+    "updatedAt": "2026-10-18T00:00:00.000Z",
+    "sourceBoard": "youtube",
+    "sourcePostId": 0,
+    "attachments": []
+  },
+  {
+    "id": "sunday-sermon-yt-vW9sboZ6MuI",
+    "category": "sunday-sermon",
+    "title": "욥기 42:1-6, \"고난을 지날 때\" 류영협 강도사 2026-10-18 주일오전예배 설교",
+    "date": "2026-10-18",
+    "youtubeUrl": "https://www.youtube.com/watch?v=vW9sboZ6MuI",
+    "youtubeVideoId": "vW9sboZ6MuI",
+    "scriptureReference": "욥기 42:1-6",
+    "content": "",
+    "preacher": "",
+    "createdAt": "2026-10-18T00:00:00.000Z",
+    "updatedAt": "2026-10-18T00:00:00.000Z",
+    "sourceBoard": "youtube",
+    "sourcePostId": 0,
+    "attachments": []
+  },
+  {
     "id": "sunday-sermon-yt-NhH-OghQ330",
     "category": "sunday-sermon",
     "title": "시편 27:1-14, \"믿음에서 믿음으로\" 유해신 목사 2026-10-11 주일오전예배 설교",
