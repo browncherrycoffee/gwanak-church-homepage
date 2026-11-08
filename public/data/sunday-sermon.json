@@ -1,5 +1,37 @@
 [
   {
+    "id": "sunday-sermon-yt-6-rlbRMzap8",
+    "category": "sunday-sermon",
+    "title": "시편 123:1-4, \"눈을 들어 주께 향하나이다\" 안광우 강도사 2026-11-08 주일오전예배 설교",
+    "date": "2026-11-08",
+    "youtubeUrl": "https://www.youtube.com/watch?v=6-rlbRMzap8",
+    "youtubeVideoId": "6-rlbRMzap8",
+    "scriptureReference": "시편 123:1-4",
+    "content": "",
+    "preacher": "",
+    "createdAt": "2026-11-08T00:00:00.000Z",
+    "updatedAt": "2026-11-08T00:00:00.000Z",
+    "sourceBoard": "youtube",
+    "sourcePostId": 0,
+    "attachments": []
+  },
+  {
+    "id": "sunday-sermon-yt-GX5-RsYuw9o",
+    "category": "sunday-sermon",
+    "title": "관악교회 주일예배 2026. 11.15.",
+    "date": "2026-11-08",
+    "youtubeUrl": "https://www.youtube.com/watch?v=GX5-RsYuw9o",
+    "youtubeVideoId": "GX5-RsYuw9o",
+    "scriptureReference": "",
+    "content": "",
+    "preacher": "",
+    "createdAt": "2026-11-08T00:00:00.000Z",
+    "updatedAt": "2026-11-08T00:00:00.000Z",
+    "sourceBoard": "youtube",
+    "sourcePostId": 0,
+    "attachments": []
+  },
+  {
     "id": "sunday-sermon-yt-93jmUdVsmoQ",
     "category": "sunday-sermon",
     "title": "시편 51:1-5, \"주의 긍휼을 따라 내 죄악을 지우소서\" 유해무 목사 2026-11-01 주일오전예배 설교",
